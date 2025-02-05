@@ -38,28 +38,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    width: 363, // Establece el ancho del botón
-                    height: 79, // Establece la altura del botón
+                    width: 363,
+                    height: 79,
                     child: ElevatedButton(
                       onPressed: () {
                         _onButtonPressed(0);
-                        // Acción del primer botón
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _selectedButtonIndex == 0
                             ? Color(0xFF1E3984)
-                            : Color(0xFFD5D5D5), // Color del botón
+                            : Color(0xFFD5D5D5),
                         foregroundColor: _selectedButtonIndex == 0
                             ? Color(0xFFF5F5F5)
-                            : Colors.white, // Color del texto
+                            : Colors.white,
                         textStyle: TextStyle(
-                          fontSize: 28, // Tamaño de la letra
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        shadowColor: Colors.black.withAlpha(128), // Color de la sombra con opacidad
+                        shadowColor: Colors.black.withAlpha(128),
                         elevation: 10,
                       ),
                       child: Text('Estudiantes'),
@@ -67,60 +66,58 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 25),
                   SizedBox(
-                    width: 363, // Establece el ancho del botón
-                    height: 79, // Establece la altura del botón
+                    width: 363,
+                    height: 79,
                     child: ElevatedButton(
                       onPressed: () {
                         _onButtonPressed(1);
-                        // Acción del segundo botón
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _selectedButtonIndex == 1
                             ? Color(0xFF1E3984)
-                            : Color(0xFFD5D5D5), // Color del botón
+                            : Color(0xFFD5D5D5),
                         foregroundColor: _selectedButtonIndex == 1
                             ? Color(0xFFF5F5F5)
-                            : Colors.white, // Color del texto
+                            : Colors.white,
                         textStyle: TextStyle(
-                          fontSize: 28, // Tamaño de la letra
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        shadowColor: Colors.black.withAlpha(128), // Color de la sombra con opacidad
+                        shadowColor: Colors.black.withAlpha(128),
                         elevation: 10,
                       ),
-                      child: Text('Profesores'),
+                      child: Text('Reclutadores'),
                     ),
                   ),
                   SizedBox(height: 25),
                   SizedBox(
-                    width: 363, // Establece el ancho del botón
-                    height: 79, // Establece la altura del botón
+                    width: 363,
+                    height: 79,
                     child: ElevatedButton(
                       onPressed: () {
                         _onButtonPressed(2);
-                        // Acción del tercer botón
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _selectedButtonIndex == 2
                             ? Color(0xFF1E3984)
-                            : Color(0xFFD5D5D5), // Color del botón
+                            : Color(0xFFD5D5D5),
                         foregroundColor: _selectedButtonIndex == 2
                             ? Color(0xFFF5F5F5)
-                            : Colors.white, // Color del texto
+                            : Colors.white,
                         textStyle: TextStyle(
-                          fontSize: 28, // Tamaño de la letra
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        shadowColor: Colors.black.withAlpha(128), // Color de la sombra con opacidad
+                        shadowColor: Colors.black.withAlpha(128),
                         elevation: 10,
                       ),
-                      child: Text('Administración'),
+                      child: Text('Empresas'),
                     ),
                   ),
                 ],

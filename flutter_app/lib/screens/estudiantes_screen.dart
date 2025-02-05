@@ -121,25 +121,24 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
               children: <Widget>[
                 TextButton(
                   style: TextButton.styleFrom(
-                        backgroundColor: Colors.green, // Color de fondo para "Mantener"
-                        foregroundColor: Colors.white// Color del texto
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white
                   ),
                   child: Text('Mantener'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
-                SizedBox(width: 10), // Espacio entre los botones
+                SizedBox(width: 10),
                 TextButton(
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.red, // Color de fondo para "Eliminar"
-                    foregroundColor: Colors.white, // Color del texto
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
                   ),
                   child: Text('Eliminar'),
                   onPressed: () {
-                    // Aquí puedes agregar la lógica para eliminar el estudiante
                     Navigator.of(context).pop();
-                    _showConfirmationDialog(estudiante); // Muestra el diálogo de confirmación
+                    _showConfirmationDialog(estudiante);
                   },
                 ),
               ],
@@ -167,7 +166,6 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
           TextButton(
             child: Text('Eliminar'),
             onPressed: () {
-              // Aquí puedes agregar la lógica para eliminar el estudiante
               Navigator.of(context).pop();
             },
           ),
@@ -200,14 +198,14 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
                 return Card(
                   margin: EdgeInsets.all(10.0),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0), // Ajusta el border radius
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
-                  color: Color(0xFFDBE2F6), // Ajusta el color del recuadro
-                  elevation: 5, // Ajusta la sombra
+                  color: Color(0xFFDBE2F6),
+                  elevation: 5,
                   child: InkWell(
                     onTap: () => _showStudentDialog(currentEstudiantes[index]),
-                    child: Container(
-                      height: 100, // Ajusta la altura del cuadro
+                    child: SizedBox(
+                      height: 100,
                       child: Center(
                         child: ListTile(
                           leading: CircleAvatar(
@@ -215,10 +213,10 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
                           ),
                           title: Text(
                             currentEstudiantes[index]['nombre']!,
-                            textAlign: TextAlign.center, // Centra el texto
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 18, // Ajusta el tamaño de la fuente
-                              color: Color(0xFF1E3984), // Ajusta el color de la fuente
+                              fontSize: 18,
+                              color: Color(0xFF1E3984),
                             ),
                           ),
                         ),
@@ -239,8 +237,8 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
               Expanded(
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  spacing: 4.0, // Espacio horizontal entre los números de página
-                  runSpacing: 4.0, // Espacio vertical entre los números de página
+                  spacing: 4.0,
+                  runSpacing: 4.0,
                   children: _buildPageNumbers(totalPages),
                 ),
               ),

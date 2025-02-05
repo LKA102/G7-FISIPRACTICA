@@ -26,7 +26,7 @@ class _FooterState extends State<Footer> {
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
             blurRadius: 7,
-            offset: Offset(0, -3), // Cambia la posición de la sombra
+            offset: Offset(0, -3),
           ),
         ],
       ),
@@ -49,7 +49,6 @@ class _FooterState extends State<Footer> {
             ),
             onPressed: () {
               _onItemTapped(1);
-              // Acción del segundo botón
             },
           ),
           IconButton(
@@ -59,7 +58,6 @@ class _FooterState extends State<Footer> {
             ),
             onPressed: () {
               _onItemTapped(2);
-              // Acción del tercer botón
             },
           ),
         ],

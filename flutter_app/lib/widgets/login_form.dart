@@ -16,9 +16,7 @@ class _LoginFormState extends State<LoginForm> {
   void _submit() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // Perform login logic
       print('Email: $_email, Password: $_password');
-      // Navegar a HomeScreen después de iniciar sesión
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -51,7 +49,7 @@ class _LoginFormState extends State<LoginForm> {
               keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter your email';
+                  return 'Por favor, ingrese su email';
                 }
                 return null;
               },
@@ -79,7 +77,7 @@ class _LoginFormState extends State<LoginForm> {
               obscureText: true,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
+                  return 'Por favor, ingrese su contraseña';
                 }
                 return null;
               },
@@ -90,13 +88,13 @@ class _LoginFormState extends State<LoginForm> {
           ),
           SizedBox(height: 7),
           SizedBox(
-            width: 150, // Establece el ancho del botón
-            height: 48, // Establece la altura del botón
+            width: 150,
+            height: 48,
             child: ElevatedButton(
               onPressed: _submit,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF1E3984), // Fondo azul
-                foregroundColor: Color(0xFFF5F5F5), // Color del texto
+                backgroundColor: Color(0xFF1E3984),
+                foregroundColor: Color(0xFFF5F5F5),
                 textStyle: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,

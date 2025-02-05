@@ -12,7 +12,7 @@ class Header extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-          content: Container(
+          content: SizedBox(
             width: 321,
             height: 387,
             child: Column(
@@ -20,7 +20,7 @@ class Header extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  backgroundImage: AssetImage('assets/profile_picture.jpg'), // Asegúrate de tener la imagen en la carpeta assets
+                  backgroundImage: AssetImage('assets/profile_picture.jpg'),
                 ),
                 SizedBox(height: 20),
                 Text(
@@ -60,12 +60,12 @@ class Header extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
       decoration: BoxDecoration(
-        color: Colors.white, // Cambia el color de fondo aquí
+        color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
             blurRadius: 0,
-            offset: Offset(0, 3), // Cambia la posición de la sombra
+            offset: Offset(0, 3),
           ),
         ],
       ),
@@ -75,8 +75,8 @@ class Header extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.arrow_back,
-              color: Color(0xFF1E3984),// Cambia el color del icono aquí
-              size: 40.0, // Cambia el tamaño del icono aquí
+              color: Color(0xFF1E3984),
+              size: 40.0,
             ),
             onPressed: () {
               Navigator.pop(context);
