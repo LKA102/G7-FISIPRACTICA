@@ -112,7 +112,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
               ),
               SizedBox(height: 10),
               Text(
-                '¿Deseas ingresar a $empresa?',
+                '¿Deseas eliminar a $empresa?',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
