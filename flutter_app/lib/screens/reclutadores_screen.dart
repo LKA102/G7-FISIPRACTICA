@@ -108,7 +108,7 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
           child: Container(
             padding: const EdgeInsets.all(20),
             width: 300, // Ajusta el ancho del diálogo
-            height: 350, // Ajusta el alto del diálogo
+            height: 250, // Ajusta el alto del diálogo
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -212,6 +212,60 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
               controller: _scrollController,
               itemCount: currentReclutadores.length,
               itemBuilder: (context, index) {
+                // Definir el color del contenedor según la empresa
+                String empresa = currentReclutadores[index]['empresa']!;
+                Color empresaColor;
+
+                switch (empresa) {
+                  case 'Banco de Crédito del Perú':
+                    empresaColor = Colors.blue;
+                    break;
+                  case 'Interbank':
+                    empresaColor = Colors.green;
+                    break;
+                  case 'BBVA':
+                    empresaColor = Colors.blue;
+                    break;
+                  case 'Scotiabank':
+                    empresaColor = Colors.red;
+                    break;
+                  case 'MiBanco':
+                    empresaColor = Colors.yellow;
+                    break;
+                  case 'Alicorp':
+                    empresaColor = Colors.red;
+                    break;
+                  case 'Backus':
+                    empresaColor = Colors.orange;
+                    break;
+                  case 'Cemex Perú':
+                    empresaColor = Colors.blue;
+                    break;
+                  case 'Corporación Lindley':
+                    empresaColor = Colors.red;
+                    break;
+                  case 'Ferreyros':
+                    empresaColor = Colors.green;
+                    break;
+                  case 'Cosapi':
+                    empresaColor = Colors.yellow;
+                    break;
+                  case 'Southern Copper Corporation':
+                    empresaColor = Colors.red;
+                    break;
+                  case 'Graña y Montero':
+                    empresaColor = Colors.orange;
+                    break;
+                  case 'Inca Kola':
+                    empresaColor = Colors.yellow;
+                    break;
+                  case 'Tottus':
+                    empresaColor = Colors.green;
+                    break;
+                  default:
+                    empresaColor = Colors.blue;
+                }
+
                 return Card(
                   margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   elevation: 5,
@@ -221,16 +275,36 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
                       height: 100,
                       child: Center(
                         child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: AssetImage(currentReclutadores[index]['foto']!),
-                          ),
-                          title: Text(
-                            currentReclutadores[index]['nombre']!,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFF1E3984),
+                          leading: Padding(
+                            padding: const EdgeInsets.only(right: 10), // Ajusta el espaciado entre la foto y el texto
+                            child: CircleAvatar(
+                              backgroundImage: AssetImage(currentReclutadores[index]['foto']!),
                             ),
+                          ),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                currentReclutadores[index]['nombre']!,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color(0xFF1E3984),
+                                ),
+                              ),
+                              SizedBox(height: 5),  // Ajusta el espaciado entre el nombre y la empresa
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                decoration: BoxDecoration(
+                                  color: empresaColor,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  empresa,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -273,3 +347,4 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
     super.dispose();
   }
 }
+
