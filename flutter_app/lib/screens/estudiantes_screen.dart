@@ -150,30 +150,30 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
   }
 
   void _showConfirmationDialog(Map<String, String> estudiante) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Confirmar eliminación'),
-        content: Text('¿Seguro de que deseas eliminar a ${estudiante['nombre']}?'),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Cancelar'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: Text('Eliminar'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmar eliminación'),
+          content: Text('¿Seguro de que deseas eliminar a ${estudiante['nombre']}?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Eliminar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,9 +187,23 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
     int totalPages = (estudiantes.length / _itemsPerPage).ceil();
 
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.0),
+        child: Header(), // Header en la parte superior de la pantalla
+      ),
       body: Column(
         children: <Widget>[
-          Header(),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Estudiantes',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF1E3984),
+              ),
+            ),
+          ),
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
@@ -260,3 +274,4 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
     super.dispose();
   }
 }
+
