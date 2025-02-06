@@ -96,7 +96,7 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
     );
   }
 
- void _showReclutadorDialog(Map<String, String> reclutador) {
+  void _showReclutadorDialog(Map<String, String> reclutador) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -104,62 +104,60 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        child: SingleChildScrollView(  // Permite que el contenido del diálogo sea desplazable
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.5, // Ajusta el máximo alto del diálogo
-            ),
-            width: 300, // Ajusta el ancho del diálogo
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundImage: AssetImage(reclutador['foto']!),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  reclutador['nombre']!,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                Text('- RR/HH de ${reclutador['empresa']}'),
-                Text('- ${reclutador['experiencia']} años de experiencia'),
-                Text('- ${reclutador['fecha']}'),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: Text('Editar'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        // Agregar funcionalidad de edición si es necesario
-                      },
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          width: 300, // Ajusta el ancho del diálogo
+          constraints: BoxConstraints(
+            maxHeight: 400, // Limita la altura máxima de la ventana emergente
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundImage: AssetImage(reclutador['foto']!),
+              ),
+              SizedBox(height: 10),
+              Text(
+                reclutador['nombre']!,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Text('- RR/HH de ${reclutador['empresa']}'),
+              Text('- ${reclutador['experiencia']} años de experiencia'),
+              Text('- ${reclutador['fecha']}'),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
                     ),
-                    SizedBox(width: 10),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: Text('Eliminar'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        _showConfirmationDialog(reclutador);
-                      },
+                    child: Text('Editar'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      // Agregar funcionalidad de edición si es necesario
+                    },
+                  ),
+                  SizedBox(width: 10),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
                     ),
-                  ],
-                ),
-              ],
-            ),
+                    child: Text('Eliminar'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      _showConfirmationDialog(reclutador);
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       );
@@ -207,9 +205,23 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
     int totalPages = (reclutadores.length / _itemsPerPage).ceil();
 
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.0),
+        child: Header(), // Header en la parte superior de la pantalla
+      ),
       body: Column(
         children: <Widget>[
-          Header(),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Reclutadores', // Título de la pantalla
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF1E3984),
+              ),
+            ),
+          ),
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
