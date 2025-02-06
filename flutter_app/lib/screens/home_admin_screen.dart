@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/header.dart';
 import '../widgets/footer.dart';
 import 'estudiantes_screen.dart';
+import 'admin_empresa_screen.dart'; 
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,6 +23,15 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => EstudiantesScreen()),
+      );
+    } else if (index == 1) {
+      // Navegar a la pantalla de Reclutadores (implementa esta pantalla más tarde si es necesario)
+      print('Navegar a Reclutadores');
+    } else if (index == 2) {
+      // Navegar a la pantalla de Empresas
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AdminEmpresaScreen()),
       );
     }
   }
