@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/login_screen.dart';
+import 'package:flutter_app/screens/pick_user_screen.dart';
 
 class SplahScreen extends StatefulWidget {
   const SplahScreen({super.key});
@@ -20,7 +21,6 @@ class _SplahScreenState extends State<SplahScreen> {
       _showButton = true;
       });
     });
-    
   }
 
   @override
@@ -42,7 +42,7 @@ class _SplahScreenState extends State<SplahScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  MaterialPageRoute(builder: (context) => const PickUserScreen()),
                 );
               },
               style: ElevatedButton.styleFrom(
