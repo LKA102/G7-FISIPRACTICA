@@ -3,7 +3,7 @@ import '../widgets/header.dart';
 import '../widgets/footer.dart';
 import 'estudiantes_screen.dart';
 import 'admin_empresa_screen.dart';
-import 'reclutadores_screen.dart';  // Importa ReclutadoresScreen
+import 'reclutadores_screen.dart'; 
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

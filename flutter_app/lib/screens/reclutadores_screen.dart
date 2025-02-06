@@ -96,19 +96,21 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
     );
   }
 
-  // Función para mostrar el diálogo con los datos específicos del reclutador
-  void _showReclutadorDialog(Map<String, String> reclutador) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
+ void _showReclutadorDialog(Map<String, String> reclutador) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: SingleChildScrollView(  // Permite que el contenido del diálogo sea desplazable
           child: Container(
             padding: const EdgeInsets.all(20),
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.5, // Ajusta el máximo alto del diálogo
+            ),
             width: 300, // Ajusta el ancho del diálogo
-            height: 250, // Ajusta el alto del diálogo
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -159,10 +161,11 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
               ],
             ),
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
+    },
+  );
+}
 
   // Función de confirmación de eliminación
   void _showConfirmationDialog(Map<String, String> reclutador) {
@@ -347,4 +350,3 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
     super.dispose();
   }
 }
-
