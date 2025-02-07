@@ -97,75 +97,74 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
   }
 
   void _showReclutadorDialog(Map<String, String> reclutador) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          width: 300, 
-          constraints: BoxConstraints(
-            maxHeight: 400, 
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 40,
-                backgroundImage: AssetImage(reclutador['foto']!),
-              ),
-              SizedBox(height: 10),
-              Text(
-                reclutador['nombre']!,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              Text('- RR/HH de ${reclutador['empresa']}'),
-              Text('- ${reclutador['experiencia']} años de experiencia'),
-              Text('- ${reclutador['fecha']}'),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            width: 300, 
+            constraints: BoxConstraints(
+              maxHeight: 400, 
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage: AssetImage(reclutador['foto']!),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  reclutador['nombre']!,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                Text('- RR/HH de ${reclutador['empresa']}'),
+                Text('- ${reclutador['experiencia']} años de experiencia'),
+                Text('- ${reclutador['fecha']}'),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: Text('Editar'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        // Agregar funcionalidad de edición si es necesario
+                      },
                     ),
-                    child: Text('Editar'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      // Agregar funcionalidad de edición si es necesario
-                    },
-                  ),
-                  SizedBox(width: 10),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
+                    SizedBox(width: 10),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: Text('Eliminar'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        _showConfirmationDialog(reclutador);
+                      },
                     ),
-                    child: Text('Eliminar'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      _showConfirmationDialog(reclutador);
-                    },
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
 
-  // Función de confirmación de eliminación
   void _showConfirmationDialog(Map<String, String> reclutador) {
     showDialog(
       context: context,
@@ -185,6 +184,33 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
                 // Lógica para eliminar al reclutador
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showCreateReclutadorDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Crear Nuevo Reclutador'),
+          content: Text('¿Deseas crear un nuevo reclutador?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Denegar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Confirmar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Aquí puedes agregar la lógica para crear un nuevo reclutador
               },
             ),
           ],
@@ -227,7 +253,6 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
               controller: _scrollController,
               itemCount: currentReclutadores.length,
               itemBuilder: (context, index) {
-                // Definir el color del contenedor según la empresa
                 String empresa = currentReclutadores[index]['empresa']!;
                 Color empresaColor;
 
@@ -291,7 +316,7 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
                       child: Center(
                         child: ListTile(
                           leading: Padding(
-                            padding: const EdgeInsets.only(right: 10), // Ajusta el espaciado entre la foto y el texto
+                            padding: const EdgeInsets.only(right: 10),
                             child: CircleAvatar(
                               backgroundImage: AssetImage(currentReclutadores[index]['foto']!),
                             ),
@@ -307,7 +332,7 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
                                   color: Color(0xFF1E3984),
                                 ),
                               ),
-                              SizedBox(height: 5),  // Ajusta el espaciado entre el nombre y la empresa
+                              SizedBox(height: 5),
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                                 decoration: BoxDecoration(
@@ -352,6 +377,15 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
           ),
           Footer(),
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat, // Position of the button
+      floatingActionButton: Transform.translate(
+        offset: Offset(160, -110), // Moves the button up
+        child: FloatingActionButton(
+          onPressed: _showCreateReclutadorDialog,
+          child: Icon(Icons.add),
+          backgroundColor: Color(0xFF1E3984),
+        ),
       ),
     );
   }
