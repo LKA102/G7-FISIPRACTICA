@@ -10,7 +10,7 @@ class UserServices {
     try {
       String? token = getToken();
       Response response = await dio.get(
-        'http://localhost:3000/student',
+        'http://10.0.2.2:3000/student',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -37,7 +37,7 @@ class UserServices {
       String email, String password) async {
     try {
       Response response = await dio.post(
-        'http://localhost:3000/auth/login',
+        'http://10.0.2.2:3000/auth/login',
         data: {
           'email': email,
           'password': password,
@@ -45,7 +45,7 @@ class UserServices {
       );
 
       return {
-        'token': response.data['token'],
+        'token': response.data['access_token'],
       };
     } catch (e) {
       logger.e(e);
