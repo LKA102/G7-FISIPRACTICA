@@ -35,6 +35,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+  # Add the intl package for formatting dates and other localization features.
+  intl: ^0.17.0  # Add this line
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -84,3 +87,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
