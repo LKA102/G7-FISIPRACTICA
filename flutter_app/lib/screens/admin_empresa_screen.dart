@@ -23,7 +23,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
     {'nombre': 'Ferreyros', 'logo': ''},
     {'nombre': 'Cosapi', 'logo': ''},
     {'nombre': 'Southern Copper Corporation', 'logo': ''},
-    {'nombre': 'Graña y Montero', 'logo': ''},
+    {'nombre': 'Claro Perú', 'logo': ''},
     {'nombre': 'Inca Kola', 'logo': ''},
     {'nombre': 'Tottus', 'logo': ''},
   ];

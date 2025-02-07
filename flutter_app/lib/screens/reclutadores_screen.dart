@@ -17,7 +17,7 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
     {'nombre': 'María García López', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Scotiabank', 'experiencia': '4', 'fecha': 'septiembre, 2024 - actualidad'},
     {'nombre': 'José Martínez Ríos', 'foto': 'assets/profile_picture.jpg', 'empresa': 'MiBanco', 'experiencia': '3', 'fecha': 'octubre, 2024 - actualidad'},
     {'nombre': 'Carlos Pérez Vargas', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Alicorp', 'experiencia': '5', 'fecha': 'noviembre, 2024 - actualidad'},
-    {'nombre': 'Lucía Sánchez Gómez', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Backus', 'experiencia': '2', 'fecha': 'diciembre, 2024 - actualidad'},
+    {'nombre': 'Andrea Sánchez Gómez', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Backus', 'experiencia': '2', 'fecha': 'diciembre, 2024 - actualidad'},
     {'nombre': 'Sofía Fernández López', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Cemex Perú', 'experiencia': '1', 'fecha': 'enero, 2025 - actualidad'},
     {'nombre': 'Jorge Ruiz Fernández', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Corporación Lindley', 'experiencia': '3', 'fecha': 'febrero, 2025 - actualidad'},
     {'nombre': 'Felipe Vega González', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Ferreyros', 'experiencia': '4', 'fecha': 'marzo, 2025 - actualidad'},
@@ -106,9 +106,9 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
         ),
         child: Container(
           padding: const EdgeInsets.all(20),
-          width: 300, // Ajusta el ancho del diálogo
+          width: 300, 
           constraints: BoxConstraints(
-            maxHeight: 400, // Limita la altura máxima de la ventana emergente
+            maxHeight: 400, 
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
