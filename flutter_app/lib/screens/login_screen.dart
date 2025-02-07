@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/header.dart';
+import '../widgets/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -10,6 +11,8 @@ class LoginScreen extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Header(),
+          SizedBox(height: 20),
+          LoginForm(),
           SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(20.0),
