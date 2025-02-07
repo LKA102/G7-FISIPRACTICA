@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../screens/home_admin_screen.dart';
+import '../services/user_services.dart';
 
 class AdminLoginForm extends StatefulWidget {
   const AdminLoginForm({super.key});
@@ -13,14 +14,39 @@ class _AdminLoginFormState extends State<AdminLoginForm> {
   String _email = '';
   String _password = '';
 
-  void _submit() {
+  void _submit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       print('Email: $_email, Password: $_password');
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
+      final response = await UserServices.login(_email, _password);
+      if (response.containsKey('token')) {
+        UserServices.setToken(response['token']!);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      } else {
+        // Manejar error de inicio de sesión
+        print('Error de inicio de sesión');
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text(
+                  'Error de inicio de sesión. Por favor, verifique sus credenciales.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
     }
   }
 
