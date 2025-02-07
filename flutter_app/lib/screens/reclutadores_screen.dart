@@ -378,9 +378,9 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
           Footer(),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat, // Position of the button
-      floatingActionButton: Transform.translate(
-        offset: Offset(160, -110), // Moves the button up
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 120), // Ajusta para subir el botón
         child: FloatingActionButton(
           onPressed: _showCreateReclutadorDialog,
           child: Icon(Icons.add),
