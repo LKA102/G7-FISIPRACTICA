@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/login_screen.dart';
 import 'package:flutter_app/screens/pick_user_screen.dart';
 
 class SplahScreen extends StatefulWidget {
