@@ -1,57 +1,54 @@
 import 'package:flutter/material.dart';
+import '../widgets/header.dart';
+import '../widgets/footer.dart';
+import 'estudiantes_screen.dart';
+import 'admin_empresa_screen.dart';
+import 'reclutadores_screen.dart';
 
-class HomeEstudiante extends StatelessWidget {
+class HomeEstudiante extends StatefulWidget {
+  @override
+  _HomeEstudianteState createState() => _HomeEstudianteState();
+}
+
+class _HomeEstudianteState extends State<HomeEstudiante> {
+  int _selectedIndex = 0;
+
+  // Lista de pantallas a las que se puede navegar
+  final List<Widget> _pages = [
+    EstudiantesScreen(),
+    AdminEmpresaScreen(),
+    ReclutadoresScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Estudiante'),
-        backgroundColor: Colors.blueAccent,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.0), // Ajusta la altura del header
+        child: Header(), // Usa el widget reutilizable del Header
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Buscar cursos...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 5, // Número de cursos disponibles
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: EdgeInsets.all(10),
-                  child: ListTile(
-                    leading: Icon(Icons.book, color: Colors.blueAccent),
-                    title: Text('Curso ${index + 1}'),
-                    subtitle: Text('Descripción breve del curso'),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                    onTap: () {
-                      // Acción al tocar el curso
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+      body: _pages[_selectedIndex], // Muestra la pantalla seleccionada
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Inicio',
+            icon: Icon(Icons.school),
+            label: 'Estudiantes',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
+            icon: Icon(Icons.business),
+            label: 'Empresas',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.work),
+            label: 'Reclutadores',
           ),
         ],
       ),
