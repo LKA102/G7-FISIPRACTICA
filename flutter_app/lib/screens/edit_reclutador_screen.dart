@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';  // Asegúrate de tener este archivo
-import '../widgets/footer.dart';  // Asegúrate de tener este archivo
+import '../widgets/header.dart';
+import '../widgets/footer.dart';
 
 class EditReclutadorScreen extends StatefulWidget {
   const EditReclutadorScreen({super.key});
@@ -15,8 +15,8 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
   final TextEditingController _correoController = TextEditingController();
   final TextEditingController _contrasenaController = TextEditingController();
   final TextEditingController _descripcionController = TextEditingController();
-  final TextEditingController _fechaInicioController = TextEditingController();
-  String _empresaSeleccionada = 'Banco de Crédito del Perú'; // Por ejemplo, el valor inicial.
+  DateTime? _fechaInicio;
+  String _empresaSeleccionada = ''; // Valor inicial vacío
 
   List<String> empresas = [
     'Banco de Crédito del Perú',
@@ -36,8 +36,24 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
     'Tottus',
   ];
 
+  // Función para seleccionar la fecha de inicio
+  void _selectFechaInicio(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _fechaInicio ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != _fechaInicio)
+      setState(() {
+        _fechaInicio = picked;
+      });
+  }
+
+  // Función para guardar el reclutador
   void _guardarReclutador() {
-    // Aquí puedes agregar la lógica para guardar los datos del reclutador
+    // Lógica para guardar el reclutador
     print('Reclutador guardado');
   }
 
@@ -46,51 +62,121 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
-        child: Header(), // Incluye el header aquí
+        child: Header(), // Header de la pantalla
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Editar Reclutador', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF1E3984))),
+            // Título "Crear Reclutador" justo arriba de la imagen
+            Text(
+              'Crear Reclutador',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF1E3984)),
+            ),
+            SizedBox(height: 20),
+            // Foto de perfil
+            CircleAvatar(
+              radius: 40,
+              backgroundColor: Color(0xFF1E3984),
+              child: IconButton(
+                onPressed: () {
+                  // Lógica para seleccionar o cambiar foto
+                },
+                icon: Icon(Icons.camera_alt, color: Colors.white),
+              ),
+            ),
             SizedBox(height: 20),
             TextField(
               controller: _nombresController,
-              decoration: InputDecoration(labelText: 'Nombres'),
+              decoration: InputDecoration(
+                labelText: 'Nombres',
+                filled: true,
+                fillColor: Color(0xFFE6F2FF), // Celeste
+                border: OutlineInputBorder(),
+              ),
             ),
+            SizedBox(height: 10),
             TextField(
               controller: _apellidosController,
-              decoration: InputDecoration(labelText: 'Apellidos'),
+              decoration: InputDecoration(
+                labelText: 'Apellidos',
+                filled: true,
+                fillColor: Color(0xFFE6F2FF), // Celeste
+                border: OutlineInputBorder(),
+              ),
             ),
+            SizedBox(height: 10),
             TextField(
               controller: _correoController,
-              decoration: InputDecoration(labelText: 'Correo electrónico'),
+              decoration: InputDecoration(
+                labelText: 'Correo electrónico',
+                filled: true,
+                fillColor: Color(0xFFE6F2FF), // Celeste
+                border: OutlineInputBorder(),
+              ),
             ),
+            SizedBox(height: 10),
             TextField(
               controller: _contrasenaController,
               obscureText: true,
-              decoration: InputDecoration(labelText: 'Contraseña'),
+              decoration: InputDecoration(
+                labelText: 'Contraseña',
+                filled: true,
+                fillColor: Color(0xFFE6F2FF), // Celeste
+                border: OutlineInputBorder(),
+              ),
             ),
-            DropdownButton<String>(
-              value: _empresaSeleccionada,
-              onChanged: (String? newValue) {
-                setState(() {
-                  _empresaSeleccionada = newValue!;
-                });
-              },
-              items: empresas.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(value: value, child: Text(value));
-              }).toList(),
-              hint: Text('Selecciona una empresa'),
+            SizedBox(height: 10),
+            // Campo Empresa con fondo celeste, mensaje "Seleccionar una empresa" y flecha
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xFFE6F2FF), // Celeste
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.black), // Borde negro
+              ),
+              child: DropdownButton<String>(
+                value: _empresaSeleccionada.isEmpty ? null : _empresaSeleccionada,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _empresaSeleccionada = newValue!;
+                  });
+                },
+                items: [
+                  DropdownMenuItem<String>(value: null, child: Text('Seleccionar empresa', style: TextStyle(color: Colors.grey))),
+                  ...empresas.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(value: value, child: Text(value));
+                  }).toList(),
+                ],
+                hint: Text('Seleccionar empresa', style: TextStyle(color: Colors.grey)),
+                isExpanded: true,
+                underline: Container(), // Para quitar el subrayado predeterminado
+                icon: Icon(Icons.arrow_drop_down),
+                style: TextStyle(color: Colors.black),
+                padding: EdgeInsets.symmetric(horizontal: 12.0), // Ajustar el espaciado dentro del campo
+              ),
             ),
+            SizedBox(height: 10),
             TextField(
               controller: _descripcionController,
               maxLines: 3,
-              decoration: InputDecoration(labelText: 'Descripción'),
+              decoration: InputDecoration(
+                labelText: 'Descripción',
+                filled: true,
+                fillColor: Color(0xFFE6F2FF), // Celeste
+                border: OutlineInputBorder(),
+              ),
             ),
-            TextField(
-              controller: _fechaInicioController,
-              decoration: InputDecoration(labelText: 'Fecha de inicio (yyyy-mm-dd)'),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Fecha de inicio:'),
+                TextButton(
+                  onPressed: () => _selectFechaInicio(context),
+                  child: Text(_fechaInicio == null ? 'Seleccionar' : "${_fechaInicio?.toLocal()}".split(' ')[0]),
+                ),
+              ],
             ),
             Spacer(),
             Row(
@@ -98,14 +184,13 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    // Acción de cancelar
-                    Navigator.pop(context);
+                    Navigator.pop(context); // Acción de cancelar
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red), 
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                   child: Text('Cancelar'),
                 ),
                 ElevatedButton(
-                  onPressed: _guardarReclutador,
+                  onPressed: _guardarReclutador, // Acción de guardar
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   child: Text('Guardar'),
                 ),
@@ -114,9 +199,7 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Footer(), // Incluye el footer aquí
+      bottomNavigationBar: Footer(), // Footer de la pantalla
     );
   }
 }
-
-
