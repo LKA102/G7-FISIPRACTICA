@@ -217,6 +217,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
           backgroundColor: const Color(0xFF005BAC),
           elevation: 10,
           tooltip: 'Agregar Empresa',
+          child: const Icon(Icons.add), // Descripción adicional
         ),
       ),
     );
