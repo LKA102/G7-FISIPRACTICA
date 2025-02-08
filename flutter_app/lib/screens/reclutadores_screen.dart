@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/header.dart';
 import '../widgets/footer.dart';
-import 'package:flutter_app/screens/edit_reclutador_screen.dart';
-
+import 'editar_perfil_reclutador_screen.dart'; 
 class ReclutadoresScreen extends StatefulWidget {
   const ReclutadoresScreen({super.key});
 
@@ -98,73 +97,79 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
   }
 
   void _showReclutadorDialog(Map<String, String> reclutador) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          width: 300, 
+          constraints: BoxConstraints(
+            maxHeight: 400, 
           ),
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            width: 300, 
-            constraints: BoxConstraints(
-              maxHeight: 400, 
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundImage: AssetImage(reclutador['foto']!),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  reclutador['nombre']!,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                Text('- RR/HH de ${reclutador['empresa']}'),
-                Text('- ${reclutador['experiencia']} años de experiencia'),
-                Text('- ${reclutador['fecha']}'),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: Text('Editar'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        // Agregar funcionalidad de edición si es necesario
-                      },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundImage: AssetImage(reclutador['foto']!),
+              ),
+              SizedBox(height: 10),
+              Text(
+                reclutador['nombre']!,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Text('- RR/HH de ${reclutador['empresa']}'),
+              Text('- ${reclutador['experiencia']} años de experiencia'),
+              Text('- ${reclutador['fecha']}'),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
                     ),
-                    SizedBox(width: 10),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                      ),
-                      child: Text('Eliminar'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        _showConfirmationDialog(reclutador);
-                      },
+                    child: Text('Editar'),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Cierra el diálogo actual
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditarReclutadorScreen(reclutador: reclutador),
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(width: 10),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
                     ),
-                  ],
-                ),
-              ],
-            ),
+                    child: Text('Eliminar'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      _showConfirmationDialog(reclutador);
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
+    },
+  );
+}
+
 
   void _showConfirmationDialog(Map<String, String> reclutador) {
     showDialog(
@@ -194,37 +199,31 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
   }
 
   void _showCreateReclutadorDialog() {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Crear Nuevo Reclutador'),
-        content: Text('¿Deseas crear un nuevo reclutador?'),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Denegar'),
-            onPressed: () {
-              Navigator.of(context).pop(); // Cierra el diálogo
-            },
-          ),
-          TextButton(
-            child: Text('Confirmar'),
-            onPressed: () {
-              Navigator.of(context).pop(); // Cierra el diálogo
-              // Navega a la pantalla de edición de reclutador
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditReclutadorScreen(),  // Aquí debes poner tu clase de pantalla
-                ),
-              );
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Crear Nuevo Reclutador'),
+          content: Text('¿Deseas crear un nuevo reclutador?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Denegar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Confirmar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Aquí puedes agregar la lógica para crear un nuevo reclutador
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -390,8 +389,8 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
         padding: const EdgeInsets.only(bottom: 120), // Ajusta para subir el botón
         child: FloatingActionButton(
           onPressed: _showCreateReclutadorDialog,
-          child: Icon(Icons.add),
           backgroundColor: Color(0xFF1E3984),
+          child: Icon(Icons.add),
         ),
       ),
     );
@@ -403,3 +402,4 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
     super.dispose();
   }
 }
+
