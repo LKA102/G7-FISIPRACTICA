@@ -44,10 +44,11 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
       lastDate: DateTime(2101),
     );
 
-    if (picked != null && picked != _fechaInicio)
+    if (picked != null && picked != _fechaInicio) {
       setState(() {
         _fechaInicio = picked;
       });
+    }
   }
 
   void _guardarReclutador() {
@@ -185,7 +186,7 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
                   DropdownMenuItem<String>(value: null, child: Text('Seleccionar empresa', style: TextStyle(color: Colors.grey))),
                   ...empresas.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(value: value, child: Text(value));
-                  }).toList(),
+                  }),
                 ],
                 hint: Text('Seleccionar empresa', style: TextStyle(color: Colors.grey)),
                 isExpanded: true,

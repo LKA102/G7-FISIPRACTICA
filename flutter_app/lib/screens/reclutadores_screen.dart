@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import '../widgets/header.dart';
 import '../widgets/footer.dart';
-import 'editar_perfil_reclutador_screen.dart'; 
+import 'package:flutter_app/screens/edit_reclutador_screen.dart';
+import 'editar_perfil_reclutador_screen.dart';
+
+
+
 class ReclutadoresScreen extends StatefulWidget {
   const ReclutadoresScreen({super.key});
 
@@ -199,31 +203,37 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
   }
 
   void _showCreateReclutadorDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Crear Nuevo Reclutador'),
-          content: Text('¿Deseas crear un nuevo reclutador?'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Denegar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Confirmar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                // Aquí puedes agregar la lógica para crear un nuevo reclutador
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Crear Nuevo Reclutador'),
+        content: Text('¿Deseas crear un nuevo reclutador?'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Denegar'),
+            onPressed: () {
+              Navigator.of(context).pop(); // Cierra el diálogo
+            },
+          ),
+          TextButton(
+            child: Text('Confirmar'),
+            onPressed: () {
+              Navigator.of(context).pop(); // Cierra el diálogo
+              // Navega a la pantalla de edición de reclutador
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditReclutadorScreen(),  // Aquí debes poner tu clase de pantalla
+                ),
+              );
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -402,4 +412,3 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
     super.dispose();
   }
 }
-
