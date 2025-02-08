@@ -11,6 +11,7 @@ class EstudiantesScreen extends StatefulWidget {
 }
 
 class _EstudiantesScreenState extends State<EstudiantesScreen> {
+  List<Map<String, String>> estudiantes = [];
   void _fetchEstudiantes() async {
     try {
       List<Map<String, String>> fetchedEstudiantes =
@@ -30,7 +31,6 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
     _fetchEstudiantes();
   } */
 
-  List<Map<String, String>> estudiantes = [];
   /*  {
       'nombre': 'Juan Pérez',
       'foto': 'assets/profile_picture.jpg',

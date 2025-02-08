@@ -251,9 +251,9 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
             print('Agregar nueva empresa');
           },
           backgroundColor: const Color(0xFF005BAC),
-          child: const Icon(Icons.add),
           elevation: 10,
-          tooltip: 'Agregar Empresa', // Descripción adicional
+          tooltip: 'Agregar Empresa',
+          child: const Icon(Icons.add), // Descripción adicional
         ),
       ),
     );
