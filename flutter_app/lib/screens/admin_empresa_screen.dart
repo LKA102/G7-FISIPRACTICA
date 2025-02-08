@@ -11,31 +11,26 @@ class AdminEmpresaScreen extends StatefulWidget {
 
 class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
   final List<Map<String, String>> empresas = [
-    {'nombre': 'Banco de Crédito del Perú', 'logo': ''},
-    {'nombre': 'Interbank', 'logo': ''},
-    {'nombre': 'BBVA', 'logo': ''},
-    {'nombre': 'Scotiabank', 'logo': ''},
-    {'nombre': 'MiBanco', 'logo': ''},
-    {'nombre': 'Alicorp', 'logo': ''},
-    {'nombre': 'Backus', 'logo': ''},
-    {'nombre': 'Cemex Perú', 'logo': ''},
-    {'nombre': 'Corporación Lindley', 'logo': ''},
-    {'nombre': 'Ferreyros', 'logo': ''},
-    {'nombre': 'Cosapi', 'logo': ''},
-    {'nombre': 'Southern Copper Corporation', 'logo': ''},
-    {'nombre': 'Graña y Montero', 'logo': ''},
-    {'nombre': 'Inca Kola', 'logo': ''},
-    {'nombre': 'Tottus', 'logo': ''},
+    {'nombre': 'Banco de Crédito del Perú', 'foto': 'assets/bcp.png'},
+    {'nombre': 'Interbank', 'foto': 'assets/interbank.png'},
+    {'nombre': 'BBVA', 'foto': 'assets/bbva.png'},
+    {'nombre': 'Scotiabank', 'foto': 'assets/scotiabank.jpg'},
+    {'nombre': 'MiBanco', 'foto': 'assets/mibanco.png'},
+    {'nombre': 'Alicorp', 'foto': 'assets/alicorp.png'},
+    {'nombre': 'Backus', 'foto': 'assets/backus.jpg'},
+    {'nombre': 'Cemex Perú', 'foto': 'assets/cemex.png'},
+    {'nombre': 'Corporación Lindley', 'foto': 'assets/lindley.png'},
+    {'nombre': 'Ferreyros', 'foto': 'assets/ferreyros.png'},
+    {'nombre': 'Cosapi', 'foto': 'assets/cosapi.jpg'},
+    {'nombre': 'Southern Copper Corporation', 'foto': 'assets/southern.png'},
+    {'nombre': 'Claro Perú', 'foto': 'assets/claro.png'},
+    {'nombre': 'Inca Kola', 'foto': 'assets/inca.jpg'},
+    {'nombre': 'Tottus', 'foto': 'assets/tottus.png'},
   ];
 
   final ScrollController _scrollController = ScrollController();
   int _currentPage = 1;
   final int _itemsPerPage = 5;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void _previousPage() {
     setState(() {
@@ -53,51 +48,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
     });
   }
 
-  void _goToPage(int page) {
-    setState(() {
-      _currentPage = page;
-    });
-  }
-
-  List<Widget> _buildPageNumbers(int totalPages) {
-    List<Widget> pageNumbers = [];
-
-    pageNumbers.add(_buildPageNumberButton(1));
-
-    if (_currentPage > 3) {
-      pageNumbers.add(Text('...'));
-    }
-
-    if (_currentPage > 1 && _currentPage < totalPages) {
-      pageNumbers.add(_buildPageNumberButton(_currentPage));
-    }
-
-    if (_currentPage < totalPages - 2) {
-      pageNumbers.add(Text('...'));
-    }
-
-    if (totalPages > 1) {
-      pageNumbers.add(_buildPageNumberButton(totalPages));
-    }
-
-    return pageNumbers;
-  }
-
-  Widget _buildPageNumberButton(int page) {
-    return TextButton(
-      onPressed: () => _goToPage(page),
-      child: Text(
-        '$page',
-        style: TextStyle(
-          fontWeight: _currentPage == page ? FontWeight.bold : FontWeight.normal,
-          color: _currentPage == page ? Color(0xFF1E3984) : Colors.black,
-        ),
-      ),
-    );
-  }
-
-  // Función para mostrar un diálogo de confirmación con formato personalizado
-  void _showConfirmationDialog(String empresa) {
+  void _showConfirmationDialog(Map<String, String> empresa) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -107,14 +58,14 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
             children: [
               CircleAvatar(
                 radius: 40,
-                backgroundColor: Color(0xFF005BAC),
-                child: const Icon(Icons.business, color: Colors.white, size: 40), // Placeholder logo
+                backgroundColor: Colors.transparent,
+                backgroundImage: AssetImage(empresa['foto']!),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
-                '¿Deseas eliminar a $empresa?',
+                '¿Deseas eliminar a ${empresa['nombre']}?',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -127,19 +78,18 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
                   ),
-                  child: Text('Aceptar'),
+                  child: const Text('Aceptar'),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    // Aquí puedes agregar lógica para ingresar a la empresa
                   },
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 TextButton(
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
                   ),
-                  child: Text('Denegar'),
+                  child: const Text('Denegar'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -165,14 +115,14 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: Header(), // Header en la parte superior de la pantalla
+        preferredSize: const Size.fromHeight(60.0),
+        child: Header(),
       ),
       body: Column(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(
+            child: const Text(
               'Empresas',
               style: TextStyle(
                 fontSize: 24,
@@ -191,22 +141,21 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                   elevation: 5,
                   child: InkWell(
                     onTap: () {
-                      // Muestra el diálogo de confirmación al seleccionar una empresa
-                      _showConfirmationDialog(currentEmpresas[index]['nombre']!);
+                      _showConfirmationDialog(currentEmpresas[index]);
                     },
                     child: SizedBox(
                       height: 100,
                       child: Center(
                         child: ListTile(
                           leading: CircleAvatar(
-                            backgroundColor: const Color(0xFF005BAC),
-                            child: const Icon(Icons.business, color: Colors.white, size: 30),
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: AssetImage(currentEmpresas[index]['foto']!),
                           ),
                           title: Text(
                             currentEmpresas[index]['nombre']!,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              fontSize: 18,
+                              fontSize: 22,
                               color: Color(0xFF1E3984),
                             ),
                           ),
@@ -230,7 +179,23 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                   alignment: WrapAlignment.center,
                   spacing: 4.0,
                   runSpacing: 4.0,
-                  children: _buildPageNumbers(totalPages),
+                  children: List.generate(
+                    totalPages,
+                    (index) => TextButton(
+                      onPressed: () => setState(() => _currentPage = index + 1),
+                      child: Text(
+                        '${index + 1}',
+                        style: TextStyle(
+                          fontWeight: _currentPage == (index + 1)
+                              ? FontWeight.bold
+                              : FontWeight.normal,
+                          color: _currentPage == (index + 1)
+                              ? const Color(0xFF1E3984)
+                              : Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               IconButton(
@@ -239,21 +204,20 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
               ),
             ],
           ),
-          Footer(), // Footer al final de la pantalla
+          Footer(),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat, // Alineación al final de la pantalla, sobre la última empresa
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 110.0, right: 15.0), // Ajuste para superponer en la esquina inferior derecha, más arriba
+        padding: const EdgeInsets.only(bottom: 110.0, right: 15.0),
         child: FloatingActionButton(
           onPressed: () {
-            // Acción al presionar el botón de agregar empresa
             print('Agregar nueva empresa');
           },
           backgroundColor: const Color(0xFF005BAC),
           elevation: 10,
           tooltip: 'Agregar Empresa',
-          child: const Icon(Icons.add), // Descripción adicional
+          child: const Icon(Icons.add),
         ),
       ),
     );
