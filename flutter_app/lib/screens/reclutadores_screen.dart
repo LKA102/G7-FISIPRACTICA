@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/header.dart';
 import '../widgets/footer.dart';
-import 'package:flutter_app/screens/edit_reclutador_screen.dart';
+import 'package:flutter_app/screens/crear_reclutador_screen.dart';
 
 class ReclutadoresScreen extends StatefulWidget {
   const ReclutadoresScreen({super.key});
