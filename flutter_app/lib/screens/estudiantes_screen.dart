@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
+import 'package:flutter_app/services/estudiantes_services.dart';
+
 import '../widgets/footer.dart';
-import '../services/user_services.dart';
+import '../widgets/header.dart';
 
 class EstudiantesScreen extends StatefulWidget {
   const EstudiantesScreen({super.key});
@@ -15,7 +16,7 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
   void _fetchEstudiantes() async {
     try {
       List<Map<String, String>> fetchedEstudiantes =
-          await UserServices.getEstudiantes();
+          await EstudiantesServices.getEstudiantes();
       setState(() {
         estudiantes = fetchedEstudiantes;
       });
@@ -216,7 +217,8 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirmar eliminación'),
-          content: Text('¿Seguro de que deseas eliminar a ${estudiante['nombre']}?'),
+          content:
+              Text('¿Seguro de que deseas eliminar a ${estudiante['nombre']}?'),
           actions: <Widget>[
             TextButton(
               child: Text('Cancelar'),
@@ -336,5 +338,3 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
     super.dispose();
   }
 }
-
-
