@@ -36,7 +36,6 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
     'Tottus',
   ];
 
-  // Función para seleccionar la fecha de inicio
   void _selectFechaInicio(BuildContext context) async {
     DateTime? picked = await showDatePicker(
       context: context,
@@ -51,10 +50,53 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
       });
   }
 
-  // Función para guardar el reclutador
   void _guardarReclutador() {
-    // Lógica para guardar el reclutador
     print('Reclutador guardado');
+
+    _showConfirmationDialog();
+  }
+
+  void _showConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.blue,
+                child: Icon(
+                  Icons.check,
+                  color: Colors.white,
+                  size: 40,
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Se ha guardado los cambios',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context); 
+                  Navigator.pop(context); 
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                ),
+                child: Text('Ir a inicio'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -62,14 +104,13 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
-        child: Header(), // Header de la pantalla
+        child: Header(), 
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Título "Crear Reclutador" justo arriba de la imagen
             Text(
               'Crear Reclutador',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF1E3984)),
@@ -81,7 +122,6 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
               backgroundColor: Color(0xFF1E3984),
               child: IconButton(
                 onPressed: () {
-                  // Lógica para seleccionar o cambiar foto
                 },
                 icon: Icon(Icons.camera_alt, color: Colors.white),
               ),
@@ -92,7 +132,7 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
               decoration: InputDecoration(
                 labelText: 'Nombres',
                 filled: true,
-                fillColor: Color(0xFFE6F2FF), // Celeste
+                fillColor: Color(0xFFE6F2FF), 
                 border: OutlineInputBorder(),
               ),
             ),
@@ -102,7 +142,7 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
               decoration: InputDecoration(
                 labelText: 'Apellidos',
                 filled: true,
-                fillColor: Color(0xFFE6F2FF), // Celeste
+                fillColor: Color(0xFFE6F2FF), 
                 border: OutlineInputBorder(),
               ),
             ),
@@ -112,7 +152,7 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
               decoration: InputDecoration(
                 labelText: 'Correo electrónico',
                 filled: true,
-                fillColor: Color(0xFFE6F2FF), // Celeste
+                fillColor: Color(0xFFE6F2FF), 
                 border: OutlineInputBorder(),
               ),
             ),
@@ -123,17 +163,16 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
               decoration: InputDecoration(
                 labelText: 'Contraseña',
                 filled: true,
-                fillColor: Color(0xFFE6F2FF), // Celeste
+                fillColor: Color(0xFFE6F2FF), 
                 border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 10),
-            // Campo Empresa con fondo celeste, mensaje "Seleccionar una empresa" y flecha
             Container(
               decoration: BoxDecoration(
-                color: Color(0xFFE6F2FF), // Celeste
+                color: Color(0xFFE6F2FF), 
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.black), // Borde negro
+                border: Border.all(color: Colors.black), 
               ),
               child: DropdownButton<String>(
                 value: _empresaSeleccionada.isEmpty ? null : _empresaSeleccionada,
@@ -150,10 +189,10 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
                 ],
                 hint: Text('Seleccionar empresa', style: TextStyle(color: Colors.grey)),
                 isExpanded: true,
-                underline: Container(), // Para quitar el subrayado predeterminado
+                underline: Container(), 
                 icon: Icon(Icons.arrow_drop_down),
                 style: TextStyle(color: Colors.black),
-                padding: EdgeInsets.symmetric(horizontal: 12.0), // Ajustar el espaciado dentro del campo
+                padding: EdgeInsets.symmetric(horizontal: 12.0), 
               ),
             ),
             SizedBox(height: 10),
@@ -163,7 +202,7 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
               decoration: InputDecoration(
                 labelText: 'Descripción',
                 filled: true,
-                fillColor: Color(0xFFE6F2FF), // Celeste
+                fillColor: Color(0xFFE6F2FF), 
                 border: OutlineInputBorder(),
               ),
             ),
@@ -184,13 +223,13 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context); // Acción de cancelar
+                    Navigator.pop(context); 
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                   child: Text('Cancelar'),
                 ),
                 ElevatedButton(
-                  onPressed: _guardarReclutador, // Acción de guardar
+                  onPressed: _guardarReclutador, 
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                   child: Text('Guardar'),
                 ),
@@ -199,7 +238,7 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Footer(), // Footer de la pantalla
+      bottomNavigationBar: Footer(), 
     );
   }
 }
