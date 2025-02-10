@@ -4,7 +4,7 @@ class Footer extends StatefulWidget {
   const Footer({super.key});
 
   @override
-  _FooterState createState() => _FooterState();
+  State<Footer> createState() => _FooterState();
 }
 
 class _FooterState extends State<Footer> {
@@ -35,7 +35,7 @@ class _FooterState extends State<Footer> {
         children: <Widget>[
           IconButton(
             icon: Image.asset(
-              'assets/home_icon.png',
+              'assets/icons/home_icon.png',
               color: _selectedIndex == 0 ? Colors.white : Colors.grey,
             ),
             onPressed: () {
@@ -44,7 +44,7 @@ class _FooterState extends State<Footer> {
           ),
           IconButton(
             icon: Image.asset(
-              'assets/portfolio_icon.png',
+              'assets/icons/portfolio_icon.png',
               color: _selectedIndex == 1 ? Colors.white : Colors.grey,
             ),
             onPressed: () {
@@ -53,7 +53,7 @@ class _FooterState extends State<Footer> {
           ),
           IconButton(
             icon: Image.asset(
-              'assets/user_icon.png',
+              'assets/icons/user_icon.png',
               color: _selectedIndex == 2 ? Colors.white : Colors.grey,
             ),
             onPressed: () {

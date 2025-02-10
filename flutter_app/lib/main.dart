@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/splah_screen.dart';
+import 'package:flutter_app/app/routes/routes.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,13 +11,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1E3984)),
         useMaterial3: true,
       ),
-      home: const SplahScreen(),
+      initialRoute: AppRoutes.getRootPage(),
+      getPages: AppRoutes.routes,
     );
   }
 }

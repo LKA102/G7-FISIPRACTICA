@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
-import '../widgets/footer.dart';
+import '../../../widgets/header.dart';
+import '../../../widgets/footer.dart';
 
 class EditReclutadorScreen extends StatefulWidget {
   const EditReclutadorScreen({super.key});

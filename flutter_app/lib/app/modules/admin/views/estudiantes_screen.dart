@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
-import '../widgets/footer.dart';
+import '../../../widgets/header.dart';
+import '../../../widgets/footer.dart';
 
 class EstudiantesScreen extends StatefulWidget {
   const EstudiantesScreen({super.key});
@@ -11,16 +11,16 @@ class EstudiantesScreen extends StatefulWidget {
 
 class _EstudiantesScreenState extends State<EstudiantesScreen> {
   final List<Map<String, String>> estudiantes = [
-    {'nombre': 'Juan Pérez', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Juan Pérez'},
-    {'nombre': 'María López', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de María López'},
-    {'nombre': 'Carlos García', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Carlos García'},
-    {'nombre': 'Ana Martínez', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Ana Martínez'},
-    {'nombre': 'Luis Rodríguez', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Luis Rodríguez'},
-    {'nombre': 'Sofía Hernández', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Sofía Hernández'},
-    {'nombre': 'Miguel Torres', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Miguel Torres'},
-    {'nombre': 'Laura Gómez', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Laura Gómez'},
-    {'nombre': 'Pedro Díaz', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Pedro Díaz'},
-    {'nombre': 'Lucía Fernández', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Lucía Fernández'},
+    {'nombre': 'Juan Pérez', 'foto': 'assets/images/profile_picture.jpg', 'descripcion': 'Descripción de Juan Pérez'},
+    {'nombre': 'María López', 'foto': 'assets/images/profile_picture.jpg', 'descripcion': 'Descripción de María López'},
+    {'nombre': 'Carlos García', 'foto': 'assets/images/profile_picture.jpg', 'descripcion': 'Descripción de Carlos García'},
+    {'nombre': 'Ana Martínez', 'foto': 'assets/images/profile_picture.jpg', 'descripcion': 'Descripción de Ana Martínez'},
+    {'nombre': 'Luis Rodríguez', 'foto': 'assets/images/profile_picture.jpg', 'descripcion': 'Descripción de Luis Rodríguez'},
+    {'nombre': 'Sofía Hernández', 'foto': 'assets/images/profile_picture.jpg', 'descripcion': 'Descripción de Sofía Hernández'},
+    {'nombre': 'Miguel Torres', 'foto': 'assets/images/profile_picture.jpg', 'descripcion': 'Descripción de Miguel Torres'},
+    {'nombre': 'Laura Gómez', 'foto': 'assets/images/profile_picture.jpg', 'descripcion': 'Descripción de Laura Gómez'},
+    {'nombre': 'Pedro Díaz', 'foto': 'assets/images/profile_picture.jpg', 'descripcion': 'Descripción de Pedro Díaz'},
+    {'nombre': 'Lucía Fernández', 'foto': 'assets/images/profile_picture.jpg', 'descripcion': 'Descripción de Lucía Fernández'},
   ];
 
   final ScrollController _scrollController = ScrollController();

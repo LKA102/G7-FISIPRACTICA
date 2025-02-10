@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
-import '../widgets/footer.dart';
+import '../../../widgets/header.dart';
+import '../../../widgets/footer.dart';
 
 class AdminEmpresaScreen extends StatefulWidget {
   const AdminEmpresaScreen({super.key});
@@ -11,21 +11,21 @@ class AdminEmpresaScreen extends StatefulWidget {
 
 class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
   final List<Map<String, String>> empresas = [
-    {'nombre': 'Banco de Crédito del Perú', 'foto': 'assets/bcp.png'},
-    {'nombre': 'Interbank', 'foto': 'assets/interbank.png'},
-    {'nombre': 'BBVA', 'foto': 'assets/bbva.png'},
-    {'nombre': 'Scotiabank', 'foto': 'assets/scotiabank.jpg'},
-    {'nombre': 'MiBanco', 'foto': 'assets/mibanco.png'},
-    {'nombre': 'Alicorp', 'foto': 'assets/alicorp.png'},
-    {'nombre': 'Backus', 'foto': 'assets/backus.jpg'},
-    {'nombre': 'Cemex Perú', 'foto': 'assets/cemex.png'},
-    {'nombre': 'Corporación Lindley', 'foto': 'assets/lindley.png'},
-    {'nombre': 'Ferreyros', 'foto': 'assets/ferreyros.png'},
-    {'nombre': 'Cosapi', 'foto': 'assets/cosapi.jpg'},
-    {'nombre': 'Southern Copper Corporation', 'foto': 'assets/southern.png'},
-    {'nombre': 'Claro Perú', 'foto': 'assets/claro.png'},
-    {'nombre': 'Inca Kola', 'foto': 'assets/inca.jpg'},
-    {'nombre': 'Tottus', 'foto': 'assets/tottus.png'},
+    {'nombre': 'Banco de Crédito del Perú', 'foto': 'assets/images/bcp.png'},
+    {'nombre': 'Interbank', 'foto': 'assets/images/interbank.png'},
+    {'nombre': 'BBVA', 'foto': 'assets/images/bbva.png'},
+    {'nombre': 'Scotiabank', 'foto': 'assets/images/scotiabank.jpg'},
+    {'nombre': 'MiBanco', 'foto': 'assets/images/mibanco.png'},
+    {'nombre': 'Alicorp', 'foto': 'assets/images/alicorp.png'},
+    {'nombre': 'Backus', 'foto': 'assets/images/backus.jpg'},
+    {'nombre': 'Cemex Perú', 'foto': 'assets/images/cemex.png'},
+    {'nombre': 'Corporación Lindley', 'foto': 'assets/images/lindley.png'},
+    {'nombre': 'Ferreyros', 'foto': 'assets/images/images/ferreyros.png'},
+    {'nombre': 'Cosapi', 'foto': 'assets/images/cosapi.jpg'},
+    {'nombre': 'Southern Copper Corporation', 'foto': 'assets/images/southern.png'},
+    {'nombre': 'Claro Perú', 'foto': 'assets/images/claro.png'},
+    {'nombre': 'Inca Kola', 'foto': 'assets/images/inca.jpg'},
+    {'nombre': 'Tottus', 'foto': 'assets/images/tottus.png'},
   ];
 
   final ScrollController _scrollController = ScrollController();

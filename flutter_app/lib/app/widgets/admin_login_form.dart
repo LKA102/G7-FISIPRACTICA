@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/home_admin_screen.dart';
+import '../modules/admin/home_admin_screen.dart';
 
 class AdminLoginForm extends StatefulWidget {
   const AdminLoginForm({super.key});
@@ -19,7 +19,7 @@ class _AdminLoginFormState extends State<AdminLoginForm> {
       print('Email: $_email, Password: $_password');
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => HomeAdminScreen()),
       );
     }
   }

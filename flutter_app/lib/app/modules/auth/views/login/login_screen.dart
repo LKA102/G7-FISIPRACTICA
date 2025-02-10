@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
-import '../widgets/login_form.dart';
+import 'package:flutter_app/app/modules/auth/controllers/auth_controller.dart';
+import 'package:get/get.dart';
+import '../../../../widgets/header.dart';
+import 'widgets/login_form.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends GetView<AuthController> {
   const LoginScreen({super.key});
 
   @override
@@ -10,9 +12,9 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Header(),
+          const Header(showLoginDialog: true),
           SizedBox(height: 20),
-          LoginForm(),
+          const LoginForm(),
           SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(20.0),

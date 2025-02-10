@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/pick_user_screen.dart';
+import 'package:flutter_app/app/routes/routes.dart';
+import 'package:get/get.dart';
 
-class SplahScreen extends StatefulWidget {
-  const SplahScreen({super.key});
+class RootScreen extends StatefulWidget {
+  const RootScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _SplahScreenState();
+  State<StatefulWidget> createState() => _RootScreenState();
 }
 
-class _SplahScreenState extends State<SplahScreen> {
+class _RootScreenState extends State<RootScreen> {
 
   bool _showButton = false;
 
@@ -31,7 +32,7 @@ class _SplahScreenState extends State<SplahScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children:  <Widget>[
             Image.asset(
-              'assets/logo_blanco.png',
+              'assets/images/logo_blanco.png',
               height: 208,
               width: 211,
             ),
@@ -39,10 +40,7 @@ class _SplahScreenState extends State<SplahScreen> {
             _showButton
             ? ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PickUserScreen()),
-                );
+                Get.toNamed(AppRoutes.getPickUserPage());
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFF1E1D94),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/widgets/admin_login_form.dart';
-import '../widgets/login_form.dart';
+import 'package:flutter_app/app/widgets/admin_login_form.dart';
+import '../modules/auth/views/login/widgets/login_form.dart';
 
 class Header extends StatelessWidget {
-  const Header({super.key});
+  final bool showLoginDialog;
+  const Header({super.key, this.showLoginDialog = false});
 
   void _showLoginDialog(BuildContext context) {
     showDialog(
@@ -21,7 +22,7 @@ class Header extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  backgroundImage: AssetImage('assets/profile_picture.jpg'),
+                  backgroundImage: AssetImage('assets/images/profile_picture.jpg'),
                 ),
                 SizedBox(height: 20),
                 Text(
@@ -84,9 +85,12 @@ class Header extends StatelessWidget {
             },
           ),
           GestureDetector(
-            onTap: () => _showLoginDialog(context),
+            onTap: () => {
+              if (showLoginDialog)
+                _showLoginDialog(context)
+            },
             child: Image.asset(
-              'assets/logo.png',
+              'assets/icons/logo_icon.png',
               height: 60,
             )
           ),

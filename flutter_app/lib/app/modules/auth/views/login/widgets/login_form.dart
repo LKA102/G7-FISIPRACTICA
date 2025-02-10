@@ -1,61 +1,36 @@
 import 'package:flutter/material.dart';
-import '../screens/home_admin_screen.dart';
+import 'package:flutter_app/app/modules/auth/controllers/auth_controller.dart';
+import 'package:flutter_app/app/routes/routes.dart';
+import 'package:get/get.dart';
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends GetView<AuthController> {
   const LoginForm({super.key});
-
-  @override
-  State<StatefulWidget> createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
-  final _formKey = GlobalKey<FormState>();
-  late TextEditingController _email;
-  late TextEditingController _password;
-
-  void _submit() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      print('Email: $_email, Password: $_password');
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
-    }
-  }
-
-  @override
-  void initState() {
-    _email = TextEditingController(text: "");
-    _password = TextEditingController(text: "");
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(30),
       child: Form(
-        key: _formKey,
+        key: controller.loginFormKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Image.asset(
-              'assets/logo_azul.png',
+              'assets/images/logo_azul.png',
               height: 208,
               width: 211,
             ),
             TextFormField(
-              controller: _email,
+              controller: controller.loginEmailController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Ej: pepito@unmsm.edu.pe',
-                label: Text("Correo electrónico o telefono")
+                label: Text("Correo electrónico")
               )
             ),
             const SizedBox(height: 10),
             TextFormField(
-              controller: _password,
+              controller: controller.loginPasswordController,
               obscureText: true,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -66,7 +41,9 @@ class _LoginFormState extends State<LoginForm> {
             const SizedBox(height: 15),
             ElevatedButton(
                       onPressed: () {
-                        _submit();
+                        controller.submit();
+                        //TODO: Redirect to the right homepage screen (student or recruiter)
+                        Get.toNamed(AppRoutes.getAdminHomePage());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF1E3984),

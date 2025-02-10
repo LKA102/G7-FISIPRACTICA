@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
-import '../widgets/footer.dart';
-import 'estudiantes_screen.dart';
-import 'admin_empresa_screen.dart';
-import 'reclutadores_screen.dart'; 
+import '../../widgets/header.dart';
+import '../../widgets/footer.dart';
+import 'views/estudiantes_screen.dart';
+import 'views/admin_empresa_screen.dart';
+import 'views/reclutadores_screen.dart'; 
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeAdminScreen extends StatefulWidget {
+  const HomeAdminScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeAdminScreen> createState() => _HomeAdminScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeAdminScreenState extends State<HomeAdminScreen> {
   int _selectedButtonIndex = -1;
 
   void _onButtonPressed(int index) {
