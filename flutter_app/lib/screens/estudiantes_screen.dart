@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/services/estudiantes_services.dart';
+import 'dart:typed_data';
 
 import '../widgets/footer.dart';
 import '../widgets/header.dart';
@@ -12,10 +13,10 @@ class EstudiantesScreen extends StatefulWidget {
 }
 
 class _EstudiantesScreenState extends State<EstudiantesScreen> {
-  List<Map<String, String>> estudiantes = [];
+  List<Map<String, dynamic>> estudiantes = [];
   void _fetchEstudiantes() async {
     try {
-      List<Map<String, String>> fetchedEstudiantes =
+      List<Map<String, dynamic>> fetchedEstudiantes =
           await EstudiantesServices.getEstudiantes();
       setState(() {
         estudiantes = fetchedEstudiantes;
@@ -154,7 +155,7 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
     );
   }
 
-  void _showStudentDialog(Map<String, String> estudiante) {
+  void _showStudentDialog(Map<String, dynamic> estudiante) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -163,7 +164,11 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               CircleAvatar(
-                backgroundImage: AssetImage(estudiante['foto']!),
+                backgroundImage: estudiante['foto'] is Uint8List
+                    ? MemoryImage(estudiante['foto'] as Uint8List)
+                    : estudiante['foto'] is String
+                        ? AssetImage(estudiante['foto'] as String)
+                        : null,
                 radius: 50,
               ),
               SizedBox(height: 10),
@@ -211,7 +216,7 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
     );
   }
 
-  void _showConfirmationDialog(Map<String, String> estudiante) {
+  void _showConfirmationDialog(Map<String, dynamic> estudiante) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -242,7 +247,7 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
   Widget build(BuildContext context) {
     int startIndex = (_currentPage - 1) * _itemsPerPage;
     int endIndex = startIndex + _itemsPerPage;
-    List<Map<String, String>> currentEstudiantes = estudiantes.sublist(
+    List<Map<String, dynamic>> currentEstudiantes = estudiantes.sublist(
       startIndex,
       endIndex > estudiantes.length ? estudiantes.length : endIndex,
     );
@@ -286,9 +291,14 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
                       child: Center(
                         child: ListTile(
                           leading: CircleAvatar(
-                            backgroundImage:
-                                AssetImage(currentEstudiantes[index]['foto']!),
-                          ),
+                              backgroundImage: currentEstudiantes[index]['foto']
+                                      is Uint8List
+                                  ? MemoryImage(currentEstudiantes[index]
+                                      ['foto'] as Uint8List)
+                                  : currentEstudiantes[index]['foto'] is String
+                                      ? AssetImage(currentEstudiantes[index]
+                                          ['foto'] as String)
+                                      : null),
                           title: Text(
                             currentEstudiantes[index]['nombre']!,
                             textAlign: TextAlign.center,
