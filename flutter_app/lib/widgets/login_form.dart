@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../screens/home_admin_screen.dart';
+import '../screens/register_screen.dart'; 
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -51,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
                 border: OutlineInputBorder(),
                 hintText: 'Ej: pepito@unmsm.edu.pe',
                 label: Text("Correo electrónico o telefono")
-              )
+              ),
             ),
             const SizedBox(height: 10),
             TextFormField(
@@ -61,28 +62,28 @@ class _LoginFormState extends State<LoginForm> {
                 border: OutlineInputBorder(),
                 hintText: 'Ej: 123456',
                 label: Text("Contraseña")
-              )
+              ),
             ),
             const SizedBox(height: 15),
             ElevatedButton(
-                      onPressed: () {
-                        _submit();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF1E3984),
-                        foregroundColor: Colors.white,
-                        textStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        shadowColor: Colors.black.withAlpha(128),
-                        elevation: 10,
-                      ),
-                      child: Text('Iniciar sesión'),
-                    ),
+              onPressed: () {
+                _submit();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF1E3984),
+                foregroundColor: Colors.white,
+                textStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                shadowColor: Colors.black.withAlpha(128),
+                elevation: 10,
+              ),
+              child: Text('Iniciar sesión'),
+            ),
             const SizedBox(height: 10),
             const Divider(),
             const SizedBox(height: 10),
@@ -92,9 +93,10 @@ class _LoginFormState extends State<LoginForm> {
                 const Text('Aun no eres usuario?', style: TextStyle(fontSize: 14)),
                 TextButton(
                   onPressed: () {
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(builder: (context) => const RegisterScreen()),
-                    // );
+                    // Navegar a la pantalla de registro
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                    );
                   },
                   child: const Text(
                     'Registrate',
@@ -106,6 +108,7 @@ class _LoginFormState extends State<LoginForm> {
             const SizedBox(height: 10),
             TextButton(
               onPressed: () {
+                // Navegar a la pantalla de recuperar contraseña (si fuera necesario)
                 // Navigator.of(context).push(
                 //   MaterialPageRoute(builder: (context) => const ResetPasswordScreen()),
                 // );
@@ -113,8 +116,8 @@ class _LoginFormState extends State<LoginForm> {
               child: const Text('Olvidaste tu contraseña?'),
             ),
           ]
-        )
-      )
+        ),
+      ),
     );
   }
 }
