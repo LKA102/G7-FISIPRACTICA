@@ -18,7 +18,8 @@ class _AdminLoginFormState extends State<AdminLoginForm> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       print('Email: $_email, Password: $_password');
-      final response = await UserServices.login(_email, _password);
+      final response = await UserServices.login(_email, _password, 'Admin');
+      if (!mounted) return;
       if (response.containsKey('token')) {
         UserServices.setToken(response['token']!);
         Navigator.pushReplacement(

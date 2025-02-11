@@ -7,13 +7,14 @@ final dio = Dio();
 
 class UserServices {
   static Future<Map<String, String>> login(
-      String email, String password) async {
+      String email, String password, String role) async {
     try {
       Response response = await dio.post(
         'http://10.0.2.2:3000/auth/login',
         data: {
           'email': email,
           'password': password,
+          'role': role,
         },
       );
 
