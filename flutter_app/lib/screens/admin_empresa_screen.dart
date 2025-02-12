@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/header.dart';
-import '../widgets/footer.dart';
+import '../widgets/footer_estudiante.dart';
 
 class AdminEmpresaScreen extends StatefulWidget {
   const AdminEmpresaScreen({super.key});
