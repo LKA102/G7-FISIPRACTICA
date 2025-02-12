@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/header.dart';
 import '../widgets/footer.dart';
-import 'package:flutter_app/screens/edit_reclutador_screen.dart';
 import 'editar_perfil_reclutador_screen.dart';
 
 

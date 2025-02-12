@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../screens/home_admin_screen.dart';
 import '../screens/register_screen.dart'; 
+import '../screens/reinicio_contraseña_screen.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -107,14 +108,13 @@ class _LoginFormState extends State<LoginForm> {
             ),
             const SizedBox(height: 10),
             TextButton(
-              onPressed: () {
-                // Navegar a la pantalla de recuperar contraseña (si fuera necesario)
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(builder: (context) => const ResetPasswordScreen()),
-                // );
-              },
-              child: const Text('Olvidaste tu contraseña?'),
-            ),
+             onPressed: () {
+              Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const ResetPasswordScreen()),
+          );
+         },
+  child: const Text('Olvidaste tu contraseña?'),
+)
           ]
         ),
       ),
