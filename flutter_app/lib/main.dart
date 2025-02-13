@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1E3984)),
         useMaterial3: true,
       ),
-      home: const SplahScreen(),
+      home: const SplahScreen(), //Lleva donde se define ese widget
     );
   }
 }

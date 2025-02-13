@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/header.dart';
-//import '../widgets/footer.dart';
+import '../widgets/footer.dart';
 import 'estudiantes_screen.dart';
 import 'admin_empresa_screen.dart';
 import 'reclutadores_screen.dart';
