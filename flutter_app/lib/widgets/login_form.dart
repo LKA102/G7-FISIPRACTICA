@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/services/user_services.dart';
-import '../screens/home_admin_screen.dart';
 import '../screens/register_screen.dart';
+import '../screens/reinicio_contraseña_screen.dart';
+import '../screens/home_reclutador_screen.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -27,7 +28,7 @@ class _LoginFormState extends State<LoginForm> {
         print('Email: $_email, Password: $_password');
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => HomeReclutadorScreen()),
         );
       } else {
         // Manejar error de inicio de sesión
@@ -88,63 +89,63 @@ class _LoginFormState extends State<LoginForm> {
             decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Ej: 123456',
-                label: Text("Contraseña")),
-          ),
-          const SizedBox(height: 15),
-          ElevatedButton(
-            onPressed: () {
-              _submit();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF1E3984),
-              foregroundColor: Colors.white,
-              textStyle: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
+                label: Text("Contraseña")
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              shadowColor: Colors.black.withAlpha(128),
-              elevation: 10,
             ),
-            child: Text('Iniciar sesión'),
-          ),
-          const SizedBox(height: 10),
-          const Divider(),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Aun no eres usuario?',
-                  style: TextStyle(fontSize: 14)),
-              TextButton(
-                onPressed: () {
-                  // Navegar a la pantalla de registro
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => const RegisterScreen()),
-                  );
-                },
-                child: const Text(
-                  'Registrate',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+            const SizedBox(height: 15),
+            ElevatedButton(
+              onPressed: () {
+                _submit();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF1E3984),
+                foregroundColor: Colors.white,
+                textStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
                 ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                shadowColor: Colors.black.withAlpha(128),
+                elevation: 10,
               ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          TextButton(
-            onPressed: () {
-              // Navegar a la pantalla de recuperar contraseña (si fuera necesario)
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(builder: (context) => const ResetPasswordScreen()),
-              // );
-            },
-            child: const Text('Olvidaste tu contraseña?'),
-          ),
-        ]),
+              child: Text('Iniciar sesión'),
+            ),
+            const SizedBox(height: 10),
+            const Divider(),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Aun no eres usuario?', style: TextStyle(fontSize: 14)),
+                TextButton(
+                  onPressed: () {
+                    // Navegar a la pantalla de registro
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                    );
+                  },
+                  child: const Text(
+                    'Registrate',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            TextButton(
+             onPressed: () {
+              Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const ResetPasswordScreen()),
+          );
+         },
+  child: const Text('Olvidaste tu contraseña?'),
+)
+          ]
+        ),
       ),
     );
   }
 }
+
