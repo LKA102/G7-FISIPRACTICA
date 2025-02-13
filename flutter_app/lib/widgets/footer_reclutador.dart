@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/ofertas_reclutador_screen.dart'; // Importa la nueva pantalla
 
 class Footer extends StatefulWidget {
   const Footer({super.key});
@@ -19,14 +20,14 @@ class _FooterState extends State<Footer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Color(0xFF1E3984),
+        color: const Color(0xFF1E3984),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
             blurRadius: 7,
-            offset: Offset(0, -3),
+            offset: const Offset(0, -3),
           ),
         ],
       ),
@@ -39,7 +40,7 @@ class _FooterState extends State<Footer> {
               color: _selectedIndex == 0 ? Colors.white : Colors.grey,
             ),
             onPressed: () {
-              _onItemTapped(0);              
+              _onItemTapped(0);
             },
           ),
           IconButton(
@@ -49,6 +50,10 @@ class _FooterState extends State<Footer> {
             ),
             onPressed: () {
               _onItemTapped(1);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => OfertasReclutadorScreen()),
+              );
             },
           ),
           IconButton(
