@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/header.dart';
 import '../widgets/footer.dart';
+import 'package:flutter_app/screens/crear_reclutador_screen.dart';
+import 'editar_perfil_reclutador_screen.dart';
 
 class ReclutadoresScreen extends StatefulWidget {
   const ReclutadoresScreen({super.key});
@@ -17,7 +19,7 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
     {'nombre': 'María García López', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Scotiabank', 'experiencia': '4', 'fecha': 'septiembre, 2024 - actualidad'},
     {'nombre': 'José Martínez Ríos', 'foto': 'assets/profile_picture.jpg', 'empresa': 'MiBanco', 'experiencia': '3', 'fecha': 'octubre, 2024 - actualidad'},
     {'nombre': 'Carlos Pérez Vargas', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Alicorp', 'experiencia': '5', 'fecha': 'noviembre, 2024 - actualidad'},
-    {'nombre': 'Lucía Sánchez Gómez', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Backus', 'experiencia': '2', 'fecha': 'diciembre, 2024 - actualidad'},
+    {'nombre': 'Andrea Sánchez Gómez', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Backus', 'experiencia': '2', 'fecha': 'diciembre, 2024 - actualidad'},
     {'nombre': 'Sofía Fernández López', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Cemex Perú', 'experiencia': '1', 'fecha': 'enero, 2025 - actualidad'},
     {'nombre': 'Jorge Ruiz Fernández', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Corporación Lindley', 'experiencia': '3', 'fecha': 'febrero, 2025 - actualidad'},
     {'nombre': 'Felipe Vega González', 'foto': 'assets/profile_picture.jpg', 'empresa': 'Ferreyros', 'experiencia': '4', 'fecha': 'marzo, 2025 - actualidad'},
@@ -96,7 +98,7 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
     );
   }
 
-  void _showReclutadorDialog(Map<String, String> reclutador) {
+   void _showReclutadorDialog(Map<String, String> reclutador) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -106,9 +108,9 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
         ),
         child: Container(
           padding: const EdgeInsets.all(20),
-          width: 300, // Ajusta el ancho del diálogo
+          width: 300, 
           constraints: BoxConstraints(
-            maxHeight: 400, // Limita la altura máxima de la ventana emergente
+            maxHeight: 400, 
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -139,8 +141,13 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
                     ),
                     child: Text('Editar'),
                     onPressed: () {
-                      Navigator.of(context).pop();
-                      // Agregar funcionalidad de edición si es necesario
+                      Navigator.of(context).pop(); // Cierra el diálogo actual
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditarReclutadorScreen(reclutador: reclutador),
+                        ),
+                      );
                     },
                   ),
                   SizedBox(width: 10),
@@ -165,7 +172,6 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
   );
 }
 
-  // Función de confirmación de eliminación
   void _showConfirmationDialog(Map<String, String> reclutador) {
     showDialog(
       context: context,
@@ -192,6 +198,39 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
       },
     );
   }
+
+  void _showCreateReclutadorDialog() {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Crear Nuevo Reclutador'),
+        content: Text('¿Deseas crear un nuevo reclutador?'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Denegar'),
+            onPressed: () {
+              Navigator.of(context).pop(); // Cierra el diálogo
+            },
+          ),
+          TextButton(
+            child: Text('Confirmar'),
+            onPressed: () {
+              Navigator.of(context).pop(); // Cierra el diálogo
+              // Navega a la pantalla de edición de reclutador
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditReclutadorScreen(),  // Aquí debes poner tu clase de pantalla
+                ),
+              );
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +266,6 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
               controller: _scrollController,
               itemCount: currentReclutadores.length,
               itemBuilder: (context, index) {
-                // Definir el color del contenedor según la empresa
                 String empresa = currentReclutadores[index]['empresa']!;
                 Color empresaColor;
 
@@ -291,7 +329,7 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
                       child: Center(
                         child: ListTile(
                           leading: Padding(
-                            padding: const EdgeInsets.only(right: 10), // Ajusta el espaciado entre la foto y el texto
+                            padding: const EdgeInsets.only(right: 10),
                             child: CircleAvatar(
                               backgroundImage: AssetImage(currentReclutadores[index]['foto']!),
                             ),
@@ -307,7 +345,7 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
                                   color: Color(0xFF1E3984),
                                 ),
                               ),
-                              SizedBox(height: 5),  // Ajusta el espaciado entre el nombre y la empresa
+                              SizedBox(height: 5),
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                                 decoration: BoxDecoration(
@@ -352,6 +390,15 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
           ),
           Footer(),
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 120), // Ajusta para subir el botón
+        child: FloatingActionButton(
+          onPressed: _showCreateReclutadorDialog,
+          child: Icon(Icons.add),
+          backgroundColor: Color(0xFF1E3984),
+        ),
       ),
     );
   }
