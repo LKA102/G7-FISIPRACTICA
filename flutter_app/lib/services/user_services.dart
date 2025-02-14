@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final logger = Logger();
 
@@ -10,7 +11,7 @@ class UserServices {
       String email, String password, String role) async {
     try {
       Response response = await dio.post(
-        'http://10.0.2.2:3000/auth/login',
+        '${dotenv.env['API_DOMAIN']}/auth/login',
         data: {
           'email': email,
           'password': password,
