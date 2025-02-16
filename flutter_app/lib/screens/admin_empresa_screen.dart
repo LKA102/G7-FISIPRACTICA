@@ -155,7 +155,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                             currentEmpresas[index]['nombre']!,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              fontSize: 18,
+                              fontSize: 22,
                               color: Color(0xFF1E3984),
                             ),
                           ),
