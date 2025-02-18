@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'crear_empresa_screen.dart';
+import 'crear_empresa_screen.dart'; // Importamos la pantalla donde se creará la empresa
 import '../widgets/header.dart';
 import '../widgets/footer.dart';
 
@@ -32,7 +32,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
   final ScrollController _scrollController = ScrollController();
   int _currentPage = 1;
   final int _itemsPerPage = 5;
-  String _searchQuery = "";
+  String _searchQuery = ""; // Variable de búsqueda
 
   void _previousPage() {
     setState(() {
@@ -57,16 +57,30 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
         .toList();
   }
 
-  void _showConfirmationDialog() {
+  // Función para mostrar el cuadro de confirmación de agregar empresa
+  void _showAddConfirmationDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           contentPadding: const EdgeInsets.all(20),
-          title: const Text(
-            '¿Deseas añadir una empresa?',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          title: Column(
+            children: const [
+              Icon(
+                Icons.add_circle,
+                color: Colors.blue,
+                size: 60,
+              ),
+              SizedBox(height: 20),
+              Text(
+                '¿Deseas crear una nueva empresa?',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                  color: Color.fromARGB(255, 8, 76, 131),
+                ),
+              ),
+            ],
           ),
           actions: <Widget>[
             Row(
@@ -79,7 +93,6 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                   ),
                   child: const Text('Aceptar'),
                   onPressed: () {
-                    Navigator.of(context).pop();
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => CrearEmpresaScreen()),
@@ -93,6 +106,62 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                     foregroundColor: Colors.white,
                   ),
                   child: const Text('Cancelar'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Función para mostrar el cuadro de confirmación de eliminar empresa
+  void _showDeleteConfirmationDialog(Map<String, String> empresa) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(20),
+          title: Column(
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.transparent,
+                backgroundImage: AssetImage(empresa['foto']!),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                '¿Deseas eliminar a ${empresa['nombre']}?',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('Aceptar'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    // Aquí puedes agregar la lógica para eliminar la empresa de la lista
+                  },
+                ),
+                const SizedBox(width: 10),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('Denegar'),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -134,6 +203,8 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
               ),
             ),
           ),
+          
+          // Buscador de empresas
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: TextField(
@@ -156,6 +227,8 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
             ),
           ),
           const SizedBox(height: 10),
+
+          // Lista de empresas
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
@@ -168,7 +241,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                     elevation: 5,
                     child: InkWell(
                       onTap: () {
-                        _showConfirmationDialog();
+                        _showDeleteConfirmationDialog(currentEmpresas[index]);
                       },
                       child: SizedBox(
                         height: 90,
@@ -195,6 +268,8 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
               },
             ),
           ),
+          
+          // Paginación
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -239,7 +314,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 110.0, right: 15.0),
         child: FloatingActionButton(
-          onPressed: _showConfirmationDialog,
+          onPressed: _showAddConfirmationDialog, // Mostrar cuadro de agregar empresa
           backgroundColor: const Color(0xFF005BAC),
           child: const Icon(Icons.add),
           elevation: 10,
