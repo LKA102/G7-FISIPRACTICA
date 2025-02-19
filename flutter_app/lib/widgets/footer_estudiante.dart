@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../screens/mis_postulaciones_screen.dart'; // Importa la pantalla de Mis Postulaciones
+import '../screens/HomeEstudianteScreen.dart'; // Importa la pantalla de Inicio
 
 class Footer extends StatefulWidget {
   const Footer({super.key});
@@ -53,7 +55,7 @@ class _FooterState extends State<Footer> {
           ),
           IconButton(
             icon: Image.asset(
-              'assets/chatbot_icon.png',  
+              'assets/chatbot_icon.png',
               color: _selectedIndex == 2 ? Colors.white : Colors.grey,
             ),
             onPressed: () {
@@ -62,7 +64,7 @@ class _FooterState extends State<Footer> {
           ),
           IconButton(
             icon: Image.asset(
-              'assets/user_icon.png',  
+              'assets/user_icon.png',
               color: _selectedIndex == 3 ? Colors.white : Colors.grey,
             ),
             onPressed: () {
