@@ -15,15 +15,22 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(
-            60.0), // Ajusta la altura del Header si es necesario
-        child: Header(), // Agrega el header si lo usas en otras pantallas
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(60.0),
+        child: Header(),
       ),
-      body: Center(
-        child: Text("Mis Postulaciones"),
+      body: Column(
+        children: [
+          const SizedBox(height: 10),
+          _buildFilter(),
+          const SizedBox(height: 10),
+          Expanded(
+              child:
+                  _buildPostulacionesList()), // Uso de Expanded para evitar overflow
+          _buildPagination(),
+        ],
       ),
-      bottomNavigationBar: Footer(), // Agregar el footer aquí
+      bottomNavigationBar: const Footer(), // Se mantiene el footer
     );
   }
 
@@ -92,11 +99,12 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(post["empresa"]),
+                Text(post["empresa"], style: const TextStyle(fontSize: 14)),
                 Text(post["estatus"],
-                    style: const TextStyle(color: Colors.green)),
-                Text(post["tiempo"]),
-                Text("Candidatos: ${post["candidatos"]}"),
+                    style: const TextStyle(color: Colors.green, fontSize: 14)),
+                Text(post["tiempo"], style: const TextStyle(fontSize: 12)),
+                Text("Candidatos: ${post["candidatos"]}",
+                    style: const TextStyle(fontSize: 12)),
               ],
             ),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
@@ -132,19 +140,6 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
           );
         }),
       ),
-    );
-  }
-
-  // Implementación del Bottom Navigation Bar
-  Widget _buildBottomNavigationBar() {
-    return BottomNavigationBar(
-      currentIndex: 1, // Segundo icono del footer (Mis Postulaciones)
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Inicio"),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.work), label: "Mis Postulaciones"),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil"),
-      ],
     );
   }
 }
