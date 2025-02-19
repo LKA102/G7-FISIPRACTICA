@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/services/estudiantes_services.dart';
 import '../widgets/header.dart';
-import 'login_screen.dart'; 
+import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -22,17 +23,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.white,  
+          backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),  
+            borderRadius: BorderRadius.circular(12),
           ),
           title: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.check_circle,  
-                  color: Color(0xFF00B4D8),  
+                  Icons.check_circle,
+                  color: Color(0xFF00B4D8),
                   size: 70,
                 ),
                 SizedBox(height: 10),
@@ -41,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF1E3984),  
+                    color: Color(0xFF1E3984),
                   ),
                 ),
               ],
@@ -61,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
                   decoration: BoxDecoration(
-                    color: Color(0xFF1E3984),  
+                    color: Color(0xFF1E3984),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(
@@ -82,13 +83,89 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _submit() {
+  void _submit() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      print('Nombres: $_name, Apellidos: $_lastName, Email o Teléfono: $_emailOrPhone, Contraseña: $_password');
-      
-      // Mostrar el mensaje de registro exitoso
-      _showSuccessDialog();
+      final body = {
+        'nombres': _name.text,
+        'apellidos': _lastName.text,
+        'email': _emailOrPhone.text,
+        'password': _password.text,
+      };
+      try {
+        final response = await EstudiantesServices.registerEstudiante(body);
+        print(response);
+        // Mostrar el mensaje de registro exitoso
+        if (mounted) {
+          _showSuccessDialog();
+        }
+      } catch (e) {
+        print('Error al registrar el estudiante: $e');
+        if (!mounted) return;
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              title: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.error,
+                      color: Colors.red,
+                      size: 70,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      '¡ERROR AL REGISTRAR!',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Cerrar el diálogo
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        'CERRAR',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+              ],
+            );
+          },
+        );
+      }
+
+      print(
+          'Nombres: $_name, Apellidos: $_lastName, Email o Teléfono: $_emailOrPhone, Contraseña: $_password');
+      /* 
+      _showSuccessDialog(); */
     }
   }
 

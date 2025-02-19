@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/header.dart';
 import '../widgets/footer.dart';
-import 'editar_ofertas_screen.dart';
+import 'reclutadores_screen.dart';
 
 class EditarReclutadorScreen extends StatefulWidget {
   final Map<String, String> reclutador;
@@ -19,8 +19,8 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
   late TextEditingController _passwordController;
   late TextEditingController _descripcionController;
   late TextEditingController _fechaController;
-  String _empresaSeleccionada = 'Adecco'; // Empresa seleccionada
-  bool _passwordVisible = false; // Control de visibilidad de la contraseña
+  String _empresaSeleccionada = 'Adecco'; 
+  bool _passwordVisible = false; 
 
   @override
   void initState() {
@@ -59,11 +59,59 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
     }
   }
 
-  void _guardarCambios() {
-    // Aquí puedes agregar la lógica para guardar los cambios antes de navegar
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => EditarOfertasScreen()),
+  void _mostrarVentanaEmergente() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          title: Column(
+            children: <Widget>[
+              Icon(
+                Icons.check_circle,
+                color: Colors.blue,
+                size: 60,
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Se ha guardado los cambios',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                  color: Color.fromARGB(255, 8, 76, 131),
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            // Botón "Ir a inicio"
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  minimumSize: Size(180, 50),
+                  textStyle: const TextStyle(fontSize: 18),
+                ),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => ReclutadoresScreen()), // Redirige a ReclutadoresScreen
+                  );
+                },
+                child: const Text('Ir a inicio'),
+              ),
+            ),
+          ],
+        );
+      },
     );
+  }
+
+  void _guardarCambios() {
+    // Aquí puedes agregar la lógica para guardar los cambios antes de mostrar la ventana emergente
+    _mostrarVentanaEmergente(); // Mostrar la ventana emergente con los cambios guardados
   }
 
   @override
@@ -165,9 +213,7 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => EditarOfertasScreen()),
-                    );
+                    Navigator.pop(context); // Regresar a la pantalla anterior sin guardar
                   },
                   child: Text('Cancelar'),
                 ),

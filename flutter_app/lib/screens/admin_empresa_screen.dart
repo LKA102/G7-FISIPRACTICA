@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'crear_empresa_screen.dart'; // Importamos la pantalla donde se creará la empresa
 import '../widgets/header.dart';
 import '../widgets/footer.dart';
 
@@ -31,6 +32,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
   final ScrollController _scrollController = ScrollController();
   int _currentPage = 1;
   final int _itemsPerPage = 5;
+  String _searchQuery = ""; // Variable de búsqueda
 
   void _previousPage() {
     setState(() {
@@ -42,13 +44,82 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
 
   void _nextPage() {
     setState(() {
-      if (_currentPage * _itemsPerPage < empresas.length) {
+      if (_currentPage * _itemsPerPage < _filteredEmpresas.length) {
         _currentPage++;
       }
     });
   }
 
-  void _showConfirmationDialog(Map<String, String> empresa) {
+  List<Map<String, String>> get _filteredEmpresas {
+    return empresas
+        .where((empresa) =>
+            empresa['nombre']!.toLowerCase().contains(_searchQuery.toLowerCase()))
+        .toList();
+  }
+
+  // Función para mostrar el cuadro de confirmación de agregar empresa
+  void _showAddConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsets.all(20),
+          title: Column(
+            children: const [
+              Icon(
+                Icons.add_circle,
+                color: Colors.blue,
+                size: 60,
+              ),
+              SizedBox(height: 20),
+              Text(
+                '¿Deseas crear una nueva empresa?',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                  color: Color.fromARGB(255, 8, 76, 131),
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('Aceptar'),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CrearEmpresaScreen()),
+                    );
+                  },
+                ),
+                const SizedBox(width: 10),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('Cancelar'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Función para mostrar el cuadro de confirmación de eliminar empresa
+  void _showDeleteConfirmationDialog(Map<String, String> empresa) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -81,6 +152,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                   child: const Text('Aceptar'),
                   onPressed: () {
                     Navigator.of(context).pop();
+                    // Aquí puedes agregar la lógica para eliminar la empresa de la lista
                   },
                 ),
                 const SizedBox(width: 10),
@@ -106,12 +178,12 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
   Widget build(BuildContext context) {
     int startIndex = (_currentPage - 1) * _itemsPerPage;
     int endIndex = startIndex + _itemsPerPage;
-    List<Map<String, String>> currentEmpresas = empresas.sublist(
+    List<Map<String, String>> currentEmpresas = _filteredEmpresas.sublist(
       startIndex,
-      endIndex > empresas.length ? empresas.length : endIndex,
+      endIndex > _filteredEmpresas.length ? _filteredEmpresas.length : endIndex,
     );
 
-    int totalPages = (empresas.length / _itemsPerPage).ceil();
+    int totalPages = (_filteredEmpresas.length / _itemsPerPage).ceil();
 
     return Scaffold(
       appBar: PreferredSize(
@@ -131,32 +203,61 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
               ),
             ),
           ),
+          
+          // Buscador de empresas
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: TextField(
+              onChanged: (query) {
+                setState(() {
+                  _searchQuery = query;
+                });
+              },
+              decoration: InputDecoration(
+                labelText: 'Escriba la empresa',
+                labelStyle: const TextStyle(color: Colors.black),
+                filled: true,
+                fillColor: const Color.fromARGB(255, 255, 255, 255),
+                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.search),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Color.fromARGB(255, 155, 194, 204)),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+
+          // Lista de empresas
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
               itemCount: currentEmpresas.length,
               itemBuilder: (context, index) {
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  elevation: 5,
-                  child: InkWell(
-                    onTap: () {
-                      _showConfirmationDialog(currentEmpresas[index]);
-                    },
-                    child: SizedBox(
-                      height: 100,
-                      child: Center(
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: AssetImage(currentEmpresas[index]['foto']!),
-                          ),
-                          title: Text(
-                            currentEmpresas[index]['nombre']!,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 22,
-                              color: Color(0xFF1E3984),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Card(
+                    margin: const EdgeInsets.symmetric(horizontal: 15),
+                    elevation: 5,
+                    child: InkWell(
+                      onTap: () {
+                        _showDeleteConfirmationDialog(currentEmpresas[index]);
+                      },
+                      child: SizedBox(
+                        height: 90,
+                        child: Center(
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              backgroundImage: AssetImage(currentEmpresas[index]['foto']!),
+                            ),
+                            title: Text(
+                              currentEmpresas[index]['nombre']!,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Color(0xFF1E3984),
+                              ),
                             ),
                           ),
                         ),
@@ -167,6 +268,8 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
               },
             ),
           ),
+          
+          // Paginación
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -211,9 +314,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 110.0, right: 15.0),
         child: FloatingActionButton(
-          onPressed: () {
-            print('Agregar nueva empresa');
-          },
+          onPressed: _showAddConfirmationDialog, // Mostrar cuadro de agregar empresa
           backgroundColor: const Color(0xFF005BAC),
           child: const Icon(Icons.add),
           elevation: 10,

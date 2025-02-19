@@ -12,7 +12,7 @@ class LoginReclutadorScreen extends StatelessWidget {
         children: <Widget>[
           Header(),
           SizedBox(height: 20),
-          LoginForm(),
+          LoginForm(0),
           SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(20.0),

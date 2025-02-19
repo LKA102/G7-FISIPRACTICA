@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
+import 'package:flutter_app/services/estudiantes_services.dart';
+import 'dart:typed_data';
+
 import '../widgets/footer.dart';
+import '../widgets/header.dart';
 
 class EstudiantesScreen extends StatefulWidget {
   const EstudiantesScreen({super.key});
@@ -10,18 +13,77 @@ class EstudiantesScreen extends StatefulWidget {
 }
 
 class _EstudiantesScreenState extends State<EstudiantesScreen> {
-  final List<Map<String, String>> estudiantes = [
-    {'nombre': 'Juan Pérez', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Juan Pérez'},
-    {'nombre': 'María López', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de María López'},
-    {'nombre': 'Carlos García', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Carlos García'},
-    {'nombre': 'Ana Martínez', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Ana Martínez'},
-    {'nombre': 'Luis Rodríguez', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Luis Rodríguez'},
-    {'nombre': 'Sofía Hernández', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Sofía Hernández'},
-    {'nombre': 'Miguel Torres', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Miguel Torres'},
-    {'nombre': 'Laura Gómez', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Laura Gómez'},
-    {'nombre': 'Pedro Díaz', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Pedro Díaz'},
-    {'nombre': 'Lucía Fernández', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Lucía Fernández'},
-  ];
+  List<Map<String, dynamic>> estudiantes = [];
+  void _fetchEstudiantes() async {
+    try {
+      List<Map<String, dynamic>> fetchedEstudiantes =
+          await EstudiantesServices.getEstudiantes();
+      setState(() {
+        estudiantes = fetchedEstudiantes;
+      });
+    } catch (e) {
+      // Handle error
+      print('Error fetching estudiantes: $e');
+    }
+  }
+/* 
+  @override
+  void initState() {
+    super.initState();
+    _fetchEstudiantes();
+  } */
+
+  /*  {
+      'nombre': 'Juan Pérez',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Juan Pérez'
+    },
+    {
+      'nombre': 'María López',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de María López'
+    },
+    {
+      'nombre': 'Carlos García',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Carlos García'
+    },
+    {
+      'nombre': 'Ana Martínez',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Ana Martínez'
+    },
+    {
+      'nombre': 'Luis Rodríguez',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Luis Rodríguez'
+    },
+    {
+      'nombre': 'Sofía Hernández',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Sofía Hernández'
+    },
+    {
+      'nombre': 'Miguel Torres',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Miguel Torres'
+    },
+    {
+      'nombre': 'Laura Gómez',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Laura Gómez'
+    },
+    {
+      'nombre': 'Pedro Díaz',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Pedro Díaz'
+    },
+    {
+      'nombre': 'Lucía Fernández',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Lucía Fernández'
+    },
+  ]; */
 
   final ScrollController _scrollController = ScrollController();
   int _currentPage = 1;
@@ -30,6 +92,7 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
   @override
   void initState() {
     super.initState();
+    _fetchEstudiantes();
   }
 
   void _previousPage() {
@@ -84,14 +147,15 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
       child: Text(
         '$page',
         style: TextStyle(
-          fontWeight: _currentPage == page ? FontWeight.bold : FontWeight.normal,
+          fontWeight:
+              _currentPage == page ? FontWeight.bold : FontWeight.normal,
           color: _currentPage == page ? Color(0xFF1E3984) : Colors.black,
         ),
       ),
     );
   }
 
-  void _showStudentDialog(Map<String, String> estudiante) {
+  void _showStudentDialog(Map<String, dynamic> estudiante) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -100,7 +164,11 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               CircleAvatar(
-                backgroundImage: AssetImage(estudiante['foto']!),
+                backgroundImage: estudiante['foto'] is Uint8List
+                    ? MemoryImage(estudiante['foto'] as Uint8List)
+                    : estudiante['foto'] is String
+                        ? AssetImage(estudiante['foto'] as String)
+                        : null,
                 radius: 50,
               ),
               SizedBox(height: 10),
@@ -121,9 +189,8 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
               children: <Widget>[
                 TextButton(
                   style: TextButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white
-                  ),
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white),
                   child: Text('Mantener'),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -149,13 +216,14 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
     );
   }
 
-  void _showConfirmationDialog(Map<String, String> estudiante) {
+  void _showConfirmationDialog(Map<String, dynamic> estudiante) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirmar eliminación'),
-          content: Text('¿Seguro de que deseas eliminar a ${estudiante['nombre']}?'),
+          content:
+              Text('¿Seguro de que deseas eliminar a ${estudiante['nombre']}?'),
           actions: <Widget>[
             TextButton(
               child: Text('Cancelar'),
@@ -179,7 +247,7 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
   Widget build(BuildContext context) {
     int startIndex = (_currentPage - 1) * _itemsPerPage;
     int endIndex = startIndex + _itemsPerPage;
-    List<Map<String, String>> currentEstudiantes = estudiantes.sublist(
+    List<Map<String, dynamic>> currentEstudiantes = estudiantes.sublist(
       startIndex,
       endIndex > estudiantes.length ? estudiantes.length : endIndex,
     );
@@ -223,8 +291,14 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
                       child: Center(
                         child: ListTile(
                           leading: CircleAvatar(
-                            backgroundImage: AssetImage(currentEstudiantes[index]['foto']!),
-                          ),
+                              backgroundImage: currentEstudiantes[index]['foto']
+                                      is Uint8List
+                                  ? MemoryImage(currentEstudiantes[index]
+                                      ['foto'] as Uint8List)
+                                  : currentEstudiantes[index]['foto'] is String
+                                      ? AssetImage(currentEstudiantes[index]
+                                          ['foto'] as String)
+                                      : null),
                           title: Text(
                             currentEstudiantes[index]['nombre']!,
                             textAlign: TextAlign.center,
@@ -274,4 +348,3 @@ class _EstudiantesScreenState extends State<EstudiantesScreen> {
     super.dispose();
   }
 }
-

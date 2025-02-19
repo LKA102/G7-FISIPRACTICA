@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/services/user_services.dart';
 import '../screens/register_screen.dart';
 import '../screens/reinicio_contraseña_screen.dart';
 import '../screens/home_reclutador_screen.dart';
 import '../screens/HomeEstudianteScreen.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  final int index;
+  const LoginForm(this.index, {super.key});
 
   @override
   State<StatefulWidget> createState() => _LoginFormState();
@@ -16,34 +18,42 @@ class _LoginFormState extends State<LoginForm> {
   late TextEditingController _email;
   late TextEditingController _password;
 
-  /*void _submit() {
+  void _submit() async {
     if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      print('Email: $_email, Password: $_password');
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeReclutadorScreen()),
-      );
-    }
-  }*/
+      final response = await UserServices.login(_email.text, _password.text,
+          widget.index == 0 ? 'Reclutador' : 'Estudiante');
+      if (!mounted) return;
 
-  void _submit() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-
-      String email = _email.text.trim();
-
-      if (email.endsWith("@unmsm.edu.pe")) {
-        // Si el correo es de estudiante, ir a HomeEstudianteScreen
+      if (response.containsKey('token')) {
+        UserServices.setToken(response['token']!);
+        _formKey.currentState!.save();
+        print('Email: $_email, Password: $_password');
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeEstudianteScreen()),
+          MaterialPageRoute(
+            builder: (context) => widget.index == 0
+                ? HomeReclutadorScreen()
+                : HomeEstudianteScreen(),
+          ),
         );
       } else {
-        // Si no, ir a HomeReclutadorScreen
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomeReclutadorScreen()),
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text(
+                  'Error de inicio de sesión. Por favor, verifique sus credenciales.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
         );
       }
     }
@@ -115,7 +125,6 @@ class _LoginFormState extends State<LoginForm> {
                   style: TextStyle(fontSize: 14)),
               TextButton(
                 onPressed: () {
-                  // Navegar a la pantalla de registro
                   Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) => const RegisterScreen()),
