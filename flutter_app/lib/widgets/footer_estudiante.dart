@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../screens/mis_postulaciones_screen.dart'; // Importa la pantalla de Mis Postulaciones
-import '../screens/HomeEstudianteScreen.dart'; // Importa la pantalla de Inicio
 
 class Footer extends StatefulWidget {
   const Footer({super.key});
@@ -12,10 +10,30 @@ class Footer extends StatefulWidget {
 class _FooterState extends State<Footer> {
   int _selectedIndex = 0;
 
+  /*void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }*/
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacementNamed(context, '/homeEstudiante');
+        break;
+      case 1:
+        Navigator.pushReplacementNamed(context, '/misPostulaciones');
+        break;
+      case 2:
+        Navigator.pushReplacementNamed(context, '/chatbot');
+        break;
+      case 3:
+        Navigator.pushReplacementNamed(context, '/perfil');
+        break;
+    }
   }
 
   @override

@@ -1,26 +1,29 @@
-//Punto de entrada de la aplicación
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/splah_screen.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'screens/HomeEstudianteScreen.dart';
+import 'screens/mis_postulaciones_screen.dart';
+//import 'screens/chatbot_screen.dart';
+//import 'screens/perfil_screen.dart';
 
-void main() async {
-  await dotenv.load(fileName: ".env");
+void main() {
+  //runApp(MyApp());
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key}); // Agrega "const"
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1E3984)),
-        useMaterial3: true,
-      ),
-      home:
-          const SplahScreen(), //Lleva donde se define ese widget - primera pantalla en mostrarse
+      debugShowCheckedModeBanner: false,
+      title: 'Mi Aplicación',
+      initialRoute: '/homeEstudiante', // Pantalla inicial
+      routes: {
+        '/homeEstudiante': (context) => HomeEstudianteScreen(),
+        '/misPostulaciones': (context) => MisPostulacionesScreen(),
+        //'/chatbot': (context) => ChatbotScreen(),
+        //'/perfil': (context) => PerfilScreen(),
+      },
     );
   }
 }

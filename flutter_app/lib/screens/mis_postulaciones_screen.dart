@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../widgets/header.dart';
+import '../widgets/footer_estudiante.dart';
 
 class MisPostulacionesScreen extends StatefulWidget {
   const MisPostulacionesScreen({super.key});
@@ -13,21 +15,15 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Mis Postulaciones"),
-        backgroundColor: const Color(0xFF1E3984),
-        centerTitle: true,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(
+            60.0), // Ajusta la altura del Header si es necesario
+        child: Header(), // Agrega el header si lo usas en otras pantallas
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 10),
-          _buildFilter(),
-          const SizedBox(height: 10),
-          Expanded(child: _buildPostulacionesList()),
-          _buildPagination(),
-        ],
+      body: Center(
+        child: Text("Mis Postulaciones"),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
+      bottomNavigationBar: Footer(), // Agregar el footer aquí
     );
   }
 
