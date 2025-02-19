@@ -11,30 +11,30 @@ class MisPostulacionesScreen extends StatefulWidget {
 
 class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
   String _selectedFilter = "En proceso";
+  int _currentPage = 1;
+  final int _totalPages = 5;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: Header(),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60.0),
+        child: const Header(),
       ),
       body: Column(
         children: [
           const SizedBox(height: 10),
           _buildFilter(),
           const SizedBox(height: 10),
-          Expanded(
-              child:
-                  _buildPostulacionesList()), // Uso de Expanded para evitar overflow
+          Expanded(child: _buildPostulacionesList()),
           _buildPagination(),
         ],
       ),
-      bottomNavigationBar: const Footer(), // Se mantiene el footer
+      bottomNavigationBar: const Footer(),
     );
   }
 
-  // Implementación del filtro
+  // Filtro
   Widget _buildFilter() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -59,7 +59,7 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
     );
   }
 
-  // Implementación de la lista de postulaciones
+  // Lista de postulaciones
   Widget _buildPostulacionesList() {
     List<Map<String, dynamic>> postulaciones = [
       {
@@ -99,12 +99,11 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(post["empresa"], style: const TextStyle(fontSize: 14)),
+                Text(post["empresa"]),
                 Text(post["estatus"],
-                    style: const TextStyle(color: Colors.green, fontSize: 14)),
-                Text(post["tiempo"], style: const TextStyle(fontSize: 12)),
-                Text("Candidatos: ${post["candidatos"]}",
-                    style: const TextStyle(fontSize: 12)),
+                    style: const TextStyle(color: Colors.green)),
+                Text(post["tiempo"]),
+                Text("Candidatos: ${post["candidatos"]}"),
               ],
             ),
             trailing: const Icon(Icons.arrow_forward_ios, size: 16),
@@ -117,22 +116,27 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
     );
   }
 
-  // Implementación de la paginación
+  // Paginación (mismo estilo que HomeEstudiante)
   Widget _buildPagination() {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(5, (index) {
+        children: List.generate(_totalPages, (index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: ElevatedButton(
               onPressed: () {
-                print("Página ${index + 1}");
+                setState(() {
+                  _currentPage = index + 1;
+                });
+                print("Página $_currentPage");
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.blue,
+                backgroundColor:
+                    _currentPage == index + 1 ? Colors.blue : Colors.white,
+                foregroundColor:
+                    _currentPage == index + 1 ? Colors.white : Colors.blue,
                 side: const BorderSide(color: Colors.blue),
               ),
               child: Text("${index + 1}"),
