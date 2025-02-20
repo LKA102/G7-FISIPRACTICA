@@ -27,7 +27,7 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
           _buildFilter(),
           const SizedBox(height: 10),
           Expanded(child: _buildPostulacionesList()),
-          _buildPagination(),
+          _buildPaginationControls(),
         ],
       ),
       bottomNavigationBar: const Footer(),
@@ -116,34 +116,35 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
     );
   }
 
-  // Paginación (mismo estilo que HomeEstudiante)
-  Widget _buildPagination() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(_totalPages, (index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _currentPage = index + 1;
-                });
-                print("Página $_currentPage");
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    _currentPage == index + 1 ? Colors.blue : Colors.white,
-                foregroundColor:
-                    _currentPage == index + 1 ? Colors.white : Colors.blue,
-                side: const BorderSide(color: Colors.blue),
-              ),
-              child: Text("${index + 1}"),
-            ),
-          );
-        }),
-      ),
+  // Paginación con flechas (igual a HomeEstudiante)
+  Widget _buildPaginationControls() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: _currentPage > 1
+              ? () {
+                  setState(() {
+                    _currentPage--;
+                  });
+                  print("Página $_currentPage");
+                }
+              : null,
+        ),
+        Text("Página $_currentPage de $_totalPages"),
+        IconButton(
+          icon: const Icon(Icons.arrow_forward),
+          onPressed: _currentPage < _totalPages
+              ? () {
+                  setState(() {
+                    _currentPage++;
+                  });
+                  print("Página $_currentPage");
+                }
+              : null,
+        ),
+      ],
     );
   }
 }
