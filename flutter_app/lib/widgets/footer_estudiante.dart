@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../screens/HomeEstudianteScreen.dart';
+import '../screens/mis_postulaciones_screen.dart';
 
 class Footer extends StatefulWidget {
   const Footer({super.key});
@@ -22,17 +24,19 @@ class _FooterState extends State<Footer> {
 
     switch (index) {
       case 0:
-        Navigator.pushReplacementNamed(context, '/homeEstudiante');
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => HomeEstudianteScreen()));
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, '/misPostulaciones');
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => MisPostulacionesScreen()));
         break;
-      case 2:
-        Navigator.pushReplacementNamed(context, '/chatbot');
-        break;
-      case 3:
-        Navigator.pushReplacementNamed(context, '/perfil');
-        break;
+      // case 2:
+      //   Navigator.pushReplacementNamed(context, '/chatbot');
+      //   break;
+      // case 3:
+      //   Navigator.pushReplacementNamed(context, '/perfil');
+      //   break;
     }
   }
 
