@@ -12,11 +12,6 @@ class Footer extends StatefulWidget {
 class _FooterState extends State<Footer> {
   int _selectedIndex = 0;
 
-  /*void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }*/
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
