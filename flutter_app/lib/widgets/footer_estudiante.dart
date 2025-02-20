@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../screens/HomeEstudianteScreen.dart';
+import '../screens/mis_postulaciones_screen.dart';
 
 class Footer extends StatefulWidget {
   const Footer({super.key});
@@ -14,6 +16,23 @@ class _FooterState extends State<Footer> {
     setState(() {
       _selectedIndex = index;
     });
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => HomeEstudianteScreen()));
+        break;
+      case 1:
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => MisPostulacionesScreen()));
+        break;
+      // case 2:
+      //   Navigator.pushReplacementNamed(context, '/chatbot');
+      //   break;
+      // case 3:
+      //   Navigator.pushReplacementNamed(context, '/perfil');
+      //   break;
+    }
   }
 
   @override
@@ -53,7 +72,7 @@ class _FooterState extends State<Footer> {
           ),
           IconButton(
             icon: Image.asset(
-              'assets/chatbot_icon.png',  
+              'assets/chatbot_icon.png',
               color: _selectedIndex == 2 ? Colors.white : Colors.grey,
             ),
             onPressed: () {
@@ -62,7 +81,7 @@ class _FooterState extends State<Footer> {
           ),
           IconButton(
             icon: Image.asset(
-              'assets/user_icon.png',  
+              'assets/user_icon.png',
               color: _selectedIndex == 3 ? Colors.white : Colors.grey,
             ),
             onPressed: () {
