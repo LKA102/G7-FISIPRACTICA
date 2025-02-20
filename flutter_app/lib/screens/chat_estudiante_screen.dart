@@ -10,22 +10,20 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _messageController = TextEditingController();
-  List<Map<String, dynamic>> _messages = [
-    {
-      "text":
-          "¡Hola! Soy el asistente virtual de FISIPRÁCTICA. ¿Cómo puedo ayudarte hoy?",
-      "isBot": true,
-      "time": "12:31pm"
-    }
+  final TextEditingController _controller = TextEditingController();
+  List<String> messages = [
+    "¡Hola soy el asistente virtual de FISIPRACTICA! ¿Cómo puedo ayudarte hoy?"
+  ];
+  List<String> options = [
+    "1. Primer enunciado",
+    "2. Primer enunciado",
+    "3. Comunicarme con el RR/HH"
   ];
 
-  void _sendMessage(String text) {
-    if (text.trim().isEmpty) return;
-
+  void _sendMessage(String message) {
     setState(() {
-      _messages.add({"text": text, "isBot": false, "time": "Ahora"});
-      _messageController.clear();
+      messages.add(message);
+      _controller.clear();
     });
   }
 
@@ -34,100 +32,109 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-        child: const Header(),
+        child: const Header(), // Se mantiene el header general
       ),
       body: Column(
         children: [
-          _buildChatHeader(),
-          Expanded(child: _buildChatMessages()),
-          _buildChatInput(),
+          _buildChatHeader(), // Ahora está dentro del cuerpo
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(16.0),
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    padding: const EdgeInsets.all(12.0),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[100],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(messages.first,
+                        style: const TextStyle(fontSize: 16)),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                _buildOptions(),
+              ],
+            ),
+          ),
+          _buildMessageInput(),
         ],
       ),
       bottomNavigationBar: const Footer(),
     );
   }
 
-  // Encabezado del chat con nombre y estado
   Widget _buildChatHeader() {
     return Container(
-      padding: const EdgeInsets.all(10),
-      color: Colors.white,
+      padding: const EdgeInsets.all(16.0),
+      color: Colors.blue[900],
       child: Row(
         children: [
           const CircleAvatar(
-            backgroundImage: AssetImage('assets/avatar.png'),
+            backgroundImage: AssetImage('assets/images/user.png'),
           ),
           const SizedBox(width: 10),
-          const Text("Rosmeri Ccanto",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          const Text(
+            "Rosmeri Ccanto",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(width: 5),
-          const Icon(Icons.circle, color: Colors.green, size: 12),
+          const Icon(
+            Icons.circle,
+            color: Colors.green,
+            size: 12,
+          ),
         ],
       ),
     );
   }
 
-  // Cuerpo del chat con mensajes
-  Widget _buildChatMessages() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(10),
-      itemCount: _messages.length,
-      itemBuilder: (context, index) {
-        final message = _messages[index];
-        return Align(
-          alignment:
-              message['isBot'] ? Alignment.centerLeft : Alignment.centerRight,
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: message['isBot'] ? Colors.blue.shade100 : Colors.blue,
-              borderRadius: BorderRadius.circular(10),
+  Widget _buildOptions() {
+    return Column(
+      children: options.map((option) {
+        bool isPrimary = option.contains("3.");
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
+          child: ElevatedButton(
+            onPressed: () => _sendMessage(option),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: isPrimary ? Colors.blue[900] : Colors.white,
+              foregroundColor: isPrimary ? Colors.white : Colors.black,
+              side: BorderSide(color: Colors.blue[900]!),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  message['text'],
-                  style: TextStyle(
-                    color: message['isBot'] ? Colors.black : Colors.white,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    message['time'],
-                    style: const TextStyle(fontSize: 10, color: Colors.grey),
-                  ),
-                )
-              ],
-            ),
+            child: Text(option),
           ),
         );
-      },
+      }).toList(),
     );
   }
 
-  // Caja de entrada de texto
-  Widget _buildChatInput() {
+  Widget _buildMessageInput() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
           Expanded(
             child: TextField(
-              controller: _messageController,
-              decoration: InputDecoration(
-                hintText: "Escribir mensaje...",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
+              controller: _controller,
+              decoration: const InputDecoration(
+                hintText: "Enviar un mensaje...",
+                border: OutlineInputBorder(),
               ),
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.send, color: Colors.blue),
-            onPressed: () => _sendMessage(_messageController.text),
+            icon: const Icon(Icons.send),
+            onPressed: () {
+              if (_controller.text.isNotEmpty) {
+                _sendMessage(_controller.text);
+              }
+            },
           ),
         ],
       ),
