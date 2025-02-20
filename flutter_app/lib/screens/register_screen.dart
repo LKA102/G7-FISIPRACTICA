@@ -181,107 +181,110 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Header(),
-          SizedBox(height: 20),
-          Container(
-            padding: const EdgeInsets.all(30),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Image.asset(
-                    'assets/logo_azul.png',
-                    height: 208,
-                    width: 211,
-                  ),
-                  TextFormField(
-                    controller: _name,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Ej: Juan',
-                      label: Text("Nombres"),
+      resizeToAvoidBottomInset: true, // Esto evitará que el teclado cubra los campos
+      body: SingleChildScrollView( // Esto hace que el contenido sea desplazable
+        child: Column(
+          children: <Widget>[
+            Header(),
+            SizedBox(height: 20),
+            Container(
+              padding: const EdgeInsets.all(30),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Image.asset(
+                      'assets/logo_azul.png',
+                      height: 208,
+                      width: 211,
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa tu nombre';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _lastName,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Ej: Pérez',
-                      label: Text("Apellidos"),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa tus apellidos';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _emailOrPhone,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Ej: pepito@unmsm.edu.pe o 987654321',
-                      label: Text("Correo electrónico o teléfono"),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa tu correo o teléfono';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _password,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Ej: 123456',
-                      label: Text("Contraseña"),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor ingresa una contraseña';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 15),
-                  ElevatedButton(
-                    onPressed: () {
-                      _submit();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF1E3984),
-                      foregroundColor: Colors.white,
-                      textStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+                    TextFormField(
+                      controller: _name,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Ej: Juan',
+                        label: Text("Nombres"),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      shadowColor: Colors.black.withAlpha(128),
-                      elevation: 10,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingresa tu nombre';
+                        }
+                        return null;
+                      },
                     ),
-                    child: Text('Registrarse'),
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _lastName,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Ej: Pérez',
+                        label: Text("Apellidos"),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingresa tus apellidos';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _emailOrPhone,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Ej: pepito@unmsm.edu.pe o 987654321',
+                        label: Text("Correo electrónico o teléfono"),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingresa tu correo o teléfono';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _password,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Ej: 123456',
+                        label: Text("Contraseña"),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingresa una contraseña';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 15),
+                    ElevatedButton(
+                      onPressed: () {
+                        _submit();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF1E3984),
+                        foregroundColor: Colors.white,
+                        textStyle: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        shadowColor: Colors.black.withAlpha(128),
+                        elevation: 10,
+                      ),
+                      child: Text('Registrarse'),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

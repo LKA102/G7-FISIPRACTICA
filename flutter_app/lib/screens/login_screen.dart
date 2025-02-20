@@ -8,16 +8,19 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Header(),
-          SizedBox(height: 20),
-          LoginForm(1),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-          ),
-        ],
+      resizeToAvoidBottomInset: true, 
+      body: SingleChildScrollView(  
+        child: Column(
+          children: <Widget>[
+            Header(),
+            SizedBox(height: 20),
+            LoginForm(1),  // El formulario de login
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+            ),
+          ],
+        ),
       ),
     );
   }
