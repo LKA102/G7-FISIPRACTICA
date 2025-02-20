@@ -3,6 +3,7 @@ import '../screens/HomeEstudianteScreen.dart';
 import '../screens/mis_postulaciones_screen.dart';
 import '../screens/chat_estudiante_screen.dart';
 import '../screens/perfil_estudiante_screen.dart';
+//import '../screens/perfil_estudiante_screen.dart';
 
 class Footer extends StatefulWidget {
   const Footer({super.key});
