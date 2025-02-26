@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import '../screens/HomeEstudianteScreen.dart';
+import '../screens/mis_postulaciones_screen.dart';
+import '../screens/chat_estudiante_screen.dart';
+import '../screens/perfil_estudiante_screen.dart';
+//import '../screens/perfil_estudiante_screen.dart';
 
 class Footer extends StatefulWidget {
   const Footer({super.key});
@@ -14,6 +19,25 @@ class _FooterState extends State<Footer> {
     setState(() {
       _selectedIndex = index;
     });
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => HomeEstudianteScreen()));
+        break;
+      case 1:
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => MisPostulacionesScreen()));
+        break;
+      case 2:
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => ChatScreen()));
+        break;
+      case 3:
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => PerfilEstudianteScreen()));
+        break;
+    }
   }
 
   @override
@@ -53,7 +77,7 @@ class _FooterState extends State<Footer> {
           ),
           IconButton(
             icon: Image.asset(
-              'assets/chatbot_icon.png',  
+              'assets/chatbot_icon.png',
               color: _selectedIndex == 2 ? Colors.white : Colors.grey,
             ),
             onPressed: () {
@@ -62,7 +86,7 @@ class _FooterState extends State<Footer> {
           ),
           IconButton(
             icon: Image.asset(
-              'assets/user_icon.png',  
+              'assets/user_icon.png',
               color: _selectedIndex == 3 ? Colors.white : Colors.grey,
             ),
             onPressed: () {

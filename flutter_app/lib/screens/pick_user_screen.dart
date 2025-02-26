@@ -16,12 +16,13 @@ class _PickUserScreen extends State<PickUserScreen> {
     if (index == 0) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => LoginReclutadorScreen()),
+        MaterialPageRoute(
+            builder: (context) => LoginReclutadorScreen()), //Reclutador
       );
     } else if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
+        MaterialPageRoute(builder: (context) => LoginScreen()), //Estudiante
       );
     }
   }

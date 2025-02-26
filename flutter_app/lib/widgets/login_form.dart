@@ -3,6 +3,7 @@ import 'package:flutter_app/services/user_services.dart';
 import '../screens/register_screen.dart';
 import '../screens/reinicio_contraseña_screen.dart';
 import '../screens/home_reclutador_screen.dart';
+import '../screens/HomeEstudianteScreen.dart';
 
 class LoginForm extends StatefulWidget {
   final int index;
@@ -32,12 +33,10 @@ class _LoginFormState extends State<LoginForm> {
           MaterialPageRoute(
             builder: (context) => widget.index == 0
                 ? HomeReclutadorScreen()
-                : Container(), // Cambiar a HomeEstudianteScreen() cuando este disponible :v
+                : HomeEstudianteScreen(),
           ),
         );
       } else {
-        // Manejar error de inicio de sesión
-        print('Error de inicio de sesión');
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -126,7 +125,6 @@ class _LoginFormState extends State<LoginForm> {
                   style: TextStyle(fontSize: 14)),
               TextButton(
                 onPressed: () {
-                  // Navegar a la pantalla de registro
                   Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) => const RegisterScreen()),
