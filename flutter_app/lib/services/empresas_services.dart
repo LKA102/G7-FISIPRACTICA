@@ -91,4 +91,22 @@ class EmpresaServices {
       rethrow;
     }
   }
+
+  static Future<void> deleteEmpresa(int id) async {
+    try {
+      String? token = await UserServices.getToken();
+      Response response = await dio.delete(
+        '${dotenv.env['API_DOMAIN']}/company/$id',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      logger.d(response);
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
 }

@@ -15,7 +15,7 @@ class AdminEmpresaScreen extends StatefulWidget {
 }
 
 class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
-  /* final  */ List<Map<String, dynamic>> empresas = [
+  List<Map<String, dynamic>> empresas = [
     /* 
     {'nombre': 'Banco de Crédito del Perú', 'foto': 'assets/bcp.png'},
     {'nombre': 'Interbank', 'foto': 'assets/interbank.png'},
@@ -34,6 +34,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
     {'nombre': 'Tottus', 'foto': 'assets/tottus.png'},
    */
   ];
+
   @override
   void initState() {
     super.initState();
@@ -154,7 +155,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                 backgroundColor: Colors.transparent,
                 backgroundImage: empresa['foto'] != null
                     ? MemoryImage(empresa['foto'] as Uint8List)
-                    : AssetImage('assets/empresa.png'),
+                    : const AssetImage('assets/empresa.png') as ImageProvider,
               ),
               const SizedBox(height: 10),
               Text(
@@ -175,7 +176,14 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                     foregroundColor: Colors.white,
                   ),
                   child: const Text('Aceptar'),
-                  onPressed: () {
+                  onPressed: () async {
+                    await EmpresaServices.deleteEmpresa(empresa['id']);
+                    if (mounted) {
+                      setState(() {
+                        _fetchEmpresas();
+                        _currentPage = 1;
+                      });
+                    }
                     Navigator.of(context).pop();
                     // Aquí puedes agregar la lógica para eliminar la empresa de la lista
                   },
@@ -279,7 +287,8 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                                     currentEmpresas[index]['foto'] != null
                                         ? MemoryImage(currentEmpresas[index]
                                             ['foto'] as Uint8List)
-                                        : AssetImage('assets/empresa.png')),
+                                        : const AssetImage('assets/empresa.png')
+                                            as ImageProvider),
                             title: Text(
                               currentEmpresas[index]['nombre']!,
                               textAlign: TextAlign.center,
