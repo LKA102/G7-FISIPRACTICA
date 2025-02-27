@@ -30,6 +30,27 @@ class UserServices {
     }
   }
 
+  static Future<void> logout() async {
+    try {
+      String? token = await getToken();
+      String email = (await getUser())['email'];
+      /* Response response =  */ await dio.post(
+        '${dotenv.env['API_DOMAIN']}/auth/logout',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+        data: {'email': email},
+      );
+
+      await SessionManager().destroy();
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
   static String? _token;
 
   static void setToken(String token) {
@@ -53,6 +74,9 @@ class UserServices {
   static Future<Map<String, dynamic>> getUser() async {
     try {
       final token = await SessionManager().get('token');
+      if (token == null) {
+        return {};
+      }
       final user = JwtDecoder.decode(token);
       return user;
     } catch (e) {

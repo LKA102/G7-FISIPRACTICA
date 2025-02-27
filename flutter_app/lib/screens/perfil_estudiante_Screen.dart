@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/splah_screen.dart';
+import 'package:flutter_app/services/user_services.dart';
 import '../widgets/header.dart';
 import '../widgets/footer_estudiante.dart';
 
@@ -77,6 +79,19 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
               _buildButton("Cancelar", Colors.red),
               _buildButton("Guardar", Colors.blue[900]!),
             ],
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              UserServices.logout();
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => SplahScreen()),
+                  (route) => false);
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+            child: const Text("Cerrar Sesión",
+                style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
