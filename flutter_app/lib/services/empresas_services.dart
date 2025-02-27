@@ -10,7 +10,7 @@ final dio = Dio();
 class EmpresaServices {
   static Future<List<Map<String, dynamic>>> getEmpresas() async {
     try {
-      String? token = UserServices.getToken();
+      String? token = await UserServices.getToken();
       Response response = await dio.get(
         '${dotenv.env['API_DOMAIN']}/company',
         options: Options(

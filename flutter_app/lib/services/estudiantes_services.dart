@@ -16,7 +16,7 @@ class EstudiantesServices {
       final password = body['password'];
       final firstName = body['apellidos'];
       final lastName = body['nombres'];
-      String? token = UserServices.getToken();
+      String? token = await UserServices.getToken();
       Response response = await dio.post(
         '${dotenv.env['API_DOMAIN']}/student',
         options: Options(
@@ -42,7 +42,7 @@ class EstudiantesServices {
 
   static Future<List<Map<String, dynamic>>> getEstudiantes() async {
     try {
-      String? token = UserServices.getToken();
+      String? token = await UserServices.getToken();
       Response response = await dio.get(
         '${dotenv.env['API_DOMAIN']}/student',
         options: Options(

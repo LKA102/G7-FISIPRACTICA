@@ -17,7 +17,7 @@ class ReclutadoresServices {
       final companyId = body['empresa'];
       final description = body['descripcion'];
       final fechaInicio = body['fecha_inicio'];
-      String? token = UserServices.getToken();
+      String? token = await UserServices.getToken();
       Response response = await dio.post(
         '${dotenv.env['API_DOMAIN']}/recruiter',
         options: Options(
@@ -45,7 +45,7 @@ class ReclutadoresServices {
   }
   static Future<List<Map<String, String>>> getReclutadores() async {
     try {
-      String? token = UserServices.getToken();
+      String? token = await UserServices.getToken();
       Response response = await dio.get(
         '${dotenv.env['API_DOMAIN']}/recruiter',
         options: Options(
