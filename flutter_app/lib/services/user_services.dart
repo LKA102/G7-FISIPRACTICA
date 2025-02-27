@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -18,7 +20,7 @@ class UserServices {
           'role': role,
         },
       );
-
+      await SessionManager().set('token', response.data['access_token']);
       return {
         'token': response.data['access_token'],
       };
@@ -34,7 +36,28 @@ class UserServices {
     _token = token;
   }
 
-  static String? getToken() {
-    return _token;
+  static Future<String?> getToken() async {
+    return await SessionManager().get('token');
+  }
+
+  static void setUser() async {
+    try {
+      final user = JwtDecoder.decode(_token!);
+      await SessionManager().set('user', user);
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
+  static Future<Map<String, dynamic>> getUser() async {
+    try {
+      final token = await SessionManager().get('token');
+      final user = JwtDecoder.decode(token);
+      return user;
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
   }
 }
