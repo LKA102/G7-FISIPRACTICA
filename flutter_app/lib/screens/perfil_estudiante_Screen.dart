@@ -14,21 +14,23 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return /* Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: const Header(),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: _currentPage == 1 ? _buildPage1() : _buildPage2(),
-          ),
-          _buildPagination(),
-        ],
-      ),
+      body:  */
+        Column(
+      children: [
+        Expanded(
+          child: _currentPage == 1 ? _buildPage1() : _buildPage2(),
+        ),
+        _buildPagination(),
+      ],
+    ) /* ,
       bottomNavigationBar: const Footer(),
-    );
+    ) */
+        ;
   }
 
   Widget _buildPage1() {

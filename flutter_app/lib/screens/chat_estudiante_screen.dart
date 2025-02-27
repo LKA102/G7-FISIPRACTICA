@@ -29,40 +29,42 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return /* Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: const Header(), // Se mantiene el header general
       ),
-      body: Column(
-        children: [
-          _buildChatHeader(), // Ahora está dentro del cuerpo
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16.0),
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    padding: const EdgeInsets.all(12.0),
-                    decoration: BoxDecoration(
-                      color: Colors.blue[100],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(messages.first,
-                        style: const TextStyle(fontSize: 16)),
+      body:  */
+        Column(
+      children: [
+        _buildChatHeader(), // Ahora está dentro del cuerpo
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.all(16.0),
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                    color: Colors.blue[100],
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  child: Text(messages.first,
+                      style: const TextStyle(fontSize: 16)),
                 ),
-                const SizedBox(height: 10),
-                _buildOptions(),
-              ],
-            ),
+              ),
+              const SizedBox(height: 10),
+              _buildOptions(),
+            ],
           ),
-          _buildMessageInput(),
-        ],
-      ),
+        ),
+        _buildMessageInput(),
+      ],
+    ) /* ,
       bottomNavigationBar: const Footer(),
-    );
+    ) */
+        ;
   }
 
   Widget _buildChatHeader() {

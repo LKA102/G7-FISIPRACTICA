@@ -16,22 +16,24 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return /* Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: const Header(),
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 10),
-          _buildFilter(),
-          const SizedBox(height: 10),
-          Expanded(child: _buildPostulacionesList()),
-          _buildPaginationControls(),
-        ],
-      ),
+      body:  */
+        Column(
+      children: [
+        const SizedBox(height: 10),
+        _buildFilter(),
+        const SizedBox(height: 10),
+        Expanded(child: _buildPostulacionesList()),
+        _buildPaginationControls(),
+      ],
+    ) /* ,
       bottomNavigationBar: const Footer(),
-    );
+    ) */
+        ;
   }
 
   // Filtro

@@ -67,132 +67,134 @@ class _HomeEstudianteScreenState extends State<HomeEstudianteScreen> {
         .take(_itemsPorPagina)
         .toList();
 
-    return Scaffold(
+    return /* Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
         child: Column(
-          children: const [Header()],
+          children: const [Header(isHome: true)],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              decoration: const InputDecoration(
-                labelText: "Buscar puestos de trabajo",
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.search),
+      body:  */
+        Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextField(
+            decoration: const InputDecoration(
+              labelText: "Buscar puestos de trabajo",
+              border: OutlineInputBorder(),
+              prefixIcon: Icon(Icons.search),
+            ),
+            onChanged: (value) {
+              setState(() {
+                _searchQuery = value;
+              });
+            },
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: DropdownButtonFormField<String>(
+                  decoration:
+                      const InputDecoration(border: OutlineInputBorder()),
+                  value: _selectedEmpresa,
+                  items: ["Todas", "BCP", "Interbank", "MiBanco", "Pacífico"]
+                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedEmpresa = value!;
+                    });
+                  },
+                ),
               ),
-              onChanged: (value) {
-                setState(() {
-                  _searchQuery = value;
-                });
+              const SizedBox(width: 10),
+              Expanded(
+                child: DropdownButtonFormField<String>(
+                  decoration:
+                      const InputDecoration(border: OutlineInputBorder()),
+                  value: _selectedRol,
+                  items: [
+                    "Todos",
+                    "Desarrollador",
+                    "Analista",
+                    "Ciberseguridad"
+                  ]
+                      .map((r) => DropdownMenuItem(value: r, child: Text(r)))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedRol = value!;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: ListView.builder(
+              itemCount: vacantesPagina.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  margin: const EdgeInsets.symmetric(vertical: 8.0),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: const BorderSide(color: Colors.grey, width: 2)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(vacantesPagina[index]["titulo"]!,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 4),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(vacantesPagina[index]["empresa"]!,
+                                style: const TextStyle(color: Colors.blue)),
+                            const Icon(Icons.business, color: Colors.blue),
+                          ],
+                        ),
+                        //const Divider(dashed: true),
+                        const DashedLine(),
+                        Text(vacantesPagina[index]["descripcion"]!),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(vacantesPagina[index]["ubicacion"]!),
+                            Text("${vacantesPagina[index]["disponibilidad"]}",
+                                style: const TextStyle(color: Colors.red)),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue),
+                          child: const Text("Ver Detalle",
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
             ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
-                    value: _selectedEmpresa,
-                    items: ["Todas", "BCP", "Interbank", "MiBanco", "Pacífico"]
-                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedEmpresa = value!;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
-                    value: _selectedRol,
-                    items: [
-                      "Todos",
-                      "Desarrollador",
-                      "Analista",
-                      "Ciberseguridad"
-                    ]
-                        .map((r) => DropdownMenuItem(value: r, child: Text(r)))
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedRol = value!;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: vacantesPagina.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 8.0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: const BorderSide(color: Colors.grey, width: 2)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(vacantesPagina[index]["titulo"]!,
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 4),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(vacantesPagina[index]["empresa"]!,
-                                  style: const TextStyle(color: Colors.blue)),
-                              const Icon(Icons.business, color: Colors.blue),
-                            ],
-                          ),
-                          //const Divider(dashed: true),
-                          const DashedLine(),
-                          Text(vacantesPagina[index]["descripcion"]!),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(vacantesPagina[index]["ubicacion"]!),
-                              Text("${vacantesPagina[index]["disponibilidad"]}",
-                                  style: const TextStyle(color: Colors.red)),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue),
-                            child: const Text("Ver Detalle",
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            _buildPaginationControls(totalPaginas),
-          ],
-        ),
+          ),
+          _buildPaginationControls(totalPaginas),
+        ],
       ),
+    ) /* ,
       //bottomNavigationBar: const FooterEstudiante(),
       bottomNavigationBar: const Footer(),
-    );
+    )*/
+        ;
   }
 
   Widget _buildPaginationControls(int totalPaginas) {
