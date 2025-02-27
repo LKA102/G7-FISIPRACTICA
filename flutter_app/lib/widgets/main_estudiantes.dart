@@ -20,7 +20,7 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
     });
   }
 
-  final List _pages = [
+  final List<Widget> _pages = [
     HomeEstudianteScreen(),
     MisPostulacionesScreen(),
     ChatScreen(),
@@ -37,7 +37,10 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
           children: const [Header()],
         ),
       ),
-      body: _pages[currentIndex],
+      body: IndexedStack(
+        index: currentIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
         items: [
@@ -47,20 +50,17 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
             backgroundColor: colors.onPrimaryContainer,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.post_add),
-            label: 'Mis Postulaciones',
-            backgroundColor: colors.onSecondaryContainer
-          ),
+              icon: Icon(Icons.post_add),
+              label: 'Mis Postulaciones',
+              backgroundColor: colors.onSecondaryContainer),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
-            backgroundColor: colors.onTertiaryContainer
-          ),
+              icon: Icon(Icons.chat),
+              label: 'Chat',
+              backgroundColor: colors.onTertiaryContainer),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-            backgroundColor: colors.onPrimaryFixedVariant
-          ),
+              icon: Icon(Icons.person),
+              label: 'Perfil',
+              backgroundColor: colors.onPrimaryFixedVariant),
         ],
         currentIndex: currentIndex,
         selectedItemColor: Colors.white,
