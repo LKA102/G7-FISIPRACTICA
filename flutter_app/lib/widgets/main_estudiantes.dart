@@ -34,7 +34,7 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
         child: Column(
-          children: const [Header()],
+          children: const [Header(isHome: true)],
         ),
       ),
       body: IndexedStack(
@@ -47,20 +47,20 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Inicio',
-            backgroundColor: colors.onPrimaryContainer,
+            backgroundColor: Color(0xFF1E3984),
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.post_add),
               label: 'Mis Postulaciones',
-              backgroundColor: colors.onSecondaryContainer),
+              backgroundColor: Color(0xFF1E3984)),
           BottomNavigationBarItem(
               icon: Icon(Icons.chat),
               label: 'Chat',
-              backgroundColor: colors.onTertiaryContainer),
+              backgroundColor: Color(0xFF1E3984)),
           BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: 'Perfil',
-              backgroundColor: colors.onPrimaryFixedVariant),
+              backgroundColor: Color(0xFF1E3984)),
         ],
         currentIndex: currentIndex,
         selectedItemColor: Colors.white,
