@@ -58,7 +58,33 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final colors = Theme.of(context).colorScheme;
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: AppBar(
+          backgroundColor: colors.surface,
+          elevation: 0,
+          actions: [
+            GestureDetector(
+              onTap: () => _showLoginDialog(context),
+              child: Image.asset(
+                'assets/logo.png',
+                height: 60,
+              ),
+            ),
+          ],
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Color(0xFF1E3984),
+              size: 40.0,
+            ),
+            onPressed: () {
+              if (!isHome) Navigator.pop(context);
+            },
+          ),
+        ));
+    /* Container(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -91,6 +117,6 @@ class Header extends StatelessWidget {
               )),
         ],
       ),
-    );
+    ); */
   }
 }
