@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/admin_login_form.dart';
 
 class Header extends StatelessWidget {
-  const Header({super.key});
+  final bool isHome;
+  const Header({super.key, this.isHome = false});
 
   void _showLoginDialog(BuildContext context) {
     showDialog(
@@ -79,16 +80,15 @@ class Header extends StatelessWidget {
               size: 40.0,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              if (!isHome) Navigator.pop(context);
             },
           ),
           GestureDetector(
-            onTap: () => _showLoginDialog(context),
-            child: Image.asset(
-              'assets/logo.png',
-              height: 60,
-            )
-          ),
+              onTap: () => _showLoginDialog(context),
+              child: Image.asset(
+                'assets/logo.png',
+                height: 60,
+              )),
         ],
       ),
     );

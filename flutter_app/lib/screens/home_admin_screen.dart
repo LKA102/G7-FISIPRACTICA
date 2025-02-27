@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Header(),
+          Header(isHome: true),
           Expanded(
             child: Center(
               child: Column(
