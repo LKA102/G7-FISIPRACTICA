@@ -28,13 +28,14 @@ class _LoginFormState extends State<LoginForm> {
         UserServices.setToken(response['token']!);
         _formKey.currentState!.save();
         print('Email: $_email, Password: $_password');
-        Navigator.pushReplacement(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => widget.index == 0
                 ? HomeReclutadorScreen()
                 : HomeEstudianteScreen(),
           ),
+          (Route<dynamic> route) => false,
         );
       } else {
         showDialog(
