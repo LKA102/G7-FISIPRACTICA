@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/services/empresas_services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../widgets/footer.dart';
@@ -22,6 +23,7 @@ class _CrearEmpresaScreenState extends State<CrearEmpresaScreen> {
   late TextEditingController _description;
   late TextEditingController _website;
   late TextEditingController _location;
+  Color _selectedColor = Colors.blue; // Color seleccionado
 
   @override
   void initState() {
@@ -95,6 +97,7 @@ class _CrearEmpresaScreenState extends State<CrearEmpresaScreen> {
       'description': _description.text,
       'website': _website.text,
       'location': _location.text,
+      'color': _selectedColor // Guardar el color seleccionado
     };
     try {
       final response = await EmpresaServices.registerEmpresa(body, file);
@@ -158,6 +161,37 @@ class _CrearEmpresaScreenState extends State<CrearEmpresaScreen> {
         },
       );
     }
+  }
+
+  void _showColorPickerDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Selecciona un color'),
+          content: SingleChildScrollView(
+            child: ColorPicker(
+              pickerColor: _selectedColor,
+              onColorChanged: (color) {
+                setState(() {
+                  _selectedColor = color;
+                });
+              },
+              showLabel: true,
+              pickerAreaHeightPercent: 0.8,
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              child: const Text('Seleccionar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -231,7 +265,7 @@ class _CrearEmpresaScreenState extends State<CrearEmpresaScreen> {
                         fillColor: Colors.grey[200],
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextField(
                       controller: _description,
                       maxLines: 3,
@@ -242,6 +276,72 @@ class _CrearEmpresaScreenState extends State<CrearEmpresaScreen> {
                         border: OutlineInputBorder(),
                       ),
                     ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: _address,
+                      decoration: InputDecoration(
+                        labelText: 'Dirección',
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: _website,
+                      decoration: InputDecoration(
+                        labelText: 'Sitio Web',
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: _location,
+                      decoration: InputDecoration(
+                        labelText: 'Ubicación',
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    // Botón para seleccionar color
+                    Container(
+                      /* 
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(
+                          color: const Color.fromARGB(255, 77, 77, 77),
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(5),
+                      ), */
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const Text(
+                            'Color Representativo:',
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: _showColorPickerDialog,
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: _selectedColor,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ])),
           const SizedBox(height: 20),
           // Alineación de los botones "Guardar" y "Cancelar"

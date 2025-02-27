@@ -57,6 +57,7 @@ class EmpresaServices {
       final description = body['description'];
       final website = body['website'];
       final location = body['location'];
+      final color = body['color'];
       String? token = await UserServices.getToken();
       logger.e('Aasdfsdf ${photo}');
       Response response = await dio.post(
@@ -73,6 +74,7 @@ class EmpresaServices {
           'description': description,
           'website': website,
           'location': location,
+          'color': color,
           'photo': photo != null
               ? await MultipartFile.fromFile(photo.path,
                   filename: photo.path.split('/').last)
