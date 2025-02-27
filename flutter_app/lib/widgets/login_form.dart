@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/services/user_services.dart';
+import 'package:flutter_app/widgets/main_estudiantes.dart';
 import '../screens/register_screen.dart';
 import '../screens/reinicio_contraseña_screen.dart';
 import '../screens/home_reclutador_screen.dart';
@@ -33,7 +34,7 @@ class _LoginFormState extends State<LoginForm> {
           MaterialPageRoute(
             builder: (context) => widget.index == 0
                 ? HomeReclutadorScreen()
-                : HomeEstudianteScreen(),
+                : MainEstudiantes(),
           ),
           (Route<dynamic> route) => false,
         );
