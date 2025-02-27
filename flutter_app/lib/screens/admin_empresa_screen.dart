@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'crear_empresa_screen.dart'; // Importamos la pantalla donde se creará la empresa
-import '../widgets/header.dart';
+import 'package:flutter_app/services/empresas_services.dart';
+
 import '../widgets/footer.dart';
+import '../widgets/header.dart';
+import 'crear_empresa_screen.dart'; // Importamos la pantalla donde se creará la empresa
 
 class AdminEmpresaScreen extends StatefulWidget {
   const AdminEmpresaScreen({super.key});
@@ -11,7 +15,8 @@ class AdminEmpresaScreen extends StatefulWidget {
 }
 
 class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
-  final List<Map<String, String>> empresas = [
+  /* final  */ List<Map<String, dynamic>> empresas = [
+    /* 
     {'nombre': 'Banco de Crédito del Perú', 'foto': 'assets/bcp.png'},
     {'nombre': 'Interbank', 'foto': 'assets/interbank.png'},
     {'nombre': 'BBVA', 'foto': 'assets/bbva.png'},
@@ -27,7 +32,22 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
     {'nombre': 'Claro Perú', 'foto': 'assets/claro.png'},
     {'nombre': 'Inca Kola', 'foto': 'assets/inca.jpg'},
     {'nombre': 'Tottus', 'foto': 'assets/tottus.png'},
+   */
   ];
+  @override
+  void initState() {
+    super.initState();
+    _fetchEmpresas();
+  }
+
+  Future<void> _fetchEmpresas() async {
+    List<Map<String, dynamic>> fetchedEmpresas =
+        await EmpresaServices.getEmpresas();
+    setState(() {
+      empresas = fetchedEmpresas;
+      print(empresas);
+    });
+  }
 
   final ScrollController _scrollController = ScrollController();
   int _currentPage = 1;
@@ -50,10 +70,11 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
     });
   }
 
-  List<Map<String, String>> get _filteredEmpresas {
+  List<Map<String, dynamic>> get _filteredEmpresas {
     return empresas
-        .where((empresa) =>
-            empresa['nombre']!.toLowerCase().contains(_searchQuery.toLowerCase()))
+        .where((empresa) => empresa['nombre']!
+            .toLowerCase()
+            .contains(_searchQuery.toLowerCase()))
         .toList();
   }
 
@@ -95,7 +116,8 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CrearEmpresaScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => CrearEmpresaScreen()),
                     );
                   },
                 ),
@@ -119,7 +141,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
   }
 
   // Función para mostrar el cuadro de confirmación de eliminar empresa
-  void _showDeleteConfirmationDialog(Map<String, String> empresa) {
+  void _showDeleteConfirmationDialog(Map<String, dynamic> empresa) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -130,13 +152,16 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
               CircleAvatar(
                 radius: 40,
                 backgroundColor: Colors.transparent,
-                backgroundImage: AssetImage(empresa['foto']!),
+                backgroundImage: empresa['foto'] != null
+                    ? MemoryImage(empresa['foto'] as Uint8List)
+                    : AssetImage('assets/empresa.png'),
               ),
               const SizedBox(height: 10),
               Text(
                 '¿Deseas eliminar a ${empresa['nombre']}?',
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -178,7 +203,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
   Widget build(BuildContext context) {
     int startIndex = (_currentPage - 1) * _itemsPerPage;
     int endIndex = startIndex + _itemsPerPage;
-    List<Map<String, String>> currentEmpresas = _filteredEmpresas.sublist(
+    List<Map<String, dynamic>> currentEmpresas = _filteredEmpresas.sublist(
       startIndex,
       endIndex > _filteredEmpresas.length ? _filteredEmpresas.length : endIndex,
     );
@@ -203,7 +228,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
               ),
             ),
           ),
-          
+
           // Buscador de empresas
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -221,7 +246,8 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                 border: const OutlineInputBorder(),
                 prefixIcon: const Icon(Icons.search),
                 focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Color.fromARGB(255, 155, 194, 204)),
+                  borderSide:
+                      BorderSide(color: Color.fromARGB(255, 155, 194, 204)),
                 ),
               ),
             ),
@@ -248,9 +274,12 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                         child: Center(
                           child: ListTile(
                             leading: CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              backgroundImage: AssetImage(currentEmpresas[index]['foto']!),
-                            ),
+                                backgroundColor: Colors.transparent,
+                                backgroundImage:
+                                    currentEmpresas[index]['foto'] != null
+                                        ? MemoryImage(currentEmpresas[index]
+                                            ['foto'] as Uint8List)
+                                        : AssetImage('assets/empresa.png')),
                             title: Text(
                               currentEmpresas[index]['nombre']!,
                               textAlign: TextAlign.center,
@@ -268,7 +297,7 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
               },
             ),
           ),
-          
+
           // Paginación
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -314,7 +343,8 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 110.0, right: 15.0),
         child: FloatingActionButton(
-          onPressed: _showAddConfirmationDialog, // Mostrar cuadro de agregar empresa
+          onPressed:
+              _showAddConfirmationDialog, // Mostrar cuadro de agregar empresa
           backgroundColor: const Color(0xFF005BAC),
           child: const Icon(Icons.add),
           elevation: 10,

@@ -1,13 +1,39 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
+import 'package:flutter_app/services/empresas_services.dart';
+import 'package:image_picker/image_picker.dart';
+
 import '../widgets/footer.dart';
+import '../widgets/header.dart';
 import 'admin_empresa_screen.dart'; // Asegúrate de importar la pantalla donde deseas regresar.
 
-class CrearEmpresaScreen extends StatelessWidget {
+class CrearEmpresaScreen extends StatefulWidget {
   const CrearEmpresaScreen({super.key});
 
-  // Función para mostrar el cuadro de confirmación
-  void _showConfirmationDialog(BuildContext context) {
+  @override
+  State<CrearEmpresaScreen> createState() => _CrearEmpresaScreenState();
+}
+
+class _CrearEmpresaScreenState extends State<CrearEmpresaScreen> {
+  File? file;
+  late TextEditingController _name;
+  late TextEditingController _address;
+  late TextEditingController _description;
+  late TextEditingController _website;
+  late TextEditingController _location;
+
+  @override
+  void initState() {
+    super.initState();
+    _name = TextEditingController();
+    _address = TextEditingController();
+    _description = TextEditingController();
+    _website = TextEditingController();
+    _location = TextEditingController();
+  }
+
+  void _showSuccessDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -40,7 +66,8 @@ class CrearEmpresaScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue, // Color azul del botón
                   minimumSize: Size(180, 50), // Tamaño adecuado para el botón
-                  textStyle: const TextStyle(fontSize: 18), // Ajuste de tamaño de texto
+                  textStyle: const TextStyle(
+                      fontSize: 18), // Ajuste de tamaño de texto
                 ),
                 onPressed: () {
                   // Regresar a la pantalla de AdminEmpresaScreen
@@ -58,6 +85,79 @@ class CrearEmpresaScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  // Función para mostrar el cuadro de confirmación
+  void _showConfirmationDialog() async {
+    final body = {
+      'name': _name.text,
+      'address': _address.text,
+      'description': _description.text,
+      'website': _website.text,
+      'location': _location.text,
+    };
+    try {
+      final response = await EmpresaServices.registerEmpresa(body, file);
+      print(response);
+      if (mounted) {
+        _showSuccessDialog();
+      }
+    } catch (e) {
+      print(e);
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            title: Column(
+              children: <Widget>[
+                Icon(
+                  Icons.error,
+                  color: Colors.red, // Color del ícono
+                  size: 60, // Tamaño del ícono ajustado
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Ha ocurrido un error',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22, // Aumento del tamaño del texto
+                    color: Colors.red, // Texto en rojo
+                  ),
+                ),
+              ],
+            ),
+            content: const Text(
+              'Por favor, intenta de nuevo.',
+              style: TextStyle(
+                fontSize: 18, // Aumento del tamaño del texto
+              ),
+            ),
+            actions: <Widget>[
+              // Botón "Cerrar"
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red, // Color rojo del botón
+                    minimumSize: Size(180, 50), // Tamaño adecuado para el botón
+                    textStyle: const TextStyle(
+                        fontSize: 18), // Ajuste de tamaño de texto
+                  ),
+                  onPressed: () {
+                    // Cerrar la ventana emergente
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cerrar'),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -91,25 +191,58 @@ class CrearEmpresaScreen extends StatelessWidget {
                 width: 2, // Grosor del borde
               ),
             ),
-            child: IconButton(
-              icon: const Icon(Icons.camera_alt, size: 40),
-              onPressed: () {
-                // Agregar funcionalidad para elegir una foto de empresa
-              },
-            ),
+            child: file != null
+                ? CircleAvatar(
+                    radius: 40,
+                    backgroundImage: FileImage(file!),
+                  )
+                : IconButton(
+                    icon: const Icon(Icons.camera_alt, size: 40),
+                    onPressed: () async {
+                      final picker = ImagePicker();
+                      final result = await picker.pickImage(
+                        source: ImageSource.gallery,
+                      );
+                      if (result != null) {
+                        // Archivo seleccionado
+                        setState(() {
+                          file = File(result.path);
+                        });
+                        print('Archivo seleccionado: $file');
+                      } else {
+                        // El usuario canceló la selección
+                        print('No se seleccionó ningún archivo');
+                      }
+                    },
+                  ),
           ),
           const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: 'Nombre de la Empresa',
-                border: const OutlineInputBorder(),
-                filled: true,
-                fillColor: Colors.grey[200],
-              ),
-            ),
-          ),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      controller: _name,
+                      decoration: InputDecoration(
+                        labelText: 'Nombre de la Empresa',
+                        border: const OutlineInputBorder(),
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    TextField(
+                      controller: _description,
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        labelText: 'Descripción',
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ])),
           const SizedBox(height: 20),
           // Alineación de los botones "Guardar" y "Cancelar"
           Row(
@@ -119,7 +252,8 @@ class CrearEmpresaScreen extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.grey, // Botón de "Cancelar" gris
-                  minimumSize: Size(120, 40), // Tamaño adecuado para los botones
+                  minimumSize:
+                      Size(120, 40), // Tamaño adecuado para los botones
                 ),
                 onPressed: () {
                   // Función para cancelar y regresar a la pantalla anterior
@@ -133,11 +267,12 @@ class CrearEmpresaScreen extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue, // Botón de "Guardar" azul
-                  minimumSize: Size(120, 40), // Tamaño adecuado para los botones
+                  minimumSize:
+                      Size(120, 40), // Tamaño adecuado para los botones
                 ),
                 onPressed: () {
                   // Función para guardar la empresa y mostrar la ventana emergente
-                  _showConfirmationDialog(context);
+                  _showConfirmationDialog();
                 },
                 child: const Text('Guardar'),
               ),
