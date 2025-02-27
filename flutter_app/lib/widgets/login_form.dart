@@ -118,37 +118,39 @@ class _LoginFormState extends State<LoginForm> {
             child: Text('Iniciar sesión'),
           ),
           const SizedBox(height: 10),
-          const Divider(),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Aun no eres usuario?',
-                  style: TextStyle(fontSize: 14)),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) => const RegisterScreen()),
-                  );
-                },
-                child: const Text(
-                  'Registrate',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+          if (widget.index == 1) ...[
+            const Divider(),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Aun no eres usuario?',
+                    style: TextStyle(fontSize: 14)),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterScreen()),
+                    );
+                  },
+                  child: const Text(
+                    'Registrate',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (context) => const ResetPasswordScreen()),
-              );
-            },
-            child: const Text('Olvidaste tu contraseña?'),
-          )
+              ],
+            ),
+            const SizedBox(height: 10),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => const ResetPasswordScreen()),
+                );
+              },
+              child: const Text('Olvidaste tu contraseña?'),
+            )
+          ]
         ]),
       ),
     );
