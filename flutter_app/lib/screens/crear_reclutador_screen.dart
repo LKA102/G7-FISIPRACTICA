@@ -146,12 +146,12 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, 
+      resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
         child: Header(),
       ),
-      body: SingleChildScrollView( 
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -159,7 +159,10 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
             children: [
               Text(
                 'Crear Reclutador',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF1E3984)),
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E3984)),
               ),
               SizedBox(height: 20),
               // Foto de perfil
@@ -177,7 +180,7 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
                 decoration: InputDecoration(
                   labelText: 'Nombres',
                   filled: true,
-                  fillColor: Color(0xFFE6F2FF), 
+                  fillColor: Color(0xFFE6F2FF),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -187,7 +190,7 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
                 decoration: InputDecoration(
                   labelText: 'Apellidos',
                   filled: true,
-                  fillColor: Color(0xFFE6F2FF), 
+                  fillColor: Color(0xFFE6F2FF),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -197,7 +200,7 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
                 decoration: InputDecoration(
                   labelText: 'Correo electrónico',
                   filled: true,
-                  fillColor: Color(0xFFE6F2FF), 
+                  fillColor: Color(0xFFE6F2FF),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -208,36 +211,44 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
                 decoration: InputDecoration(
                   labelText: 'Contraseña',
                   filled: true,
-                  fillColor: Color(0xFFE6F2FF), 
+                  fillColor: Color(0xFFE6F2FF),
                   border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
-                  color: Color(0xFFE6F2FF), 
+                  color: Color(0xFFE6F2FF),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.black), 
+                  border: Border.all(color: Colors.black),
                 ),
                 child: DropdownButton<String>(
-                  value: _empresaSeleccionada.isEmpty ? null : _empresaSeleccionada,
+                  value: _empresaSeleccionada?.isEmpty ?? true
+                      ? null
+                      : _empresaSeleccionada,
                   onChanged: (String? newValue) {
                     setState(() {
                       _empresaSeleccionada = newValue!;
                     });
                   },
                   items: [
-                    DropdownMenuItem<String>(value: null, child: Text('Seleccionar empresa', style: TextStyle(color: Colors.grey))),
-                    ...empresas.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(value: value, child: Text(value));
-                    }).toList(),
+                    DropdownMenuItem<String>(
+                        value: null,
+                        child: Text('Seleccionar empresa',
+                            style: TextStyle(color: Colors.grey))),
+                    ...empresas
+                        .map<DropdownMenuItem<String>>((dynamic empresa) {
+                      return DropdownMenuItem<String>(
+                          value: empresa['id'].toString(), child: Text(empresa['name']));
+                    }),
                   ],
-                  hint: Text('Seleccionar empresa', style: TextStyle(color: Colors.grey)),
+                  hint: Text('Seleccionar empresa',
+                      style: TextStyle(color: Colors.grey)),
                   isExpanded: true,
-                  underline: Container(), 
+                  underline: Container(),
                   icon: Icon(Icons.arrow_drop_down),
                   style: TextStyle(color: Colors.black),
-                  padding: EdgeInsets.symmetric(horizontal: 12.0), 
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
                 ),
               ),
               SizedBox(height: 10),
@@ -247,7 +258,7 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
                 decoration: InputDecoration(
                   labelText: 'Descripción',
                   filled: true,
-                  fillColor: Color(0xFFE6F2FF), 
+                  fillColor: Color(0xFFE6F2FF),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -258,7 +269,9 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
                   Text('Fecha de inicio:'),
                   TextButton(
                     onPressed: () => _selectFechaInicio(context),
-                    child: Text(_fechaInicio == null ? 'Seleccionar' : "${_fechaInicio?.toLocal()}".split(' ')[0]),
+                    child: Text(_fechaInicio == null
+                        ? 'Seleccionar'
+                        : "${_fechaInicio?.toLocal()}".split(' ')[0]),
                   ),
                 ],
               ),
@@ -267,14 +280,16 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context); 
+                      Navigator.pop(context);
                     },
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
                     child: Text('Cancelar'),
                   ),
                   ElevatedButton(
-                    onPressed: _guardarReclutador, 
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                    onPressed: _guardarReclutador,
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.blue),
                     child: Text('Guardar'),
                   ),
                 ],
