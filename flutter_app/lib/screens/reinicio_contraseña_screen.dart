@@ -6,7 +6,7 @@ class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
 
   @override
-  _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
@@ -32,7 +32,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Header(),
+          const Header(allowedAdminLogin: true,),
           SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(20.0),

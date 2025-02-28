@@ -12,7 +12,7 @@ class LoginReclutadorScreen extends StatelessWidget {
       body: SingleChildScrollView(  
         child: Column(
           children: <Widget>[
-            Header(),
+            const Header(allowedAdminLogin: true,),
             SizedBox(height: 20),
             LoginForm(0),  // El formulario de login
             SizedBox(height: 20),

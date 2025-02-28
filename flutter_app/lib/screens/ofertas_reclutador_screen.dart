@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
-import '../widgets/footer_reclutador.dart';
 import 'agregar_vacante_reclutador_screen.dart';
 
 class OfertasReclutadorScreen extends StatelessWidget {
@@ -28,10 +26,10 @@ class OfertasReclutadorScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: PreferredSize(
+      /*appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: Header(),
-      ),
+      ),*/
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView.builder(
@@ -117,7 +115,7 @@ class OfertasReclutadorScreen extends StatelessWidget {
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add, color: Colors.white),
       ),
-      bottomNavigationBar: Footer(),
+      //bottomNavigationBar: Footer(),
     );
   }
 }

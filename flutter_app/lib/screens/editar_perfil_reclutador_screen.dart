@@ -15,7 +15,7 @@ class EditarReclutadorScreen extends StatefulWidget {
   const EditarReclutadorScreen({super.key, required this.reclutador});
 
   @override
-  _EditarReclutadorScreenState createState() => _EditarReclutadorScreenState();
+  State<EditarReclutadorScreen> createState() => _EditarReclutadorScreenState();
 }
 
 class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {

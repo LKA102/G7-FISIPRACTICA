@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
-import '../widgets/footer.dart';
 import 'estudiantes_screen.dart';
 import 'admin_empresa_screen.dart';
 import 'reclutadores_screen.dart'; 
@@ -9,7 +7,7 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -45,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Header(isHome: true),
+          //Header(isHome: true),
           Expanded(
             child: Center(
               child: Column(
@@ -138,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          Footer(),
+          //Footer(),
         ],
       ),
     );

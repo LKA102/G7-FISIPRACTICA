@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/HomeEstudianteScreen.dart';
-import 'package:flutter_app/screens/home_reclutador_screen.dart';
 import 'package:flutter_app/screens/splah_screen.dart';
 import 'package:flutter_app/services/user_services.dart';
 import 'package:flutter_app/widgets/main_estudiantes.dart';
+import 'package:flutter_app/widgets/main_reclutadores.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
             if (user['role'] == 'Estudiante') {
               return const MainEstudiantes();
             } else if (user['role'] == 'Reclutador') {
-              return const HomeReclutadorScreen();
+              return const MainReclutadores();
             } else {
               return const SplahScreen();
             }

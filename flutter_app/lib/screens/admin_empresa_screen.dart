@@ -11,7 +11,7 @@ class AdminEmpresaScreen extends StatefulWidget {
   const AdminEmpresaScreen({super.key});
 
   @override
-  _AdminEmpresaScreenState createState() => _AdminEmpresaScreenState();
+  State<AdminEmpresaScreen> createState() => _AdminEmpresaScreenState();
 }
 
 class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
@@ -177,14 +177,71 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
                   ),
                   child: const Text('Aceptar'),
                   onPressed: () async {
-                    await EmpresaServices.deleteEmpresa(empresa['id']);
-                    if (mounted) {
-                      setState(() {
-                        _fetchEmpresas();
-                        _currentPage = 1;
-                      });
+                    try {
+                      await EmpresaServices.deleteEmpresa(empresa['id']);
+                      if (mounted) {
+                        setState(() {
+                          _fetchEmpresas();
+                          _currentPage = 1;
+                        });
+                      }
+                      Navigator.of(context).pop();
+                    } catch (e) {
+                      Navigator.of(context).pop();
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Column(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.error,
+                                  color: Colors.red, // Color del ícono
+                                  size: 60, // Tamaño del ícono ajustado
+                                ),
+                                const SizedBox(height: 20),
+                                const Text(
+                                  'Ha ocurrido un error',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize:
+                                        22, // Aumento del tamaño del texto
+                                    color: Colors.red, // Texto en rojo
+                                  ),
+                                ),
+                              ],
+                            ),
+                            content: Text(
+                              e.toString(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 18, // Aumento del tamaño del texto
+                              ),
+                            ),
+                            actions: <Widget>[
+                              // Botón "Cerrar"
+                              Center(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    // Color rojo del botón
+                                    minimumSize: Size(160,
+                                        40), // Tamaño adecuado para el botón
+                                    textStyle: const TextStyle(
+                                        fontSize:
+                                            15), // Ajuste de tamaño de texto
+                                  ),
+                                  onPressed: () {
+                                    // Cerrar la ventana emergente
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Cerrar'),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }
-                    Navigator.of(context).pop();
                     // Aquí puedes agregar la lógica para eliminar la empresa de la lista
                   },
                 ),

@@ -5,12 +5,11 @@ import 'package:flutter_app/widgets/admin_login_form.dart';
 
 class Header extends StatelessWidget {
   final bool isHome;
-  const Header({super.key, this.isHome = false});
+  final bool allowedAdminLogin;
+  const Header({super.key, this.isHome = false, this.allowedAdminLogin = false});
 
   Future<void> _logout() async {
     try {
-      final token = await UserServices.getToken();
-      final user = await UserServices.getUser();
       await UserServices.logout();
     } catch (e) {
       rethrow;
@@ -144,7 +143,7 @@ class Header extends StatelessWidget {
           elevation: 0,
           actions: [
             GestureDetector(
-              onTap: () => _showLoginDialog(context),
+              onTap: () => { if (allowedAdminLogin) _showLoginDialog(context) },
               child: Image.asset(
                 'assets/logo.png',
                 height: 60,

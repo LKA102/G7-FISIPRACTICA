@@ -6,7 +6,7 @@ class AgregarVacanteReclutadorScreen extends StatefulWidget {
   const AgregarVacanteReclutadorScreen({super.key});
 
   @override
-  _AgregarVacanteReclutadorScreenState createState() => _AgregarVacanteReclutadorScreenState();
+  State<AgregarVacanteReclutadorScreen> createState() => _AgregarVacanteReclutadorScreenState();
 }
 
 class _AgregarVacanteReclutadorScreenState extends State<AgregarVacanteReclutadorScreen> {
