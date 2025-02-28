@@ -42,6 +42,8 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
+        backgroundColor: Color(0xFF1E3984),
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             icon: Image.asset(
@@ -49,29 +51,28 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
               color: currentIndex == 0 ? Colors.white : Colors.grey,
             ),
             label: 'Inicio',
-            backgroundColor: Color(0xFF1E3984),
           ),
           BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/portfolio_icon.png',
-                color: currentIndex == 1 ? Colors.white : Colors.grey,
-              ),
-              label: 'Mis Postulaciones',
-              backgroundColor: Color(0xFF1E3984)),
+            icon: Image.asset(
+              'assets/portfolio_icon.png',
+              color: currentIndex == 1 ? Colors.white : Colors.grey,
+            ),
+            label: 'Mis Postulaciones',
+          ),
           BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/chatbot_icon.png',
-                color: currentIndex == 2 ? Colors.white : Colors.grey,
-              ),
-              label: 'Chat',
-              backgroundColor: Color(0xFF1E3984)),
+            icon: Image.asset(
+              'assets/chatbot_icon.png',
+              color: currentIndex == 2 ? Colors.white : Colors.grey,
+            ),
+            label: 'Chat',
+          ),
           BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/user_icon.png',
-                color: currentIndex == 3 ? Colors.white : Colors.grey,
-              ),
-              label: 'Perfil',
-              backgroundColor: Color(0xFF1E3984)),
+            icon: Image.asset(
+              'assets/user_icon.png',
+              color: currentIndex == 3 ? Colors.white : Colors.grey,
+            ),
+            label: 'Perfil',
+          ),
         ],
         currentIndex: currentIndex,
         selectedItemColor: Colors.white,
