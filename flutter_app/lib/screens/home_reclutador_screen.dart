@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
-import '../widgets/footer_reclutador.dart';
 
 class HomeReclutadorScreen extends StatefulWidget {
   const HomeReclutadorScreen({super.key});
 
   @override
-  _HomeReclutadorScreenState createState() => _HomeReclutadorScreenState();
+  State<HomeReclutadorScreen> createState() => _HomeReclutadorScreenState();
 }
 
 class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with SingleTickerProviderStateMixin {
@@ -47,7 +45,7 @@ class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with Single
         preferredSize: const Size.fromHeight(100.0),
         child: Column(
           children: [
-            const Header( isHome: true ),
+            //const Header( isHome: true ),
             TabBar(
               controller: _tabController,
               tabs: const [
@@ -68,7 +66,7 @@ class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with Single
           _buildEstudiantesTab(),
         ],
       ),
-      bottomNavigationBar: const Footer(),
+      //bottomNavigationBar: const Footer(),
     );
   }
 

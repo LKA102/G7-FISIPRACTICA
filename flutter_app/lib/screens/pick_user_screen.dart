@@ -33,7 +33,7 @@ class _PickUserScreen extends State<PickUserScreen> {
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
-          Header(),
+          const Header(allowedAdminLogin: true,),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

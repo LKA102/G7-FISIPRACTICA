@@ -12,7 +12,7 @@ class ReclutadoresScreen extends StatefulWidget {
   const ReclutadoresScreen({super.key});
 
   @override
-  _ReclutadoresScreenState createState() => _ReclutadoresScreenState();
+  State<ReclutadoresScreen> createState() => _ReclutadoresScreenState();
 }
 
 class _ReclutadoresScreenState extends State<ReclutadoresScreen> {

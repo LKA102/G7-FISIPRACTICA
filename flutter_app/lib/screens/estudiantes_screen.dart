@@ -9,7 +9,7 @@ class EstudiantesScreen extends StatefulWidget {
   const EstudiantesScreen({super.key});
 
   @override
-  _EstudiantesScreenState createState() => _EstudiantesScreenState();
+  State<EstudiantesScreen> createState() => _EstudiantesScreenState();
 }
 
 class _EstudiantesScreenState extends State<EstudiantesScreen> {

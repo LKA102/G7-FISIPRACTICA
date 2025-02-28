@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
-import '../widgets/footer_estudiante.dart';
 
 class MisPostulacionesScreen extends StatefulWidget {
   const MisPostulacionesScreen({super.key});

@@ -13,7 +13,7 @@ class EditReclutadorScreen extends StatefulWidget {
   const EditReclutadorScreen({super.key});
 
   @override
-  _EditReclutadorScreenState createState() => _EditReclutadorScreenState();
+  State<EditReclutadorScreen> createState() => _EditReclutadorScreenState();
 }
 
 class _EditReclutadorScreenState extends State<EditReclutadorScreen> {

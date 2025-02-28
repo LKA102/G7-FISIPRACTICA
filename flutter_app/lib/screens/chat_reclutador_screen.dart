@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
-import '../widgets/footer_reclutador.dart';
 
 class ChatReclutadorScreen extends StatefulWidget {
   const ChatReclutadorScreen({super.key});
@@ -25,10 +23,10 @@ class _ChatReclutadorScreenState extends State<ChatReclutadorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60.0),
-        child: const Header(), // Usa el header si lo tienes
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: const Size.fromHeight(60.0),
+      //   child: const Header(), // Usa el header si lo tienes
+      // ),
       body: Column(
         children: [
           _buildChatHeader(),
@@ -59,7 +57,7 @@ class _ChatReclutadorScreenState extends State<ChatReclutadorScreen> {
           _buildMessageInput(),
         ],
       ),
-      bottomNavigationBar: const Footer(), // Asegúrate de que este sea el Footer correcto
+      //bottomNavigationBar: const Footer(), // Asegúrate de que este sea el Footer correcto
     );
   }
 

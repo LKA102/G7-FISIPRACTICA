@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/HomeEstudianteScreen.dart';
-import 'package:flutter_app/screens/chat_estudiante_screen.dart';
-import 'package:flutter_app/screens/mis_postulaciones_screen.dart';
-import 'package:flutter_app/screens/perfil_estudiante_screen.dart';
+import 'package:flutter_app/screens/editar_admin_screen.dart';
+import 'package:flutter_app/screens/editar_ofertas_screen.dart';
+import 'package:flutter_app/screens/home_admin_screen.dart';
 import 'package:flutter_app/widgets/header.dart';
 
-class MainEstudiantes extends StatefulWidget {
-  const MainEstudiantes({super.key});
+class MainAdmin extends StatefulWidget {
+  const MainAdmin({super.key});
 
   @override
-  State<MainEstudiantes> createState() => _MainEstudiantesState();
+  State<MainAdmin> createState() => _MainAdminState();
 }
 
-class _MainEstudiantesState extends State<MainEstudiantes> {
+class _MainAdminState extends State<MainAdmin> {
   int currentIndex = 0;
   void goToPage(int index) {
     setState(() {
@@ -21,10 +20,9 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
   }
 
   final List<Widget> _pages = [
-    HomeEstudianteScreen(),
-    MisPostulacionesScreen(),
-    ChatScreen(),
-    PerfilEstudianteScreen(),
+    HomeScreen(),
+    EditarOfertasScreen(),
+    EditarAdminScreen(),
   ];
 
   @override
@@ -42,6 +40,7 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
+        backgroundColor: Color(0xFF1E3984),
         items: [
           BottomNavigationBarItem(
             icon: Image.asset(
@@ -49,29 +48,21 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
               color: currentIndex == 0 ? Colors.white : Colors.grey,
             ),
             label: 'Inicio',
-            backgroundColor: Color(0xFF1E3984),
           ),
           BottomNavigationBarItem(
               icon: Image.asset(
                 'assets/portfolio_icon.png',
                 color: currentIndex == 1 ? Colors.white : Colors.grey,
               ),
-              label: 'Mis Postulaciones',
-              backgroundColor: Color(0xFF1E3984)),
-          BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/chatbot_icon.png',
-                color: currentIndex == 2 ? Colors.white : Colors.grey,
-              ),
-              label: 'Chat',
-              backgroundColor: Color(0xFF1E3984)),
+              label: 'Ofertas',
+          ),
           BottomNavigationBarItem(
               icon: Image.asset(
                 'assets/user_icon.png',
                 color: currentIndex == 3 ? Colors.white : Colors.grey,
               ),
               label: 'Perfil',
-              backgroundColor: Color(0xFF1E3984)),
+          )
         ],
         currentIndex: currentIndex,
         selectedItemColor: Colors.white,
@@ -80,4 +71,5 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
       ),
     );
   }
+
 }
