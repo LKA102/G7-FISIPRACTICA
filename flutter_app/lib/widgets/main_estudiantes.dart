@@ -29,6 +29,7 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
