@@ -94,7 +94,7 @@ class EmpresaServices {
     }
   }
 
-  static Future<void> deleteEmpresa(int id) async {
+  static Future<dynamic> deleteEmpresa(int id) async {
     try {
       String? token = await UserServices.getToken();
       Response response = await dio.delete(
@@ -106,6 +106,14 @@ class EmpresaServices {
         ),
       );
       logger.d(response);
+    } on DioException catch (error) {
+      final response = error.response;
+      logger.e(response?.data['message']);
+      if (response?.statusCode == 400 && response?.data['message'] != 500) {
+        throw 'No se puede eliminar la empresa';
+      } else {
+        throw response?.data['message'];
+      }
     } catch (e) {
       logger.e(e);
       rethrow;
