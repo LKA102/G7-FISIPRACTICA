@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_app/services/user_services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -43,7 +45,8 @@ class ReclutadoresServices {
       rethrow;
     }
   }
-  static Future<List<Map<String, String>>> getReclutadores() async {
+
+  static Future<List<Map<String, dynamic>>> getReclutadores() async {
     try {
       String? token = await UserServices.getToken();
       Response response = await dio.get(
@@ -55,12 +58,32 @@ class ReclutadoresServices {
         ),
       );
       logger.d(response);
-      List<Map<String, String>> reclutadores = [];
+      List<Map<String, dynamic>> reclutadores = [];
       for (var reclutador in response.data) {
+        Uint8List? foto;
+        if (reclutador['userProfile'] != null &&
+            reclutador['userProfile']['photo'] != null) {
+          foto = Uint8List.fromList(
+              (reclutador['userProfile']['photo']['data'] as List<dynamic>)
+                  .cast<int>());
+        }
         reclutadores.add({
-          'nombre': reclutador['name'],
-          'foto': 'assets/profile_picture.jpg',
-          'descripcion': 'Descripción de ${reclutador['name']}',
+          'nombre': reclutador['userProfile'] != null
+              ? reclutador['userProfile']['first_name']
+              : "No disponible",
+          'apellido': reclutador['userProfile'] != null
+              ? reclutador['userProfile']['last_name']
+              : "No disponible",
+          'correo': reclutador['userProfile'] != null
+              ? reclutador['userProfile']['email']
+              : "No disponible",
+          'descripcion': reclutador['description'] ?? "No disponible",
+          'fecha_inicio': reclutador['position_start_date'] != null
+              ? '${DateTime.parse(reclutador['position_start_date']).day.toString().padLeft(2, '0')}/${DateTime.parse(reclutador['position_start_date']).month.toString().padLeft(2, '0')}/${DateTime.parse(reclutador['position_start_date']).year}'
+              : "No disponible",
+          'foto': foto,
+          'empresa': reclutador['company']['name'],
+          'color': reclutador['company']['color'],
         });
       }
       return reclutadores;
