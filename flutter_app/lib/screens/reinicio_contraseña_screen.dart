@@ -32,7 +32,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Header(),
+          const Header(allowedAdminLogin: true,),
           SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(20.0),

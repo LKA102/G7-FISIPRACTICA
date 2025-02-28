@@ -185,7 +185,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: SingleChildScrollView( // Esto hace que el contenido sea desplazable
         child: Column(
           children: <Widget>[
-            Header(),
+            const Header(allowedAdminLogin: true,),
             SizedBox(height: 20),
             Container(
               padding: const EdgeInsets.all(30),
