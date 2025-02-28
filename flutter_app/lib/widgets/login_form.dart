@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/services/user_services.dart';
 import 'package:flutter_app/widgets/main_estudiantes.dart';
+import 'package:flutter_app/widgets/main_reclutadores.dart';
 import '../screens/register_screen.dart';
 import '../screens/reinicio_contraseña_screen.dart';
-import '../screens/home_reclutador_screen.dart';
-import '../screens/HomeEstudianteScreen.dart';
 
 class LoginForm extends StatefulWidget {
   final int index;
@@ -33,7 +32,7 @@ class _LoginFormState extends State<LoginForm> {
           context,
           MaterialPageRoute(
             builder: (context) => widget.index == 0
-                ? HomeReclutadorScreen()
+                ? MainReclutadores()
                 : MainEstudiantes(),
           ),
           (Route<dynamic> route) => false,

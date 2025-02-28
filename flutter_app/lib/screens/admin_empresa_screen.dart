@@ -11,7 +11,7 @@ class AdminEmpresaScreen extends StatefulWidget {
   const AdminEmpresaScreen({super.key});
 
   @override
-  _AdminEmpresaScreenState createState() => _AdminEmpresaScreenState();
+  State<AdminEmpresaScreen> createState() => _AdminEmpresaScreenState();
 }
 
 class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {

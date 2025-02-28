@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/splah_screen.dart';
 import 'package:flutter_app/services/user_services.dart';
-import '../widgets/header.dart';
-import '../widgets/footer_estudiante.dart';
 
 class PerfilEstudianteScreen extends StatefulWidget {
   const PerfilEstudianteScreen({super.key});

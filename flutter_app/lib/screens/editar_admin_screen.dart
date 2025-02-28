@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart'; 
-import '../widgets/footer.dart'; 
 import 'pick_user_screen.dart';
 
 class EditarAdminScreen extends StatelessWidget {
@@ -60,10 +58,10 @@ class EditarAdminScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60.0),
-        child: Header(), // Agregamos el Header
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: const Size.fromHeight(60.0),
+      //   child: Header(), // Agregamos el Header
+      // ),
       body: SingleChildScrollView( // Permite desplazarse cuando el teclado está visible
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -182,7 +180,7 @@ class EditarAdminScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Footer(), // Agregamos el Footer
+      //bottomNavigationBar: Footer(), // Agregamos el Footer
     );
   }
 }

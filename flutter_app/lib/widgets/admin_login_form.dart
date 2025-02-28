@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/home_admin_screen.dart';
+import 'package:flutter_app/widgets/main_admin.dart';
 import '../services/user_services.dart';
 
 class AdminLoginForm extends StatefulWidget {
@@ -24,7 +24,7 @@ class _AdminLoginFormState extends State<AdminLoginForm> {
         UserServices.setToken(response['token']!);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => MainAdmin()),
         );
       } else {
         // Manejar error de inicio de sesión

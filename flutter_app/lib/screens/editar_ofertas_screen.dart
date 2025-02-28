@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
-import '../widgets/footer.dart';
 
 class EditarOfertasScreen extends StatefulWidget {
   const EditarOfertasScreen({super.key});
 
   @override
-  _EditarOfertasScreen createState() => _EditarOfertasScreen();
+  State<EditarOfertasScreen> createState() => _EditarOfertasScreen();
 }
 
 class _EditarOfertasScreen extends State<EditarOfertasScreen> {
@@ -68,10 +66,10 @@ class _EditarOfertasScreen extends State<EditarOfertasScreen> {
     List<Map<String, String>> ofertasFiltradas = _ofertas.where((oferta) => oferta["fecha"] == _filtroFecha).toList();
     
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: Header(),
-      ),
+      // appBar: PreferredSize(
+      //   preferredSize: Size.fromHeight(60.0),
+      //   child: Header(),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -126,7 +124,7 @@ class _EditarOfertasScreen extends State<EditarOfertasScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Footer(),
+      //bottomNavigationBar: Footer(),
     );
   }
 }

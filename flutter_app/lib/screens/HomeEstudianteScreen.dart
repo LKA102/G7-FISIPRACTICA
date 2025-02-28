@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import '../widgets/header.dart';
-import '../widgets/footer_estudiante.dart';
 import '../widgets/dashed_line.dart'; // Importa el nuevo widget
 
 class HomeEstudianteScreen extends StatefulWidget {
   const HomeEstudianteScreen({super.key});
 
   @override
-  _HomeEstudianteScreenState createState() => _HomeEstudianteScreenState();
+  State<HomeEstudianteScreen> createState() => _HomeEstudianteScreenState();
 }
 
 class _HomeEstudianteScreenState extends State<HomeEstudianteScreen> {
