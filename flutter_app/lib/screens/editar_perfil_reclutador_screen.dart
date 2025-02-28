@@ -4,7 +4,7 @@ import '../widgets/footer.dart';
 import 'reclutadores_screen.dart';
 
 class EditarReclutadorScreen extends StatefulWidget {
-  final Map<String, String> reclutador;
+  final Map<String, dynamic> reclutador;
 
   const EditarReclutadorScreen({super.key, required this.reclutador});
 
@@ -30,7 +30,7 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
     _correoController = TextEditingController(text: widget.reclutador['correo']);
     _passwordController = TextEditingController(text: '********');
     _descripcionController = TextEditingController(text: widget.reclutador['descripcion']);
-    _fechaController = TextEditingController(text: widget.reclutador['fecha_nacimiento']);
+    _fechaController = TextEditingController(text: widget.reclutador['fecha_inicio']);
   }
 
   @override
@@ -197,7 +197,7 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
               controller: _fechaController,
               readOnly: true,
               decoration: InputDecoration(
-                labelText: 'Fecha de Nacimiento',
+                labelText: 'Fecha de Inicio',
                 suffixIcon: IconButton(
                   icon: Icon(Icons.calendar_today),
                   onPressed: _seleccionarFecha,
