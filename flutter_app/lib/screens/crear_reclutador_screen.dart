@@ -1,8 +1,10 @@
 import 'dart:ffi' as ffi;
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/services/empresas_services.dart';
 import 'package:flutter_app/services/reclutadores_services.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../widgets/footer.dart';
 import '../widgets/header.dart';
@@ -15,6 +17,7 @@ class EditReclutadorScreen extends StatefulWidget {
 }
 
 class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
+  File? file;
   late TextEditingController _nombresController;
   late TextEditingController _apellidosController;
   late TextEditingController _correoController;
@@ -81,22 +84,77 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
   void _guardarReclutador() async {
     try {
       final body = {
-        'nombres': _nombresController.text,
-        'apellidos': _apellidosController.text,
+        'first_name': _nombresController.text,
+        'last_name': _apellidosController.text,
         'email': _correoController.text,
         'password': _contrasenaController.text,
-        'empresa': int.parse(_empresaSeleccionada ?? '0'),
-        'fecha_inicio': _fechaInicio.toString(),
-        'descripcion': _descripcionController.text,
+        'company_id': int.parse(_empresaSeleccionada ?? '0'),
+        'position_start_date': _fechaInicio.toString(),
+        'description': _descripcionController.text,
       };
       print(body);
-      final response = await ReclutadoresServices.registerReclutador(body);
+      final response = await ReclutadoresServices.registerReclutador(body, file);
       print(response);
       print('Reclutador guardado');
 
-      _showConfirmationDialog();
+      if (mounted) {
+        _showConfirmationDialog();
+      }
     } catch (e) {
       print(e);
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            title: Column(
+              children: <Widget>[
+                Icon(
+                  Icons.error,
+                  color: Colors.red, // Color del ícono
+                  size: 60, // Tamaño del ícono ajustado
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Ha ocurrido un error',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22, // Aumento del tamaño del texto
+                    color: Colors.red, // Texto en rojo
+                  ),
+                ),
+              ],
+            ),
+            content: const Text(
+              'Por favor, intenta de nuevo.',
+              style: TextStyle(
+                fontSize: 18, // Aumento del tamaño del texto
+              ),
+            ),
+            actions: <Widget>[
+              // Botón "Cerrar"
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red, // Color rojo del botón
+                    minimumSize: Size(180, 50), // Tamaño adecuado para el botón
+                    textStyle: const TextStyle(
+                        fontSize: 18), // Ajuste de tamaño de texto
+                  ),
+                  onPressed: () {
+                    // Cerrar la ventana emergente
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cerrar'),
+                ),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -167,13 +225,30 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
               SizedBox(height: 20),
               // Foto de perfil
               CircleAvatar(
-                radius: 40,
-                backgroundColor: Color(0xFF1E3984),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.camera_alt, color: Colors.white),
-                ),
-              ),
+                  radius: 40,
+                  backgroundColor: Color(0xFF1E3984),
+                  child: IconButton(
+                    onPressed: () async {
+                      file = null;
+                      final picker = ImagePicker();
+                      final result = await picker.pickImage(
+                        source: ImageSource.gallery,
+                      );
+                      if (result != null) {
+                        // Archivo seleccionado
+                        setState(() {
+                          file = File(result.path);
+                        });
+                        print('Archivo seleccionado: $file');
+                      } else {
+                        // El usuario canceló la selección
+                        print('No se seleccionó ningún archivo');
+                      }
+                    },
+                    icon: file != null
+                        ? Image.file(file!)
+                        : Icon(Icons.camera_alt, color: Colors.white),
+                  )),
               SizedBox(height: 20),
               TextField(
                 controller: _nombresController,
@@ -239,7 +314,8 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
                     ...empresas
                         .map<DropdownMenuItem<String>>((dynamic empresa) {
                       return DropdownMenuItem<String>(
-                          value: empresa['id'].toString(), child: Text(empresa['name']));
+                          value: empresa['id'].toString(),
+                          child: Text(empresa['name']));
                     }),
                   ],
                   hint: Text('Seleccionar empresa',
