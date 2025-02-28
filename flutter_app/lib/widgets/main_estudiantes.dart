@@ -33,8 +33,9 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
-        child: Column(
-          children: const [Header(isHome: true)],
+        child: Container(
+          color: colors.surface,
+          child: const Header(isHome: true),
         ),
       ),
       body: IndexedStack(

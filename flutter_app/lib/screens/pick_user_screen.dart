@@ -29,11 +29,16 @@ class _PickUserScreen extends State<PickUserScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
-          Header(),
+          Container(
+            color: colors.surface,
+            child: Header(),
+          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
