@@ -45,20 +45,32 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
         elevation: 0,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Image.asset(
+              'assets/home_icon.png',
+              color: currentIndex == 0 ? Colors.white : Colors.grey,
+            ),
             label: 'Inicio',
             backgroundColor: Color(0xFF1E3984),
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.post_add),
+              icon: Image.asset(
+                'assets/portfolio_icon.png',
+                color: currentIndex == 1 ? Colors.white : Colors.grey,
+              ),
               label: 'Mis Postulaciones',
               backgroundColor: Color(0xFF1E3984)),
           BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
+              icon: Image.asset(
+                'assets/chatbot_icon.png',
+                color: currentIndex == 2 ? Colors.white : Colors.grey,
+              ),
               label: 'Chat',
               backgroundColor: Color(0xFF1E3984)),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: Image.asset(
+                'assets/user_icon.png',
+                color: currentIndex == 3 ? Colors.white : Colors.grey,
+              ),
               label: 'Perfil',
               backgroundColor: Color(0xFF1E3984)),
         ],
