@@ -74,6 +74,7 @@ class ReclutadoresServices {
                   .cast<int>());
         }
         reclutadores.add({
+          'id': reclutador['id'],
           'nombre': reclutador['userProfile'] != null
               ? reclutador['userProfile']['first_name']
               : "No disponible",
@@ -96,6 +97,36 @@ class ReclutadoresServices {
     } catch (e) {
       logger.e(e);
       return [];
+    }
+  }
+
+  static Future<Map<String, dynamic>> updateReclutador(int id, body) async {
+    try {
+      logger.d(body);
+      String? token = await UserServices.getToken();
+      Response response = await dio.patch(
+        '${dotenv.env['API_DOMAIN']}/recruiter/$id',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json'
+          },
+        ),
+        data: {
+          'email': body['email'],
+          'first_name': body['first_name'],
+          'last_name': body['last_name'],
+          'company_id': body['company_id'],
+          'description': body['description'],
+          'position_start_date': body['position_start_date'],
+
+          // Add other fields as required
+        },
+      );
+      return response.data;
+    } catch (e) {
+      logger.e(e);
+      rethrow;
     }
   }
 }
