@@ -9,8 +9,6 @@ class Header extends StatelessWidget {
 
   Future<void> _logout() async {
     try {
-      final token = await UserServices.getToken();
-      final user = await UserServices.getUser();
       await UserServices.logout();
     } catch (e) {
       rethrow;
