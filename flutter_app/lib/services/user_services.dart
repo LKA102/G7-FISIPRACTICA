@@ -32,9 +32,9 @@ class UserServices {
 
   static Future<void> logout() async {
     try {
-      await SessionManager().destroy();
-      String? token = await getToken();
       String email = (await getUser())['email'];
+      String? token = await getToken();
+      await SessionManager().destroy();
       /* Response response =  */ await dio.post(
         '${dotenv.env['API_DOMAIN']}/auth/logout',
         options: Options(
