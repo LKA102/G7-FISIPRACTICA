@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -9,16 +10,17 @@ final logger = Logger();
 final dio = Dio();
 
 class ReclutadoresServices {
-  static Future<Map<String, dynamic>> registerReclutador(body) async {
+  static Future<Map<String, dynamic>> registerReclutador(
+      body, File? photo) async {
     try {
       logger.d(body);
-      final firstName = body['nombres'];
-      final lastName = body['apellidos'];
+      final firstName = body['first_name'];
+      final lastName = body['last_name'];
       final email = body['email'];
       final password = body['password'];
-      final companyId = body['empresa'];
-      final description = body['descripcion'];
-      final fechaInicio = body['fecha_inicio'];
+      final companyId = body['company_id'];
+      final description = body['description'];
+      final fechaInicio = body['position_start_date'];
       String? token = await UserServices.getToken();
       Response response = await dio.post(
         '${dotenv.env['API_DOMAIN']}/recruiter',
@@ -36,6 +38,10 @@ class ReclutadoresServices {
           'company_id': companyId,
           'description': description,
           'position_start_date': fechaInicio,
+          'photo': photo != null
+              ? await MultipartFile.fromFile(photo.path,
+                  filename: photo.path.split('/').last)
+              : null,
           // Add other fields as required
         }),
       );

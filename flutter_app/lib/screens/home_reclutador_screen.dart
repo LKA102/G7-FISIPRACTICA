@@ -47,7 +47,7 @@ class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with Single
         preferredSize: const Size.fromHeight(100.0),
         child: Column(
           children: [
-            const Header(),
+            const Header( isHome: true ),
             TabBar(
               controller: _tabController,
               tabs: const [
