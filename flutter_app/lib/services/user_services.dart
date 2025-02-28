@@ -32,6 +32,7 @@ class UserServices {
 
   static Future<void> logout() async {
     try {
+      await SessionManager().destroy();
       String? token = await getToken();
       String email = (await getUser())['email'];
       /* Response response =  */ await dio.post(
@@ -44,7 +45,6 @@ class UserServices {
         data: {'email': email},
       );
 
-      await SessionManager().destroy();
     } catch (e) {
       logger.e(e);
       rethrow;
