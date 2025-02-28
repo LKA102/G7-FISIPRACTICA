@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:logger/logger.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final logger = Logger();
 
@@ -43,11 +43,11 @@ class UserServices {
         ),
         data: {'email': email},
       );
-
-      await SessionManager().destroy();
     } catch (e) {
       logger.e(e);
       rethrow;
+    } finally {
+      await SessionManager().destroy();
     }
   }
 
