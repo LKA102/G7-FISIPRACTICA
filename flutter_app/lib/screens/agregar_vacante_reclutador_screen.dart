@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/services/reclutadores_services.dart';
+import 'package:flutter_app/services/user_services.dart'; // Para obtener ID del reclutador
+import 'dart:convert';
+
 import '../widgets/header.dart';
 import '../widgets/footer_reclutador.dart';
 
@@ -15,6 +19,52 @@ class _AgregarVacanteReclutadorScreenState extends State<AgregarVacanteReclutado
   final TextEditingController _descripcionController = TextEditingController();
   final TextEditingController _conocimientosController = TextEditingController();
   final TextEditingController _requisitosController = TextEditingController();
+  bool _isLoading = false;
+
+  Future<void> _guardarVacante() async {
+    if (_nombreController.text.isEmpty ||
+        _sedeController.text.isEmpty ||
+        _descripcionController.text.isEmpty ||
+        _conocimientosController.text.isEmpty ||
+        _requisitosController.text.isEmpty) {
+      _mostrarError("Todos los campos son obligatorios");
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    String? reclutadorId = await UserServices.getUserId();
+    if (reclutadorId == null) {
+      _mostrarError("No se pudo obtener el ID del reclutador");
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+
+    Map<String, dynamic> nuevaVacante = {
+      "titulo": _nombreController.text,
+      "ubicacion": _sedeController.text,
+      "descripcion": _descripcionController.text,
+      "habilidades": _conocimientosController.text,
+      "requisitos": _requisitosController.text,
+      "reclutador_id": reclutadorId,
+    };
+
+    bool success = await ReclutadoresServices.registrarVacante(nuevaVacante);
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (success) {
+      _mostrarDialogoGuardado();
+    } else {
+      _mostrarError("Hubo un problema al guardar la vacante. Inténtalo de nuevo.");
+    }
+  }
 
   void _mostrarDialogoGuardado() {
     showDialog(
@@ -22,15 +72,33 @@ class _AgregarVacanteReclutadorScreenState extends State<AgregarVacanteReclutado
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Éxito"),
-          content: const Text("Se ha guardado los cambios"),
+          content: const Text("Se ha guardado la vacante correctamente."),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Cerrar el diálogo
-                Navigator.of(context).pop(); // Regresar a la pantalla anterior
+                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacementNamed('/lista_vacantes');
               },
               style: TextButton.styleFrom(backgroundColor: Colors.blue),
-              child: const Text("Ir a inicio", style: TextStyle(color: Colors.white)),
+              child: const Text("Ir a lista de vacantes", style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _mostrarError(String mensaje) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Error"),
+          content: Text(mensaje),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Cerrar"),
             ),
           ],
         );
@@ -50,27 +118,30 @@ class _AgregarVacanteReclutadorScreenState extends State<AgregarVacanteReclutado
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildTextField("Nombre de la vacante", _nombreController),
-            _buildTextField("Sede", _sedeController),
+            _buildTextField("Título de la vacante", _nombreController),
+            _buildTextField("Ubicación", _sedeController),
             _buildTextField("Descripción", _descripcionController),
-            _buildTextField("Conocimientos", _conocimientosController),
+            _buildTextField("Habilidades requeridas", _conocimientosController),
             _buildTextField("Requisitos", _requisitosController),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text("Cancelar", style: TextStyle(color: Colors.white)),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                  onPressed: _mostrarDialogoGuardado,
-                  child: const Text("Guardar", style: TextStyle(color: Colors.white)),
-                ),
-              ],
-            ),
+            if (_isLoading)
+              const Center(child: CircularProgressIndicator()),
+            if (!_isLoading)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text("Cancelar", style: TextStyle(color: Colors.white)),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                    onPressed: _guardarVacante,
+                    child: const Text("Guardar", style: TextStyle(color: Colors.white)),
+                  ),
+                ],
+              ),
           ],
         ),
       ),
