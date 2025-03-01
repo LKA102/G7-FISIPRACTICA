@@ -32,7 +32,7 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
     final colors = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100.0),
+        preferredSize: const Size.fromHeight(60.0),
         child: Container(
           color: colors.surface,
           child: const Header(isHome: true),
