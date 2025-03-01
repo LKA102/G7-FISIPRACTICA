@@ -93,7 +93,8 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
         'description': _descripcionController.text,
       };
       print(body);
-      final response = await ReclutadoresServices.registerReclutador(body, file);
+      final response =
+          await ReclutadoresServices.registerReclutador(body, file);
       print(response);
       print('Reclutador guardado');
 
@@ -224,31 +225,42 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
               ),
               SizedBox(height: 20),
               // Foto de perfil
-              CircleAvatar(
-                  radius: 40,
-                  backgroundColor: Color(0xFF1E3984),
-                  child: IconButton(
-                    onPressed: () async {
-                      file = null;
-                      final picker = ImagePicker();
-                      final result = await picker.pickImage(
-                        source: ImageSource.gallery,
-                      );
-                      if (result != null) {
-                        // Archivo seleccionado
-                        setState(() {
-                          file = File(result.path);
-                        });
-                        print('Archivo seleccionado: $file');
-                      } else {
-                        // El usuario canceló la selección
-                        print('No se seleccionó ningún archivo');
-                      }
-                    },
-                    icon: file != null
-                        ? Image.file(file!)
-                        : Icon(Icons.camera_alt, color: Colors.white),
-                  )),
+              Stack(
+                children: [
+                  CircleAvatar(
+                    radius:40,
+                    backgroundImage: file != null
+                        ? FileImage(file!)
+                        : AssetImage(
+                            'assets/profile_picture.jpg'), // Ruta de la imagen de perfil
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: IconButton(
+                      icon: Icon(Icons.camera_alt, color: Colors.blue),
+                      onPressed: () async {
+                        file = null;
+                        final picker = ImagePicker();
+                        final result = await picker.pickImage(
+                          source: ImageSource.gallery,
+                        );
+                        if (result != null) {
+                          // Archivo seleccionado
+                          setState(() {
+                            file = File(result.path);
+                          });
+                          print('Archivo seleccionado: $file');
+                        } else {
+                          // El usuario canceló la selección
+                          print('No se seleccionó ningún archivo');
+                        }
+                        // Lógica para cambiar la imagen de perfil
+                      },
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(height: 20),
               TextField(
                 controller: _nombresController,

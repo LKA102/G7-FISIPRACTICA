@@ -100,6 +100,37 @@ class ReclutadoresServices {
     }
   }
 
+  static Future<int> getReclutadorById(int id) async {
+    try {
+      String? token = await UserServices.getToken();
+      Response response = await dio.get(
+        '${dotenv.env['API_DOMAIN']}/recruiter/$id',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      logger.d(response);
+      var reclutador = response.data;
+      Uint8List? foto;
+      if (reclutador['userProfile'] != null &&
+          reclutador['userProfile']['photo'] != null) {
+        foto = Uint8List.fromList(
+            (reclutador['userProfile']['photo']['data'] as List<dynamic>)
+                .cast<int>());
+      }
+      logger.d(reclutador);
+      return reclutador['id'];
+    } on DioException catch (e) {
+      logger.e(e);
+      return 0;
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
   static Future<Map<String, dynamic>> updateReclutador(int id, body) async {
     try {
       logger.d(body);
