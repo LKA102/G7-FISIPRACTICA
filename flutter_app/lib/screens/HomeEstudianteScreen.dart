@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/screens/detalle_oferta_estudiante.dart';
+import 'package:flutter_app/services/ofertas_services.dart';
 import '../widgets/dashed_line.dart'; // Importa el nuevo widget
 
 class HomeEstudianteScreen extends StatefulWidget {
@@ -15,31 +17,45 @@ class _HomeEstudianteScreenState extends State<HomeEstudianteScreen> {
   int _paginaActual = 1;
   final int _itemsPorPagina = 2;
 
-  final List<Map<String, String>> _vacantes = [
-    {
-      "titulo": "Practicante Frontend",
-      "empresa": "Interbank",
-      "descripcion": "¡Únete a nuestro equipo!",
-      "ubicacion": "San Isidro, Lima, Perú",
-      "disponibilidad": "Inmediata"
-    },
-    {
-      "titulo": "Practicante Backend",
-      "empresa": "BCP",
-      "descripcion": "Buscamos talento en backend.",
-      "ubicacion": "Miraflores, Lima, Perú",
-      "disponibilidad": "Inmediata"
-    },
-    {
-      "titulo": "Analista de Datos",
-      "empresa": "MiBanco",
-      "descripcion": "Analiza datos financieros.",
-      "ubicacion": "Surco, Lima, Perú",
-      "disponibilidad": "Inmediata"
-    },
-  ];
+  List<Map<String, dynamic>> _vacantes = [];
+  // [
+  //   {
+  //     "titulo": "Practicante Frontend",
+  //     "empresa": "Interbank",
+  //     "descripcion": "¡Únete a nuestro equipo!",
+  //     "ubicacion": "San Isidro, Lima, Perú",
+  //     "disponibilidad": "Inmediata"
+  //   },
+  //   {
+  //     "titulo": "Practicante Backend",
+  //     "empresa": "BCP",
+  //     "descripcion": "Buscamos talento en backend.",
+  //     "ubicacion": "Miraflores, Lima, Perú",
+  //     "disponibilidad": "Inmediata"
+  //   },
+  //   {
+  //     "titulo": "Analista de Datos",
+  //     "empresa": "MiBanco",
+  //     "descripcion": "Analiza datos financieros.",
+  //     "ubicacion": "Surco, Lima, Perú",
+  //     "disponibilidad": "Inmediata"
+  //   },
+  // ];
 
-  List<Map<String, String>> get _filteredVacantes {
+  @override
+  void initState() {
+    super.initState();
+    _getOfertas();
+  }
+
+  Future<void> _getOfertas() async {
+    List<Map<String, dynamic>> ofertas = await OfertasServices.getOfertas();
+    setState(() {
+      _vacantes = ofertas;
+    });
+  }
+
+  List<Map<String, dynamic>> get _filteredVacantes {
     return _vacantes
         .where((vacante) =>
             (_selectedEmpresa == "Todas" ||
@@ -60,7 +76,7 @@ class _HomeEstudianteScreenState extends State<HomeEstudianteScreen> {
   @override
   Widget build(BuildContext context) {
     int totalPaginas = (_filteredVacantes.length / _itemsPorPagina).ceil();
-    List<Map<String, String>> vacantesPagina = _filteredVacantes
+    List<Map<String, dynamic>> vacantesPagina = _filteredVacantes
         .skip((_paginaActual - 1) * _itemsPorPagina)
         .take(_itemsPorPagina)
         .toList();
@@ -98,7 +114,7 @@ class _HomeEstudianteScreenState extends State<HomeEstudianteScreen> {
                   decoration:
                       const InputDecoration(border: OutlineInputBorder()),
                   value: _selectedEmpresa,
-                  items: ["Todas", "BCP", "Interbank", "MiBanco", "Pacífico"]
+                  items: ["Todas", "Banco de Crédito del Perú", "Interbank", "MiBanco", "Pacífico"]
                       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                       .toList(),
                   onChanged: (value) {
@@ -160,7 +176,6 @@ class _HomeEstudianteScreenState extends State<HomeEstudianteScreen> {
                         ),
                         //const Divider(dashed: true),
                         const DashedLine(),
-                        Text(vacantesPagina[index]["descripcion"]!),
                         const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,7 +187,13 @@ class _HomeEstudianteScreenState extends State<HomeEstudianteScreen> {
                         ),
                         const SizedBox(height: 10),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            final vacante = vacantesPagina[index];
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => DetalleOfertaEstudianteScreen(oferta: vacante,)),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.blue),
                           child: const Text("Ver Detalle",
