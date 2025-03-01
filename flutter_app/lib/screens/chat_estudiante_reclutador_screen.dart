@@ -1,29 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/chat_estudiante_reclutador_screen.dart';
 import 'package:flutter_app/services/mensajes_services.dart';
 import 'package:flutter_app/services/user_services.dart';
+import 'package:flutter_app/widgets/header.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+class ChatStudentScreen extends StatefulWidget {
+  const ChatStudentScreen({super.key});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<ChatStudentScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatStudentScreen> {
   final TextEditingController _controller = TextEditingController();
-  List<Map<String, dynamic>> messages = [
-    {
-      'mensaje':
-          "¡Hola soy el asistente virtual de FISIPRACTICA! Responderé a todas tus preguntas relacionadas con el proceso de selección de la empresa Interbank. ¿Cómo puedo ayudarte hoy?",
-      'fecha': DateTime.now().toIso8601String(),
-      'is_me': false,
-    }
-  ];
+  List<Map<String, dynamic>> messages = [];
   Map<String, dynamic> user = {};
 
   List<String> options = [
@@ -31,14 +24,13 @@ class _ChatScreenState extends State<ChatScreen> {
     "2. Primer enunciado",
     "3. Comunicarme con el RR/HH"
   ];
-  late IO.Socket socket;
+  late IO.Socket socket1;
 
   bool isLoading = true;
 
-  String event = 'message';
-  String chatId = '4';
+  String event = 'student-message';
+  String chatId = '5';
   String to = '9';
-  String company = 'Interbank';
 
   @override
   void initState() {
@@ -76,18 +68,18 @@ class _ChatScreenState extends State<ChatScreen> {
   void _initializeSocket() {
     print(
         '${dotenv.env['API_DOMAIN']}?from=${user['sub']}&to=$to&chat_id=$chatId&job_id=1');
-    socket = IO.io(
-      '${dotenv.env['API_DOMAIN']}?from=${user['sub']}&to=$to&chat_id=$chatId&job_id=1&company=$company',
+    socket1 = IO.io(
+      '${dotenv.env['API_DOMAIN']}?from=${user['sub']}&to=$to&chat_id=$chatId&job_id=1',
       <String, dynamic>{
         'transports': ['websocket'],
         'autoConnect': false,
       },
     );
-    socket.connect();
-    socket.onConnect((_) {
+    socket1.connect();
+    socket1.onConnect((_) {
       print('connect');
     });
-    socket.on(event, (data) {
+    socket1.on(event, (data) {
       final receivedMessage = {
         'mensaje': data,
         'fecha': DateTime.now().toIso8601String(),
@@ -97,7 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
         messages.add(receivedMessage);
       });
     });
-    socket.onDisconnect((_) => print('disconnect'));
+    socket1.onDisconnect((_) => print('disconnect'));
   }
 
   void _sendMessage(String message) {
@@ -106,66 +98,63 @@ class _ChatScreenState extends State<ChatScreen> {
       'to': to,
       'chat_id': chatId,
       'job_id': 1,
-      'company': company,
       'mensaje': message,
       'fecha': DateTime.now().toIso8601String(),
       'is_me': true,
     };
-    socket.emit(event, newMessage);
+    socket1.emit(event, newMessage);
     setState(() {
       messages.add(newMessage);
       _controller.clear();
     });
   }
 
-  void _goToChat() {
-    /* 
-    socket.dispose(); */
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return const ChatStudentScreen();
-    }));
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildChatHeader(),
-        Expanded(
-          child: GroupedListView<dynamic, String>(
-            padding: EdgeInsets.all(8),
-            reverse: true,
-            order: GroupedListOrder.DESC,
-            useStickyGroupSeparators: true,
-            floatingHeader: true,
-            elements: messages,
-            groupBy: (element) {
-              DateTime date = DateTime.parse(element['fecha']);
-              return "${date.year}/${date.month}/${date.day}";
-            },
-            groupHeaderBuilder: (element) => SizedBox(
-              height: 50,
-              child: Center(
-                child: Card(
-                  color: Colors.blue[900],
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      DateFormat('d MMM y')
-                          .format(DateTime.parse(element['fecha'])),
-                      style: const TextStyle(
-                        color: Colors.white,
+    final colors = Theme.of(context).colorScheme;
+    return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(60.0),
+          child: Container(
+            color: colors.surface,
+            child: const Header(),
+          ),
+        ),
+        body: Column(
+          children: [
+            _buildChatHeader(),
+            Expanded(
+              child: GroupedListView<dynamic, String>(
+                padding: EdgeInsets.all(8),
+                reverse: true,
+                order: GroupedListOrder.DESC,
+                useStickyGroupSeparators: true,
+                floatingHeader: true,
+                elements: messages,
+                groupBy: (element) {
+                  DateTime date = DateTime.parse(element['fecha']);
+                  return "${date.year}/${date.month}/${date.day}";
+                },
+                groupHeaderBuilder: (element) => SizedBox(
+                  height: 50,
+                  child: Center(
+                    child: Card(
+                      color: Colors.blue[900],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          DateFormat('d MMM y')
+                              .format(DateTime.parse(element['fecha'])),
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            itemBuilder: (context, element) {
-              bool isFirstMessage = messages.indexOf(element) == 0;
-              return Column(
-                children: [
-                  Align(
+                itemBuilder: (context, element) {
+                  return Align(
                     alignment: element['is_me']
                         ? Alignment.centerRight
                         : Alignment.centerLeft,
@@ -185,16 +174,13 @@ class _ChatScreenState extends State<ChatScreen> {
                         style: const TextStyle(fontSize: 16),
                       ),
                     ),
-                  ),
-                  if (isFirstMessage) _buildOptions(),
-                ],
-              );
-            },
-          ),
-        ),
-        _buildMessageInput(),
-      ],
-    );
+                  );
+                },
+              ),
+            ),
+            _buildMessageInput(),
+          ],
+        ));
   }
 
   Widget _buildChatHeader() {
@@ -204,11 +190,11 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Row(
         children: [
           const CircleAvatar(
-            backgroundImage: AssetImage('assets/interbank.png'),
+            backgroundImage: AssetImage('assets/profile_picture.jpg'),
           ),
           const SizedBox(width: 10),
           const Text(
-            "Interbank",
+            "Pablo Paredes",
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,
@@ -223,26 +209,6 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildOptions() {
-    return Column(
-      children: options.map((option) {
-        bool isPrimary = option.contains("3.");
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0),
-          child: ElevatedButton(
-            onPressed: () => _goToChat(),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: isPrimary ? Colors.blue[900] : Colors.white,
-              foregroundColor: isPrimary ? Colors.white : Colors.black,
-              side: BorderSide(color: Colors.blue[900]!),
-            ),
-            child: Text(option),
-          ),
-        );
-      }).toList(),
     );
   }
 
