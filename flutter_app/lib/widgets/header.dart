@@ -12,7 +12,7 @@ class Header extends StatelessWidget {
     try {
       await UserServices.logout();
     } catch (e) {
-      rethrow;
+      print(e);
     }
   }
 
