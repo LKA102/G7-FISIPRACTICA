@@ -216,39 +216,42 @@ class _CrearEmpresaScreenState extends State<CrearEmpresaScreen> {
           ),
           const SizedBox(height: 20),
           // Icono de la cámara con un círculo alrededor
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white, // Color de fondo del círculo
-              shape: BoxShape.circle, // Forma circular
-              border: Border.all(
-                color: Colors.blue, // Color del borde
-                width: 2, // Grosor del borde
+          Stack(
+            children: [
+              CircleAvatar(
+                backgroundColor: Colors.grey[200],
+                radius: 40,
+                backgroundImage: file != null
+                    ? FileImage(file!)
+                    : AssetImage(
+                        'assets/office-building.png'), // Ruta de la imagen de perfil
               ),
-            ),
-            child: file != null
-                ? CircleAvatar(
-                    radius: 40,
-                    backgroundImage: FileImage(file!),
-                  )
-                : IconButton(
-                    icon: const Icon(Icons.camera_alt, size: 40),
-                    onPressed: () async {
-                      final picker = ImagePicker();
-                      final result = await picker.pickImage(
-                        source: ImageSource.gallery,
-                      );
-                      if (result != null) {
-                        // Archivo seleccionado
-                        setState(() {
-                          file = File(result.path);
-                        });
-                        print('Archivo seleccionado: $file');
-                      } else {
-                        // El usuario canceló la selección
-                        print('No se seleccionó ningún archivo');
-                      }
-                    },
-                  ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: IconButton(
+                  icon: Icon(Icons.camera_alt, color: Colors.blue),
+                  onPressed: () async {
+                    file = null;
+                    final picker = ImagePicker();
+                    final result = await picker.pickImage(
+                      source: ImageSource.gallery,
+                    );
+                    if (result != null) {
+                      // Archivo seleccionado
+                      setState(() {
+                        file = File(result.path);
+                      });
+                      print('Archivo seleccionado: $file');
+                    } else {
+                      // El usuario canceló la selección
+                      print('No se seleccionó ningún archivo');
+                    }
+                    // Lógica para cambiar la imagen de perfil
+                  },
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 20),
           Padding(
