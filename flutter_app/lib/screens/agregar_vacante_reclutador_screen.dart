@@ -19,6 +19,10 @@ class _AgregarVacanteReclutadorScreenState extends State<AgregarVacanteReclutado
   final TextEditingController _descripcionController = TextEditingController();
   final TextEditingController _conocimientosController = TextEditingController();
   final TextEditingController _requisitosController = TextEditingController();
+  final TextEditingController _salarioController = TextEditingController();  // Campo para salario
+  final TextEditingController _urlJobPdfController = TextEditingController();  // Campo para URL del PDF
+  final TextEditingController _funcionesTrabajoController = TextEditingController();  // Campo para funciones del trabajo
+
   bool _isLoading = false;
 
   Future<void> _guardarVacante() async {
@@ -26,7 +30,9 @@ class _AgregarVacanteReclutadorScreenState extends State<AgregarVacanteReclutado
         _sedeController.text.isEmpty ||
         _descripcionController.text.isEmpty ||
         _conocimientosController.text.isEmpty ||
-        _requisitosController.text.isEmpty) {
+        _requisitosController.text.isEmpty ||
+        _salarioController.text.isEmpty ||
+        _urlJobPdfController.text.isEmpty) {
       _mostrarError("Todos los campos son obligatorios");
       return;
     }
@@ -48,8 +54,11 @@ class _AgregarVacanteReclutadorScreenState extends State<AgregarVacanteReclutado
       "titulo": _nombreController.text,
       "ubicacion": _sedeController.text,
       "descripcion": _descripcionController.text,
-      "habilidades": _conocimientosController.text,
+      "salario": _salarioController.text,  // Asegúrate de tener este campo
+      "url_job_pdf": _urlJobPdfController.text,  // Asegúrate de tener este campo
       "requisitos": _requisitosController.text,
+      "funciones_trabajo": _funcionesTrabajoController.text,  // Asegúrate de tener este campo
+      "empresa_id": "id_de_empresa",  // Añade el ID de la empresa
       "reclutador_id": reclutadorId,
     };
 
@@ -123,6 +132,9 @@ class _AgregarVacanteReclutadorScreenState extends State<AgregarVacanteReclutado
             _buildTextField("Descripción", _descripcionController),
             _buildTextField("Habilidades requeridas", _conocimientosController),
             _buildTextField("Requisitos", _requisitosController),
+            _buildTextField("Salario", _salarioController),  // Campo de salario
+            _buildTextField("URL del PDF de trabajo", _urlJobPdfController),  // Campo del PDF
+            _buildTextField("Funciones del trabajo", _funcionesTrabajoController),  // Funciones del trabajo
             const SizedBox(height: 20),
             if (_isLoading)
               const Center(child: CircularProgressIndicator()),

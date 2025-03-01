@@ -42,7 +42,6 @@ class ReclutadoresServices {
               ? await MultipartFile.fromFile(photo.path,
                   filename: photo.path.split('/').last)
               : null,
-          // Add other fields as required
         }),
       );
       return response.data;
@@ -100,6 +99,42 @@ class ReclutadoresServices {
     }
   }
 
+  // Aquí agregamos el método registrarVacante
+  static Future<bool> registrarVacante(Map<String, dynamic> vacante) async {
+    try {
+      String? token = await UserServices.getToken();
+      
+      // Crear el cuerpo de la solicitud según el DTO
+      Map<String, dynamic> body = {
+        "title": vacante["titulo"],  // Cambiar los nombres según el DTO
+        "location": vacante["ubicacion"],
+        "description": vacante["descripcion"],
+        "salary": vacante["salario"],  // Asegúrate de tener este campo
+        "url_job_pdf": vacante["url_job_pdf"],  // Si lo tienes
+        "job_requirements": vacante["requisitos"],
+        "job_functions": vacante["funciones_trabajo"],  // Si lo tienes
+        "company_id": vacante["empresa_id"],  // Cambiar si es diferente
+        "user_creator_id": vacante["reclutador_id"],
+      };
+
+      // Realizamos la solicitud POST
+      Response response = await dio.post(
+        '${dotenv.env['API_DOMAIN']}/vacante',  // URL para crear la vacante
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+        data: body,
+      );
+      return response.statusCode == 200; // Retorna true si la vacante fue guardada exitosamente
+    } catch (e) {
+      logger.e(e);
+      return false;
+    }
+  }
+
   static Future<Map<String, dynamic>> updateReclutador(int id, body) async {
     try {
       logger.d(body);
@@ -112,16 +147,7 @@ class ReclutadoresServices {
             'Content-Type': 'application/json'
           },
         ),
-        data: {
-          'email': body['email'],
-          'first_name': body['first_name'],
-          'last_name': body['last_name'],
-          'company_id': body['company_id'],
-          'description': body['description'],
-          'position_start_date': body['position_start_date'],
-
-          // Add other fields as required
-        },
+        data: body,
       );
       return response.data;
     } catch (e) {
