@@ -16,6 +16,7 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
   bool _isAvailableInMoreThan2Months = false;
   DateTime? _startDate;
   DateTime? _endDate;
+  List<String> _selectedTags = [];
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +56,17 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           _buildEditableField("Nombre"),
+          const SizedBox(height: 16),
           _buildEditableField("Apellido"),
+          const SizedBox(height: 16),
           _buildEditableField("Correo"),
+          const SizedBox(height: 16),
           _buildEditableField("Contraseña", isPassword: true),
+          const SizedBox(height: 16),
           _buildDropdown("Universidad"),
+          const SizedBox(height: 16),
           Row(
             children: [
               Expanded(
@@ -72,8 +78,10 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
                       (date) => setState(() => _endDate = date))),
             ],
           ),
+          const SizedBox(height: 10),
           _buildToggle(
               "Actualmente estoy en la universidad", false, (value) {}),
+          const SizedBox(height: 10),
           _buildEditableField("Descripción", isLarge: true),
         ],
       ),
@@ -85,9 +93,13 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
+          const SizedBox(height: 16),
           _buildDropdown("Tecnologías"),
+          const SizedBox(height: 14),
           _buildTagList(["Html", "Css", "Javascript"]),
+          const SizedBox(height: 16),
           _buildDropdown("Disponibilidad"),
+          const SizedBox(height: 14),
           _buildToggle("Inmediata", _isAvailableImmediately, (value) {
             setState(() {
               _isAvailableImmediately = value;
@@ -115,7 +127,9 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
               }
             });
           }),
+          const SizedBox(height: 16),
           _buildFileUpload("Adjuntar CV"),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -173,15 +187,31 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
   }
 
   Widget _buildFileUpload(String label) {
-    return ElevatedButton(
+  return SizedBox(
+    width: double.infinity,
+    child: ElevatedButton(
       onPressed: () {},
-      child: Text(label),
-    );
-  }
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+          side: const BorderSide(color: Colors.black),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label),
+          Icon(Icons.attach_file, color: const Color(0xFF8894FC)),
+        ],
+      ),
+    ),
+  );
+}
 
   Widget _buildButton(String label, Color color) {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(backgroundColor: color),
+      style: ElevatedButton.styleFrom(backgroundColor: color, foregroundColor: Colors.white),
       onPressed: () {},
       child: Text(label),
     );
@@ -190,7 +220,23 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
   Widget _buildTagList(List<String> tags) {
     return Wrap(
       spacing: 8.0,
-      children: tags.map((tag) => Chip(label: Text(tag))).toList(),
+      children: tags
+          .map((tag) => FilterChip(
+                selected: _selectedTags.contains(tag),
+                label: Text(tag),
+                onSelected: (bool selected) {
+                  setState(() {
+                    if (selected) {
+                      _selectedTags.add(tag);
+                    } else {
+                      _selectedTags.remove(tag);
+                    }
+                  });
+                },
+                selectedColor: const Color(0xFF8894FC),
+                checkmarkColor: Colors.white,
+              ))
+          .toList(),
     );
   }
 
