@@ -1,110 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/services/reclutadores_services.dart';
 import 'agregar_vacante_reclutador_screen.dart';
 
-class OfertasReclutadorScreen extends StatelessWidget {
+class OfertasReclutadorScreen extends StatefulWidget {
   const OfertasReclutadorScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> vacantes = [
-      {
-        "titulo": "Practicante de TI",
-        "empresa": "Adecco",
-        "descripcion": "Líder en el sector bancario busca talentos...",
-        "ubicacion": "San Isidro, Lima, Perú",
-        "disponibilidad": "Inmediata",
-        "postulantes": 20
-      },
-      {
-        "titulo": "Practicante Business",
-        "empresa": "Adecco",
-        "descripcion": "Líder en el sector bancario busca talentos...",
-        "ubicacion": "La Molina, Lima, Perú",
-        "disponibilidad": "Inmediata",
-        "postulantes": 30
-      },
-    ];
+  _OfertasReclutadorScreenState createState() => _OfertasReclutadorScreenState();
+}
 
+class _OfertasReclutadorScreenState extends State<OfertasReclutadorScreen> {
+  List<Map<String, dynamic>> vacantes = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVacantes();
+  }
+
+  Future<void> _loadVacantes() async {
+    try {
+      List<Map<String, dynamic>> data = await ReclutadoresServices.getReclutadores();
+      setState(() {
+        vacantes = data;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      print("Error al obtener vacantes: $e");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60.0),
-        child: Header(),
-      ),*/
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: vacantes.length,
-          itemBuilder: (context, index) {
-            return Card(
-              margin: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.red,
-                          child: Text(
-                            vacantes[index]["empresa"]![0],
-                            style: const TextStyle(color: Colors.white),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : vacantes.isEmpty
+              ? const Center(child: Text("No hay vacantes disponibles"))
+              : Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ListView.builder(
+                    itemCount: vacantes.length,
+                    itemBuilder: (context, index) {
+                      final vacante = vacantes[index];
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: Colors.blue,
+                                    child: Text(
+                                      vacante["empresa"]?[0] ?? '?',
+                                      style: const TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(vacante["nombre"] ?? "Sin título",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold, fontSize: 16)),
+                                      Text(vacante["empresa"] ?? "Sin empresa"),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Text(vacante["descripcion"] ?? "Sin descripción",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  style: const TextStyle(color: Colors.grey)),
+                              const SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  const Icon(Icons.info, color: Colors.blue),
+                                  const SizedBox(width: 5),
+                                  Text("Inicio: ${vacante["fecha_inicio"] ?? 'No disponible'}",
+                                      style: const TextStyle(color: Colors.red)),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(vacantes[index]["titulo"]!,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16)),
-                            Text(vacantes[index]["empresa"]!),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Text(vacantes[index]["descripcion"]!,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: const TextStyle(color: Colors.grey)),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        const Icon(Icons.location_on, color: Colors.blue),
-                        const SizedBox(width: 5),
-                        Text(vacantes[index]["ubicacion"]!),
-                      ],
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        const Icon(Icons.info, color: Colors.blue),
-                        const SizedBox(width: 5),
-                        Text("Disponibilidad: ${vacantes[index]["disponibilidad"]}",
-                            style: const TextStyle(color: Colors.red)),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          shape: const CircleBorder(),
-                          padding: const EdgeInsets.all(12),
-                        ),
-                        onPressed: () {},
-                        child: Text("${vacantes[index]["postulantes"]}"),
-                      ),
-                    ),
-                  ],
+                      );
+                    },
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -115,7 +107,6 @@ class OfertasReclutadorScreen extends StatelessWidget {
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add, color: Colors.white),
       ),
-      //bottomNavigationBar: Footer(),
     );
   }
 }

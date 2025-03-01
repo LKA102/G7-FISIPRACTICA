@@ -85,4 +85,17 @@ class UserServices {
       rethrow;
     }
   }
+  static Future<String?> getUserId() async {
+  try {
+    final token = await getToken();
+    if (token == null) return null;
+
+    final decodedToken = JwtDecoder.decode(token);
+    return decodedToken["id"].toString(); // Asegúrate de que la clave sea 'id'
+  } catch (e) {
+    logger.e("Error obteniendo el ID del usuario: $e");
+    return null;
+  }
+}
+
 }
