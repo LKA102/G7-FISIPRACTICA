@@ -40,6 +40,25 @@ class EstudiantesServices {
     }
   }
 
+  // static Future<Map<String, dynamic>> updateEstudiante(body) async {
+  //   try{
+  //     final nombre = body['nombre'];
+  //     final apellido = body['apellido'];
+  //     final email = body['email'];
+  //     final password = body['password'];
+  //     final institution = body['institution'];
+  //     final fecha_inicio = body['fecha_inicio'];
+  //     final fecha_fin = body['fecha_fin'];
+  //     final estudiando = body['estudiando'];
+  //     final descripcion = body['descripcion'];
+  //     final 
+  //   }
+  //   catch(e){
+  //     logger.e(e);
+  //     rethrow;
+  //   }
+  // }
+
   static Future<List<Map<String, dynamic>>> getEstudiantes() async {
     try {
       String? token = await UserServices.getToken();

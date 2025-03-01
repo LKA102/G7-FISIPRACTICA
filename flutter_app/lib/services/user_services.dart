@@ -91,7 +91,7 @@ class UserServices {
     if (token == null) return null;
 
     final decodedToken = JwtDecoder.decode(token);
-    return decodedToken["id"].toString(); // Asegúrate de que la clave sea 'id'
+    return decodedToken["sub"].toString(); // Asegúrate de que la clave sea 'id'
   } catch (e) {
     logger.e("Error obteniendo el ID del usuario: $e");
     return null;
