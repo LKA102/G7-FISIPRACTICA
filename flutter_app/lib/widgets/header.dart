@@ -137,11 +137,9 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: AppBar(
-          backgroundColor: colors.surface,
           elevation: 0,
           actions: [
             GestureDetector(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/pick_user_card.dart';
+
 import '../widgets/header.dart';
-import 'login_screen.dart';
 import 'login_reclutador_screen.dart';
+import 'login_screen.dart';
 
 class PickUserScreen extends StatefulWidget {
   const PickUserScreen({super.key});
@@ -29,11 +30,18 @@ class _PickUserScreen extends State<PickUserScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
-          const Header(allowedAdminLogin: true,),
+          Container(
+            color: colors.surface,
+            child: const Header(
+              allowedAdminLogin: true,
+            ),
+          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

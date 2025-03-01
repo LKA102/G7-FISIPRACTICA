@@ -1,7 +1,13 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_app/services/empresas_services.dart';
+import 'package:image_picker/image_picker.dart';
 import '../widgets/header.dart';
 import '../widgets/footer.dart';
 import 'reclutadores_screen.dart';
+import '../services/reclutadores_services.dart';
 
 class EditarReclutadorScreen extends StatefulWidget {
   final Map<String, dynamic> reclutador;
@@ -13,24 +19,35 @@ class EditarReclutadorScreen extends StatefulWidget {
 }
 
 class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
+  Uint8List? photo;
+  File? file;
   late TextEditingController _nombreController;
   late TextEditingController _apellidoController;
   late TextEditingController _correoController;
   late TextEditingController _passwordController;
   late TextEditingController _descripcionController;
   late TextEditingController _fechaController;
-  String _empresaSeleccionada = 'Adecco'; 
-  bool _passwordVisible = false; 
+  String? _empresaSeleccionada;
+  bool _passwordVisible = false;
+
+  List<dynamic> empresas = [];
 
   @override
   void initState() {
     super.initState();
-    _nombreController = TextEditingController(text: widget.reclutador['nombre']);
-    _apellidoController = TextEditingController(text: widget.reclutador['apellido']);
-    _correoController = TextEditingController(text: widget.reclutador['correo']);
+    photo = widget.reclutador['foto'];
+    _nombreController =
+        TextEditingController(text: widget.reclutador['nombre']);
+    _apellidoController =
+        TextEditingController(text: widget.reclutador['apellido']);
+    _correoController =
+        TextEditingController(text: widget.reclutador['correo']);
     _passwordController = TextEditingController(text: '********');
-    _descripcionController = TextEditingController(text: widget.reclutador['descripcion']);
-    _fechaController = TextEditingController(text: widget.reclutador['fecha_inicio']);
+    _descripcionController =
+        TextEditingController(text: widget.reclutador['descripcion']);
+    _fechaController =
+        TextEditingController(text: widget.reclutador['fecha_inicio']);
+    _fetchEmpresas();
   }
 
   @override
@@ -44,6 +61,17 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
     super.dispose();
   }
 
+  void _fetchEmpresas() async {
+    List<Map<String, dynamic>> fetchedEmpresas =
+        await EmpresaServices.getEmpresas();
+    setState(() {
+      empresas = fetchedEmpresas
+          .map((empresa) => {'id': empresa['id'], 'name': empresa['nombre']})
+          .toList();
+      print(empresas);
+    });
+  }
+
   void _seleccionarFecha() async {
     DateTime? fechaSeleccionada = await showDatePicker(
       context: context,
@@ -54,7 +82,7 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
 
     if (fechaSeleccionada != null) {
       setState(() {
-        _fechaController.text = "${fechaSeleccionada.day}/${fechaSeleccionada.month}/${fechaSeleccionada.year}";
+        _fechaController.text = fechaSeleccionada.toString().substring(0, 10);
       });
     }
   }
@@ -97,7 +125,9 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => ReclutadoresScreen()), // Redirige a ReclutadoresScreen
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ReclutadoresScreen()), // Redirige a ReclutadoresScreen
                   );
                 },
                 child: const Text('Ir a inicio'),
@@ -109,9 +139,79 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
     );
   }
 
-  void _guardarCambios() {
-    // Aquí puedes agregar la lógica para guardar los cambios antes de mostrar la ventana emergente
-    _mostrarVentanaEmergente(); // Mostrar la ventana emergente con los cambios guardados
+  void _guardarCambios() async {
+    try {
+      final body = {
+        'first_name': _nombreController.text,
+        'last_name': _apellidoController.text,
+        'email': _correoController.text,
+        'description': _descripcionController.text,
+        'position_start_date': _fechaController.text,
+        'company_id': int.parse(_empresaSeleccionada ?? '0'),
+      };
+      final response = await ReclutadoresServices.updateReclutador(
+          widget.reclutador['id'], body);
+      print(response);
+      if (mounted) {
+        _mostrarVentanaEmergente();
+      }
+    } catch (e) {
+      print(e);
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            title: Column(
+              children: <Widget>[
+                Icon(
+                  Icons.error,
+                  color: Colors.red, // Color del ícono
+                  size: 60, // Tamaño del ícono ajustado
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "$e",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22, // Aumento del tamaño del texto
+                    color: Colors.red, // Texto en rojo
+                  ),
+                ),
+              ],
+            ),
+            content: const Text(
+              'Por favor, intenta de nuevo.',
+              style: TextStyle(
+                fontSize: 18, // Aumento del tamaño del texto
+              ),
+            ),
+            actions: <Widget>[
+              // Botón "Cerrar"
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red, // Color rojo del botón
+                    minimumSize: Size(180, 50), // Tamaño adecuado para el botón
+                    textStyle: const TextStyle(
+                        fontSize: 18), // Ajuste de tamaño de texto
+                  ),
+                  onPressed: () {
+                    // Cerrar la ventana emergente
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cerrar'),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+      // Manejar el error
+    }
   }
 
   @override
@@ -131,14 +231,35 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
               children: [
                 CircleAvatar(
                   radius: 50,
-                  backgroundImage: AssetImage('assets/profile_picture.jpg'), // Ruta de la imagen de perfil
+                  backgroundImage: photo != null
+                      ? MemoryImage(photo!)
+                      : file != null
+                          ? FileImage(file!)
+                          : AssetImage(
+                              'assets/profile_picture.jpg'), // Ruta de la imagen de perfil
                 ),
                 Positioned(
                   bottom: 0,
                   right: 0,
                   child: IconButton(
                     icon: Icon(Icons.camera_alt, color: Colors.blue),
-                    onPressed: () {
+                    onPressed: () async {
+                      photo = null;
+                      file = null;
+                      final picker = ImagePicker();
+                      final result = await picker.pickImage(
+                        source: ImageSource.gallery,
+                      );
+                      if (result != null) {
+                        // Archivo seleccionado
+                        setState(() {
+                          file = File(result.path);
+                        });
+                        print('Archivo seleccionado: $file');
+                      } else {
+                        // El usuario canceló la selección
+                        print('No se seleccionó ningún archivo');
+                      }
                       // Lógica para cambiar la imagen de perfil
                     },
                   ),
@@ -150,8 +271,9 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
             // Campos de información
             _buildEditableField('Nombre', _nombreController),
             _buildEditableField('Apellido', _apellidoController),
-            _buildEditableField('Correo Electrónico', _correoController, isEmail: true),
-            
+            _buildEditableField('Correo Electrónico', _correoController,
+                isEmail: true),
+
             // Campo de contraseña con visibilidad controlada
             TextFormField(
               controller: _passwordController,
@@ -159,7 +281,9 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
               decoration: InputDecoration(
                 labelText: 'Contraseña',
                 suffixIcon: IconButton(
-                  icon: Icon(_passwordVisible ? Icons.visibility : Icons.visibility_off),
+                  icon: Icon(_passwordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off),
                   onPressed: () {
                     setState(() {
                       _passwordVisible = !_passwordVisible;
@@ -172,25 +296,32 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
 
             // Selección de empresa (Dropdown)
             DropdownButtonFormField<String>(
-              value: _empresaSeleccionada,
+              value: _empresaSeleccionada?.isEmpty ?? true
+                  ? null
+                  : _empresaSeleccionada,
               onChanged: (String? newValue) {
                 setState(() {
                   _empresaSeleccionada = newValue!;
                 });
               },
-              items: ['Adecco', 'Manpower', 'Randstad', 'Consultora XYZ']
-                  .map<DropdownMenuItem<String>>((String empresa) {
-                return DropdownMenuItem<String>(
-                  value: empresa,
-                  child: Text(empresa),
-                );
-              }).toList(),
+              items: [
+                DropdownMenuItem<String>(
+                    value: null,
+                    child: Text('Seleccionar empresa',
+                        style: TextStyle(color: Colors.grey))),
+                ...empresas.map<DropdownMenuItem<String>>((dynamic empresa) {
+                  return DropdownMenuItem<String>(
+                      value: empresa['id'].toString(),
+                      child: Text(empresa['name']));
+                }),
+              ],
               decoration: InputDecoration(labelText: 'Empresa'),
             ),
             SizedBox(height: 10),
 
             // Descripción (Textarea)
-            _buildEditableField('Descripción', _descripcionController, maxLines: 3),
+            _buildEditableField('Descripción', _descripcionController,
+                maxLines: 3),
 
             // Fecha de nacimiento con icono de calendario
             TextFormField(
@@ -213,7 +344,8 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                   onPressed: () {
-                    Navigator.pop(context); // Regresar a la pantalla anterior sin guardar
+                    Navigator.pop(
+                        context); // Regresar a la pantalla anterior sin guardar
                   },
                   child: Text('Cancelar'),
                 ),
@@ -231,7 +363,8 @@ class _EditarReclutadorScreenState extends State<EditarReclutadorScreen> {
     );
   }
 
-  Widget _buildEditableField(String label, TextEditingController controller, {bool isEmail = false, int maxLines = 1}) {
+  Widget _buildEditableField(String label, TextEditingController controller,
+      {bool isEmail = false, int maxLines = 1}) {
     return TextFormField(
       controller: controller,
       maxLines: maxLines,

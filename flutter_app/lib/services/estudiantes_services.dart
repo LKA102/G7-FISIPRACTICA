@@ -67,6 +67,9 @@ class EstudiantesServices {
               : "No disponible",
           'foto': foto ?? 'assets/profile_picture.jpg',
           'descripcion': estudiante['description'] ?? "No disponible",
+          'email': estudiante['userProfile'] != null
+              ? "${estudiante['userProfile']['email']}"
+              : "No disponible",
         });
       }
       return estudiantes;

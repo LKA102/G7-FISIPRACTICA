@@ -7,20 +7,53 @@ class HomeReclutadorScreen extends StatefulWidget {
   State<HomeReclutadorScreen> createState() => _HomeReclutadorScreenState();
 }
 
-class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with SingleTickerProviderStateMixin {
+class _HomeReclutadorScreenState extends State<HomeReclutadorScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   final List<Map<String, String>> _vacantes = [
-    {"titulo": "Practicante Analista Datos", "empresa": "Adecco", "descripcion": "Apoyo en análisis de datos empresariales.", "ubicacion": "San Isidro, Lima, Perú", "disponibilidad": "Inmediata"},
-    {"titulo": "Practicante Backend", "empresa": "Adecco", "descripcion": "Desarrollo y mantenimiento de APIs.", "ubicacion": "La Molina, Lima, Perú", "disponibilidad": "Inmediata"},
+    {
+      "titulo": "Practicante Analista Datos",
+      "empresa": "Adecco",
+      "descripcion": "Apoyo en análisis de datos empresariales.",
+      "ubicacion": "San Isidro, Lima, Perú",
+      "disponibilidad": "Inmediata"
+    },
+    {
+      "titulo": "Practicante Backend",
+      "empresa": "Adecco",
+      "descripcion": "Desarrollo y mantenimiento de APIs.",
+      "ubicacion": "La Molina, Lima, Perú",
+      "disponibilidad": "Inmediata"
+    },
   ];
 
   final List<Map<String, String>> _estudiantes = [
-    {'nombre': 'Juan Pérez', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Juan Pérez'},
-    {'nombre': 'María López', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de María López'},
-    {'nombre': 'Carlos García', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Carlos García'},
-    {'nombre': 'Ana Martínez', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Ana Martínez'},
-    {'nombre': 'Luis Rodríguez', 'foto': 'assets/profile_picture.jpg', 'descripcion': 'Descripción de Luis Rodríguez'},
+    {
+      'nombre': 'Juan Pérez',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Juan Pérez'
+    },
+    {
+      'nombre': 'María López',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de María López'
+    },
+    {
+      'nombre': 'Carlos García',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Carlos García'
+    },
+    {
+      'nombre': 'Ana Martínez',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Ana Martínez'
+    },
+    {
+      'nombre': 'Luis Rodríguez',
+      'foto': 'assets/profile_picture.jpg',
+      'descripcion': 'Descripción de Luis Rodríguez'
+    },
   ];
 
   int _paginaActual = 1;
@@ -42,7 +75,7 @@ class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with Single
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100.0),
+        preferredSize: const Size.fromHeight(120.0),
         child: Column(
           children: [
             //const Header( isHome: true ),
@@ -54,7 +87,6 @@ class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with Single
               ],
               labelColor: Colors.blue,
               unselectedLabelColor: Colors.black54,
-              indicatorColor: Colors.blue,
             ),
           ],
         ),
@@ -76,7 +108,8 @@ class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with Single
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Vacantes Disponibles", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const Text("Vacantes Disponibles",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           Expanded(
             child: ListView.builder(
@@ -85,13 +118,17 @@ class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with Single
                 return Card(
                   margin: const EdgeInsets.symmetric(vertical: 8.0),
                   child: ListTile(
-                    title: Text(_vacantes[index]["titulo"]!, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    title: Text(_vacantes[index]["titulo"]!,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${_vacantes[index]["empresa"]} - ${_vacantes[index]["ubicacion"]}"),
+                        Text(
+                            "${_vacantes[index]["empresa"]} - ${_vacantes[index]["ubicacion"]}"),
                         Text(_vacantes[index]["descripcion"]!),
-                        Text("Disponibilidad: ${_vacantes[index]["disponibilidad"]}", style: const TextStyle(color: Colors.red)),
+                        Text(
+                            "Disponibilidad: ${_vacantes[index]["disponibilidad"]}",
+                            style: const TextStyle(color: Colors.red)),
                       ],
                     ),
                   ),
@@ -106,14 +143,18 @@ class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with Single
 
   Widget _buildEstudiantesTab() {
     int totalPaginas = (_estudiantes.length / _itemsPorPagina).ceil();
-    List<Map<String, String>> estudiantesPagina = _estudiantes.skip((_paginaActual - 1) * _itemsPorPagina).take(_itemsPorPagina).toList();
+    List<Map<String, String>> estudiantesPagina = _estudiantes
+        .skip((_paginaActual - 1) * _itemsPorPagina)
+        .take(_itemsPorPagina)
+        .toList();
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Estudiantes", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const Text("Estudiantes",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
           Expanded(
             child: ListView.builder(
@@ -123,9 +164,11 @@ class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with Single
                   margin: const EdgeInsets.symmetric(vertical: 8.0),
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundImage: AssetImage(estudiantesPagina[index]['foto']!),
+                      backgroundImage:
+                          AssetImage(estudiantesPagina[index]['foto']!),
                     ),
-                    title: Text(estudiantesPagina[index]['nombre']!, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    title: Text(estudiantesPagina[index]['nombre']!,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
                     subtitle: Text(estudiantesPagina[index]['descripcion']!),
                     onTap: () => _showStudentDialog(estudiantesPagina[index]),
                   ),
@@ -145,12 +188,24 @@ class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with Single
       children: [
         IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: _paginaActual > 1 ? () { setState(() { _paginaActual--; }); } : null,
+          onPressed: _paginaActual > 1
+              ? () {
+                  setState(() {
+                    _paginaActual--;
+                  });
+                }
+              : null,
         ),
         Text("Página $_paginaActual de $totalPaginas"),
         IconButton(
           icon: const Icon(Icons.arrow_forward),
-          onPressed: _paginaActual < totalPaginas ? () { setState(() { _paginaActual++; }); } : null,
+          onPressed: _paginaActual < totalPaginas
+              ? () {
+                  setState(() {
+                    _paginaActual++;
+                  });
+                }
+              : null,
         ),
       ],
     );
@@ -171,7 +226,8 @@ class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with Single
               const SizedBox(height: 10),
               Text(
                 estudiante['nombre']!,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Text(estudiante['descripcion']!),
@@ -180,12 +236,11 @@ class _HomeReclutadorScreenState extends State<HomeReclutadorScreen> with Single
           actions: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-              ],
+              children: <Widget>[],
             ),
           ],
         );
       },
-    );  
+    );
   }
 }

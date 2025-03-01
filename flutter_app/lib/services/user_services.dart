@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:logger/logger.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final logger = Logger();
 
@@ -32,8 +32,9 @@ class UserServices {
 
   static Future<void> logout() async {
     try {
-      String? token = await getToken();
       String email = (await getUser())['email'];
+      String? token = await getToken();
+      await SessionManager().destroy();
       /* Response response =  */ await dio.post(
         '${dotenv.env['API_DOMAIN']}/auth/logout',
         options: Options(
@@ -43,11 +44,11 @@ class UserServices {
         ),
         data: {'email': email},
       );
-
-      await SessionManager().destroy();
     } catch (e) {
       logger.e(e);
       rethrow;
+    } finally {
+      await SessionManager().destroy();
     }
   }
 
@@ -84,4 +85,17 @@ class UserServices {
       rethrow;
     }
   }
+  static Future<String?> getUserId() async {
+  try {
+    final token = await getToken();
+    if (token == null) return null;
+
+    final decodedToken = JwtDecoder.decode(token);
+    return decodedToken["id"].toString(); // Asegúrate de que la clave sea 'id'
+  } catch (e) {
+    logger.e("Error obteniendo el ID del usuario: $e");
+    return null;
+  }
+}
+
 }
