@@ -75,7 +75,7 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
       lastDate: DateTime(2101),
     );
 
-    if (picked != null && picked != _fechaInicio)
+    if (picked != _fechaInicio)
       setState(() {
         _fechaInicio = picked;
       });
@@ -93,6 +93,8 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
         'description': _descripcionController.text,
       };
       print(body);
+      final response =
+          await ReclutadoresServices.registerReclutador(body, file);
       final response =
           await ReclutadoresServices.registerReclutador(body, file);
       print(response);

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/splah_screen.dart';
-import 'package:flutter_app/services/user_services.dart';
 
 class PerfilEstudianteScreen extends StatefulWidget {
   const PerfilEstudianteScreen({super.key});
@@ -11,26 +9,23 @@ class PerfilEstudianteScreen extends StatefulWidget {
 
 class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
   int _currentPage = 1;
+  bool _isAvailableImmediately = false;
+  bool _isAvailableIn1To2Months = false;
+  bool _isAvailableInMoreThan2Months = false;
+  DateTime? _startDate;
+  DateTime? _endDate;
+  List<String> _selectedTags = [];
 
   @override
   Widget build(BuildContext context) {
-    return /* Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60.0),
-        child: const Header(),
-      ),
-      body:  */
-        Column(
+    return Column(
       children: [
         Expanded(
           child: _currentPage == 1 ? _buildPage1() : _buildPage2(),
         ),
         _buildPagination(),
       ],
-    ) /* ,
-      bottomNavigationBar: const Footer(),
-    ) */
-        ;
+    );
   }
 
   Widget _buildPage1() {
@@ -38,22 +33,54 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          CircleAvatar(radius: 50, backgroundColor: Colors.grey[300]),
-          const SizedBox(height: 10),
-          _buildEditableField("Nombre", "Maria"),
-          _buildEditableField("Apellido", "Soto Flores"),
-          _buildEditableField("Correo", "mariasoto19@gmail.com"),
-          _buildEditableField("Contraseña", "**********", isPassword: true),
-          _buildDropdown("Universidad"),
-          Row(
+          Stack(
             children: [
-              Expanded(child: _buildDateField("Fecha de inicio")),
-              const SizedBox(width: 10),
-              Expanded(child: _buildDateField("Fecha fin")),
+              CircleAvatar(radius: 50, backgroundColor: Colors.grey[300]),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blue,
+                    ),
+                    child: const Icon(Icons.camera_alt,
+                        color: Colors.white, size: 20),
+                  ),
+                ),
+              ),
             ],
           ),
-          _buildToggle("Actualmente estoy en la universidad"),
-          _buildEditableField("Descripción", "", isLarge: true),
+          const SizedBox(height: 20),
+          _buildEditableField("Nombre"),
+          const SizedBox(height: 16),
+          _buildEditableField("Apellido"),
+          const SizedBox(height: 16),
+          _buildEditableField("Correo"),
+          const SizedBox(height: 16),
+          _buildEditableField("Contraseña", isPassword: true),
+          const SizedBox(height: 16),
+          _buildDropdown("Universidad"),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                  child: _buildDateField("Fecha de inicio", _startDate,
+                      (date) => setState(() => _startDate = date))),
+              const SizedBox(width: 10),
+              Expanded(
+                  child: _buildDateField("Fecha fin", _endDate,
+                      (date) => setState(() => _endDate = date))),
+            ],
+          ),
+          const SizedBox(height: 10),
+          _buildToggle(
+              "Actualmente estoy en la universidad", false, (value) {}),
+          const SizedBox(height: 10),
+          _buildEditableField("Descripción", isLarge: true),
         ],
       ),
     );
@@ -64,13 +91,43 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
+          const SizedBox(height: 16),
           _buildDropdown("Tecnologías"),
+          const SizedBox(height: 14),
           _buildTagList(["Html", "Css", "Javascript"]),
+          const SizedBox(height: 16),
           _buildDropdown("Disponibilidad"),
-          _buildToggle("Inmediata"),
-          _buildToggle("1 mes - 2 meses"),
-          _buildToggle("> 2 meses"),
+          const SizedBox(height: 14),
+          _buildToggle("Inmediata", _isAvailableImmediately, (value) {
+            setState(() {
+              _isAvailableImmediately = value;
+              if (value) {
+                _isAvailableIn1To2Months = false;
+                _isAvailableInMoreThan2Months = false;
+              }
+            });
+          }),
+          _buildToggle("1 mes - 2 meses", _isAvailableIn1To2Months, (value) {
+            setState(() {
+              _isAvailableIn1To2Months = value;
+              if (value) {
+                _isAvailableImmediately = false;
+                _isAvailableInMoreThan2Months = false;
+              }
+            });
+          }),
+          _buildToggle("> 2 meses", _isAvailableInMoreThan2Months, (value) {
+            setState(() {
+              _isAvailableInMoreThan2Months = value;
+              if (value) {
+                _isAvailableImmediately = false;
+                _isAvailableIn1To2Months = false;
+              }
+            });
+          }),
+          const SizedBox(height: 16),
           _buildFileUpload("Adjuntar CV"),
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -79,131 +136,128 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
             ],
           ),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              UserServices.logout();
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => SplahScreen()),
-                  (route) => false);
-            },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-            child: const Text("Cerrar Sesión",
-                style: TextStyle(color: Colors.white)),
-          ),
         ],
       ),
     );
   }
 
   Widget _buildPagination() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () => setState(() => _currentPage = 1),
-            child: Text(
-              "1",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: _currentPage == 1 ? Colors.blue[900] : Colors.grey,
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          GestureDetector(
-            onTap: () => setState(() => _currentPage = 2),
-            child: Text(
-              "2",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: _currentPage == 2 ? Colors.blue[900] : Colors.grey,
-              ),
-            ),
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed:
+              _currentPage > 1 ? () => setState(() => _currentPage--) : null,
+        ),
+        Text("Página $_currentPage de 2"),
+        IconButton(
+          icon: const Icon(Icons.arrow_forward),
+          onPressed:
+              _currentPage < 2 ? () => setState(() => _currentPage++) : null,
+        ),
+      ],
     );
   }
 
-  Widget _buildEditableField(String label, String value,
+  Widget _buildEditableField(String label,
       {bool isPassword = false, bool isLarge = false}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: TextField(
-        obscureText: isPassword,
-        maxLines: isLarge ? 3 : 1,
-        decoration: InputDecoration(
-          labelText: label,
-          border: OutlineInputBorder(),
-          suffixIcon: const Icon(Icons.edit, color: Colors.blue),
-        ),
-      ),
+    return TextFormField(
+      obscureText: isPassword,
+      maxLines: isLarge ? 3 : 1,
+      decoration:
+          InputDecoration(labelText: label, border: OutlineInputBorder()),
     );
   }
 
   Widget _buildDropdown(String label) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: DropdownButtonFormField(
-        decoration: InputDecoration(
-          labelText: label,
-          border: OutlineInputBorder(),
-        ),
-        items: const [DropdownMenuItem(child: Text("Opción 1"), value: "1")],
-        onChanged: (value) {},
-      ),
-    );
-  }
-
-  Widget _buildDateField(String label) {
-    return TextField(
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(),
-        suffixIcon: const Icon(Icons.calendar_today, color: Colors.blue),
-      ),
-    );
-  }
-
-  Widget _buildToggle(String label) {
-    return SwitchListTile(
-      title: Text(label),
-      value: false,
+    return DropdownButtonFormField(
+      decoration:
+          InputDecoration(labelText: label, border: OutlineInputBorder()),
+      items: [DropdownMenuItem(value: "", child: Text("Seleccionar"))],
       onChanged: (value) {},
     );
   }
 
+  Widget _buildToggle(String label, bool value, Function(bool) onChanged) {
+    return SwitchListTile(
+        title: Text(label), value: value, onChanged: onChanged);
+  }
+
   Widget _buildFileUpload(String label) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: TextField(
-        decoration: InputDecoration(
-          labelText: label,
-          border: OutlineInputBorder(),
-          suffixIcon: const Icon(Icons.attach_file, color: Colors.blue),
+  return SizedBox(
+    width: double.infinity,
+    child: ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+          side: const BorderSide(color: Colors.black),
         ),
       ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label),
+          Icon(Icons.attach_file, color: const Color(0xFF8894FC)),
+        ],
+      ),
+    ),
+  );
+}
+
+  Widget _buildButton(String label, Color color) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(backgroundColor: color, foregroundColor: Colors.white),
+      onPressed: () {},
+      child: Text(label),
     );
   }
 
   Widget _buildTagList(List<String> tags) {
     return Wrap(
       spacing: 8.0,
-      children:
-          tags.map((tag) => Chip(label: Text(tag), onDeleted: () {})).toList(),
+      children: tags
+          .map((tag) => FilterChip(
+                selected: _selectedTags.contains(tag),
+                label: Text(tag),
+                onSelected: (bool selected) {
+                  setState(() {
+                    if (selected) {
+                      _selectedTags.add(tag);
+                    } else {
+                      _selectedTags.remove(tag);
+                    }
+                  });
+                },
+                selectedColor: const Color(0xFF8894FC),
+                checkmarkColor: Colors.white,
+              ))
+          .toList(),
     );
   }
 
-  Widget _buildButton(String text, Color color) {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(backgroundColor: color),
-      child: Text(text, style: const TextStyle(color: Colors.white)),
+  Widget _buildDateField(
+      String label, DateTime? selectedDate, Function(DateTime) onDateSelected) {
+    return TextFormField(
+      readOnly: true,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(),
+        suffixIcon: Icon(Icons.calendar_today),
+      ),
+      onTap: () async {
+        DateTime? pickedDate = await showDatePicker(
+          context: context,
+          initialDate: selectedDate ?? DateTime.now(),
+          firstDate: DateTime(2000),
+          lastDate: DateTime(2101),
+        );
+        if (pickedDate != null) {
+          onDateSelected(pickedDate);
+        }
+      },
     );
   }
 }

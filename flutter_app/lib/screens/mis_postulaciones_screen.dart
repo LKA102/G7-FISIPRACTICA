@@ -10,17 +10,104 @@ class MisPostulacionesScreen extends StatefulWidget {
 class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
   String _selectedFilter = "En proceso";
   int _currentPage = 1;
-  final int _totalPages = 5;
+  final int _itemsPerPage = 5;
+
+  final List<Map<String, dynamic>> _allPostulaciones = [
+    {
+      "titulo": "Practicante Frontend",
+      "empresa": "Interbank",
+      "estatus": "En proceso",
+      "tiempo": "Hace 2 semanas",
+      "candidatos": 120
+    },
+    {
+      "titulo": "Practicante Backend",
+      "empresa": "BBVA",
+      "estatus": "CV visto",
+      "tiempo": "Hace 3 días",
+      "candidatos": 89
+    },
+    {
+      "titulo": "Data Analyst Intern",
+      "empresa": "BCP",
+      "estatus": "Finalista",
+      "tiempo": "Hace 1 semana",
+      "candidatos": 50
+    },
+    {
+      "titulo": "Software Engineer Intern",
+      "empresa": "Google",
+      "estatus": "En proceso",
+      "tiempo": "Hace 1 mes",
+      "candidatos": 200
+    },
+    {
+      "titulo": "Machine Learning Intern",
+      "empresa": "Microsoft",
+      "estatus": "CV visto",
+      "tiempo": "Hace 5 días",
+      "candidatos": 70
+    },
+    {
+      "titulo": "Cybersecurity Intern",
+      "empresa": "Amazon",
+      "estatus": "Finalista",
+      "tiempo": "Hace 2 semanas",
+      "candidatos": 40
+    },
+    {
+      "titulo": "Cloud Engineer Intern",
+      "empresa": "IBM",
+      "estatus": "En proceso",
+      "tiempo": "Hace 3 semanas",
+      "candidatos": 85
+    },
+    {
+      "titulo": "Data Scientist Intern",
+      "empresa": "Facebook",
+      "estatus": "CV visto",
+      "tiempo": "Hace 6 días",
+      "candidatos": 65
+    },
+    {
+      "titulo": "QA Tester Intern",
+      "empresa": "Intel",
+      "estatus": "Finalista",
+      "tiempo": "Hace 4 semanas",
+      "candidatos": 55
+    },
+    {
+      "titulo": "IT Support Intern",
+      "empresa": "Tesla",
+      "estatus": "En proceso",
+      "tiempo": "Hace 3 días",
+      "candidatos": 30
+    },
+    {
+      "titulo": "DevOps Intern",
+      "empresa": "Oracle",
+      "estatus": "En proceso",
+      "tiempo": "Hace 2 semanas",
+      "candidatos": 95
+    },
+    {
+      "titulo": "UX/UI Designer Intern",
+      "empresa": "Adobe",
+      "estatus": "En proceso",
+      "tiempo": "Hace 1 mes",
+      "candidatos": 60
+    },
+  ];
+
+  List<Map<String, dynamic>> get _filteredPostulaciones => _allPostulaciones
+      .where((post) => post["estatus"] == _selectedFilter)
+      .toList();
+
+  int get _totalPages => (_filteredPostulaciones.length / _itemsPerPage).ceil();
 
   @override
   Widget build(BuildContext context) {
-    return /* Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60.0),
-        child: const Header(),
-      ),
-      body:  */
-        Column(
+    return Column(
       children: [
         const SizedBox(height: 10),
         _buildFilter(),
@@ -28,13 +115,9 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
         Expanded(child: _buildPostulacionesList()),
         _buildPaginationControls(),
       ],
-    ) /* ,
-      bottomNavigationBar: const Footer(),
-    ) */
-        ;
+    );
   }
 
-  // Filtro
   Widget _buildFilter() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -49,6 +132,7 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
         onChanged: (value) {
           setState(() {
             _selectedFilter = value!;
+            _currentPage = 1;
           });
         },
         decoration: const InputDecoration(
@@ -59,36 +143,16 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
     );
   }
 
-  // Lista de postulaciones
   Widget _buildPostulacionesList() {
-    List<Map<String, dynamic>> postulaciones = [
-      {
-        "titulo": "Practicante Frontend",
-        "empresa": "Interbank",
-        "estatus": "En proceso",
-        "tiempo": "Hace 2 semanas",
-        "candidatos": 120,
-      },
-      {
-        "titulo": "Practicante Backend",
-        "empresa": "BBVA",
-        "estatus": "CV visto",
-        "tiempo": "Hace 3 días",
-        "candidatos": 89,
-      },
-      {
-        "titulo": "Data Analyst Intern",
-        "empresa": "BCP",
-        "estatus": "Finalista",
-        "tiempo": "Hace 1 semana",
-        "candidatos": 50,
-      }
-    ];
+    List<Map<String, dynamic>> displayedPostulaciones = _filteredPostulaciones
+        .skip((_currentPage - 1) * _itemsPerPage)
+        .take(_itemsPerPage)
+        .toList();
 
     return ListView.builder(
-      itemCount: postulaciones.length,
+      itemCount: displayedPostulaciones.length,
       itemBuilder: (context, index) {
-        final post = postulaciones[index];
+        final post = displayedPostulaciones[index];
         return Card(
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           elevation: 3,
@@ -106,17 +170,12 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
                 Text("Candidatos: ${post["candidatos"]}"),
               ],
             ),
-            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-            onTap: () {
-              print("Ver detalles de ${post["titulo"]}");
-            },
           ),
         );
       },
     );
   }
 
-  // Paginación con flechas (igual a HomeEstudiante)
   Widget _buildPaginationControls() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +187,6 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
                   setState(() {
                     _currentPage--;
                   });
-                  print("Página $_currentPage");
                 }
               : null,
         ),
@@ -140,7 +198,6 @@ class _MisPostulacionesScreenState extends State<MisPostulacionesScreen> {
                   setState(() {
                     _currentPage++;
                   });
-                  print("Página $_currentPage");
                 }
               : null,
         ),
