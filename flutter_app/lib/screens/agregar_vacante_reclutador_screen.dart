@@ -41,8 +41,8 @@ class _AgregarVacanteReclutadorScreenState extends State<AgregarVacanteReclutado
       _isLoading = true;
     });
 
-    String? reclutadorId = await UserServices.getUserId();
-    if (reclutadorId == null) {
+    String? userId = await UserServices.getUserId();
+    if (userId == null) {
       _mostrarError("No se pudo obtener el ID del reclutador");
       setState(() {
         _isLoading = false;
@@ -50,16 +50,28 @@ class _AgregarVacanteReclutadorScreenState extends State<AgregarVacanteReclutado
       return;
     }
 
+    late int userIdInt;
+    try {
+      userIdInt = int.parse(userId);
+    } catch (e) {
+      _mostrarError("El ID del reclutador no es válido");
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+    Map<String, dynamic> reclutador = await ReclutadoresServices.getReclutadorByUserId(userIdInt);
+
     Map<String, dynamic> nuevaVacante = {
       "titulo": _nombreController.text,
       "ubicacion": _sedeController.text,
       "descripcion": _descripcionController.text,
       "salario": _salarioController.text,  // Asegúrate de tener este campo
       "url_job_pdf": _urlJobPdfController.text,  // Asegúrate de tener este campo
-      "requisitos": _requisitosController.text,
-      "funciones_trabajo": _funcionesTrabajoController.text,  // Asegúrate de tener este campo
-      "empresa_id": "id_de_empresa",  // Añade el ID de la empresa
-      "reclutador_id": reclutadorId,
+      "requisitos": _conocimientosController.text,
+      "funciones_trabajo": _requisitosController.text,  // Asegúrate de tener este campo
+      "empresa_id": reclutador['empresa_id'],  // Añade el ID de la empresa
+      "user_creator_id": userIdInt
     };
 
     bool success = await ReclutadoresServices.registrarVacante(nuevaVacante);
@@ -133,8 +145,7 @@ class _AgregarVacanteReclutadorScreenState extends State<AgregarVacanteReclutado
             _buildTextField("Habilidades requeridas", _conocimientosController),
             _buildTextField("Requisitos", _requisitosController),
             _buildTextField("Salario", _salarioController),  // Campo de salario
-            _buildTextField("URL del PDF de trabajo", _urlJobPdfController),  // Campo del PDF
-            _buildTextField("Funciones del trabajo", _funcionesTrabajoController),  // Funciones del trabajo
+            _buildTextField("URL del PDF de trabajo", _urlJobPdfController),  // Campo del PDF// Funciones del trabajo
             const SizedBox(height: 20),
             if (_isLoading)
               const Center(child: CircularProgressIndicator()),

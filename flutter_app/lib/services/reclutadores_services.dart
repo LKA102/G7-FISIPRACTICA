@@ -51,6 +51,21 @@ class ReclutadoresServices {
     }
   }
 
+  static Future<Map<String, dynamic>> getReclutadorByUserId(int id) async {
+    try {
+      List<Map<String, dynamic>> reclutadores = await getReclutadores();
+      for (var reclutador in reclutadores) {
+        if (reclutador['user_id'] == id) {
+          return reclutador;
+        }
+      }
+      throw Exception('Reclutador not found');
+    } catch (e) {
+      logger.e(e);
+      rethrow;
+    }
+  }
+
   static Future<List<Map<String, dynamic>>> getReclutadores() async {
     try {
       String? token = await UserServices.getToken();
@@ -89,7 +104,9 @@ class ReclutadoresServices {
               : "No disponible",
           'foto': foto,
           'empresa': reclutador['company']['name'],
+          'empresa_id': reclutador['company']['id'],
           'color': reclutador['company']['color'],
+          'user_id': reclutador['userProfile']['id'],
         });
       }
       return reclutadores;
@@ -114,12 +131,12 @@ class ReclutadoresServices {
         "job_requirements": vacante["requisitos"],
         "job_functions": vacante["funciones_trabajo"],  // Si lo tienes
         "company_id": vacante["empresa_id"],  // Cambiar si es diferente
-        "user_creator_id": vacante["reclutador_id"],
+        "user_creator_id": vacante["user_creator_id"],
       };
 
       // Realizamos la solicitud POST
       Response response = await dio.post(
-        '${dotenv.env['API_DOMAIN']}/vacante',  // URL para crear la vacante
+        '${dotenv.env['API_DOMAIN']}/job',  // URL para crear la vacante
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -128,7 +145,8 @@ class ReclutadoresServices {
         ),
         data: body,
       );
-      return response.statusCode == 200; // Retorna true si la vacante fue guardada exitosamente
+
+      return response.statusCode == 201; // Retorna true si la vacante fue guardada exitosamente
     } catch (e) {
       logger.e(e);
       return false;
