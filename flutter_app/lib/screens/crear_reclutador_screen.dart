@@ -95,8 +95,6 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
       print(body);
       final response =
           await ReclutadoresServices.registerReclutador(body, file);
-      final response =
-          await ReclutadoresServices.registerReclutador(body, file);
       print(response);
       print('Reclutador guardado');
 
