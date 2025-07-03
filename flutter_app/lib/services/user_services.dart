@@ -82,6 +82,7 @@ class UserServices {
       return user;
     } catch (e) {
       logger.e(e);
+      await SessionManager().destroy();
       rethrow;
     }
   }
