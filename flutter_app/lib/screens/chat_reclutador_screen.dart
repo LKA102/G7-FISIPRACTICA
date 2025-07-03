@@ -135,14 +135,18 @@ class _ChatReclutadorScreenState extends State<ChatReclutadorScreen> {
 
     socket.onDisconnect((_) {
       if (!mounted) return;
-      setState(() => connectionStatus = ConnectionStatus.disconnected);
+      if (mounted && connectionStatus != ConnectionStatus.disconnected) {
+        setState(() => connectionStatus = ConnectionStatus.disconnected);
+      }
     });
 
     socket.onConnectError((error) {
       logger.e('Error de conexión: $error');
       if (!mounted) return;
-      setState(() => connectionStatus = ConnectionStatus.error);
-      _showErrorSnackBar('Error de conexión');
+      if (mounted && connectionStatus != ConnectionStatus.error) {
+        setState(() => connectionStatus = ConnectionStatus.error);
+        _showErrorSnackBar('Error de conexión');
+      }
     });
 
     socket.on(event, (data) {
@@ -155,8 +159,12 @@ class _ChatReclutadorScreenState extends State<ChatReclutadorScreen> {
       setState(() {
         messages.add(receivedMessage);
       });
-      // Auto scroll al nuevo mensaje
       _scrollToBottom();
+    });
+
+    socket.onError((error) {
+      logger.e('Error general del socket: $error');
+      if (!mounted) return;
     });
   }
 
@@ -214,13 +222,37 @@ class _ChatReclutadorScreenState extends State<ChatReclutadorScreen> {
 
   @override
   void dispose() {
-    if (socket.connected) {
-      socket.disconnect();
+    socket.off(event);
+    socket.offAny();
+    
+    try {
+      if (socket.connected) {
+        socket.disconnect();
+      }
+      socket.dispose();
+    } catch (e) {
+      logger.e('Error al desconectar el socket: $e');
     }
-    socket.dispose();
+
     _controller.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (mounted) {
+      // Realizar cualquier actualización necesaria
+    }
+  }
+
+  @override
+  void deactivate() {
+    if (socket.connected) {
+      socket.disconnect();
+    }
+    super.deactivate();
   }
 
   @override
