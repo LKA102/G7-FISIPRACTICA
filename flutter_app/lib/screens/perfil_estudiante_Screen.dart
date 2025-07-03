@@ -14,7 +14,7 @@ class _PerfilEstudianteScreenState extends State<PerfilEstudianteScreen> {
   bool _isAvailableInMoreThan2Months = false;
   DateTime? _startDate;
   DateTime? _endDate;
-  List<String> _selectedTags = [];
+  final List<String> _selectedTags = [];
 
   @override
   Widget build(BuildContext context) {

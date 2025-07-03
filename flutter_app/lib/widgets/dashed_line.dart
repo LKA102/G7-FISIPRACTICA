@@ -7,12 +7,12 @@ class DashedLine extends StatelessWidget {
   final Color color;
 
   const DashedLine({
-    Key? key,
+    super.key,
     this.height = 1,
     this.dashWidth = 5,
     this.dashSpacing = 3,
     this.color = Colors.grey,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

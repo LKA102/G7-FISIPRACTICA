@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/services/reclutadores_services.dart';
 import 'package:flutter_app/services/user_services.dart'; // Para obtener ID del reclutador
-import 'dart:convert';
 
 import '../widgets/header.dart';
 import '../widgets/footer_reclutador.dart';

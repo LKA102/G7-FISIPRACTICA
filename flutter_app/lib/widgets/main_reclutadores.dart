@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/chat_reclutador_screen.dart';
 import 'package:flutter_app/screens/home_reclutador_screen.dart';
 import 'package:flutter_app/screens/ofertas_reclutador_screen.dart';
-import 'package:flutter_app/services/reclutadores_services.dart';
-import 'package:flutter_app/services/user_services.dart';
 import 'package:flutter_app/widgets/header.dart';
 
 class MainReclutadores extends StatefulWidget {
@@ -26,7 +24,12 @@ class _MainReclutadoresState extends State<MainReclutadores> {
   final List<Widget> _pages = [
     HomeReclutadorScreen(),
     OfertasReclutadorScreen(),
-    ChatReclutadorScreen(),
+    ChatReclutadorScreen(
+      studentId: '21',
+      jobId: '1',
+      studentName: 'María Soto Flores',
+      chatId: '2',
+    ),
   ];
 
   @override

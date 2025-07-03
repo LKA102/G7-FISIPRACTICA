@@ -75,10 +75,11 @@ class _EditReclutadorScreenState extends State<EditReclutadorScreen> {
       lastDate: DateTime(2101),
     );
 
-    if (picked != _fechaInicio)
+    if (picked != _fechaInicio) {
       setState(() {
         _fechaInicio = picked;
       });
+    }
   }
 
   void _guardarReclutador() async {

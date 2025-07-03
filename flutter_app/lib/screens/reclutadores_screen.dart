@@ -426,8 +426,8 @@ class _ReclutadoresScreenState extends State<ReclutadoresScreen> {
             const EdgeInsets.only(bottom: 120), // Ajusta para subir el botón
         child: FloatingActionButton(
           onPressed: _showCreateReclutadorDialog,
-          child: Icon(Icons.add),
           backgroundColor: Color(0xFF1E3984),
+          child: Icon(Icons.add),
         ),
       ),
     );

@@ -412,9 +412,9 @@ class _AdminEmpresaScreenState extends State<AdminEmpresaScreen> {
           onPressed:
               _showAddConfirmationDialog, // Mostrar cuadro de agregar empresa
           backgroundColor: const Color(0xFF005BAC),
-          child: const Icon(Icons.add),
           elevation: 10,
           tooltip: 'Agregar Empresa',
+          child: const Icon(Icons.add),
         ),
       ),
     );

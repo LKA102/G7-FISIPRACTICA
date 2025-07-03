@@ -59,7 +59,7 @@ class EmpresaServices {
       final location = body['location'];
       final color = body['color'];
       String? token = await UserServices.getToken();
-      logger.e('Aasdfsdf ${photo}');
+      logger.e('Aasdfsdf $photo');
       Response response = await dio.post(
         '${dotenv.env['API_DOMAIN']}/company',
         options: Options(

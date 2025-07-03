@@ -63,7 +63,12 @@ class _FooterState extends State<Footer> {
               'assets/chatbot_icon.png',
               color: _selectedIndex == 2 ? Colors.white : Colors.grey,
             ),
-            onPressed: () => _onItemTapped(2, const ChatReclutadorScreen()),
+            onPressed: () => _onItemTapped(2, ChatReclutadorScreen(
+              studentId: '21',
+              jobId: '1',
+              studentName: 'María Soto Flores',
+              chatId: '2',
+            )),
           ),
         ],
       ),
