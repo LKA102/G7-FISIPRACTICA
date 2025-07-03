@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/screens/HomeEstudianteScreen.dart';
-import 'package:flutter_app/screens/chat_estudiante_screen.dart';
+import 'package:flutter_app/screens/chat_bot_screen.dart';
 import 'package:flutter_app/screens/mis_postulaciones_screen.dart';
 import 'package:flutter_app/screens/perfil_estudiante_screen.dart';
 import 'package:flutter_app/widgets/header.dart';
@@ -23,7 +23,11 @@ class _MainEstudiantesState extends State<MainEstudiantes> {
   final List<Widget> _pages = [
     HomeEstudianteScreen(),
     MisPostulacionesScreen(),
-    ChatScreen(),
+    ChatScreen(
+      company: 'Interbank',
+      chatId: '4',
+      jobId: '1',
+    ),
     PerfilEstudianteScreen(),
   ];
 

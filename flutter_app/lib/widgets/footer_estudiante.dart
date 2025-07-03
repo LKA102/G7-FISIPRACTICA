@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../screens/HomeEstudianteScreen.dart';
 import '../screens/mis_postulaciones_screen.dart';
-import '../screens/chat_estudiante_screen.dart';
+import '../screens/chat_bot_screen.dart';
 import '../screens/perfil_estudiante_screen.dart';
 //import '../screens/perfil_estudiante_screen.dart';
 
@@ -31,7 +31,11 @@ class _FooterState extends State<Footer> {
         break;
       case 2:
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => ChatScreen()));
+            context, MaterialPageRoute(builder: (context) => ChatScreen(
+              company: 'Interbank',
+              chatId: '4',
+              jobId: '1',
+            )));
         break;
       case 3:
         Navigator.pushReplacement(context,
